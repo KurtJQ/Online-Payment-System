@@ -1,4 +1,5 @@
 import Image from "next/image";
+import SideNav from "app/ui/dashboard/sidenav.jsx";
 
 export default function DashboardLayout({ children }) {
   return (
@@ -39,9 +40,8 @@ export default function DashboardLayout({ children }) {
           </div>
         </div>
       </header>
-      <nav></nav>
-      <main>{children}</main>
-      <footer></footer>
+      <SideNav />
+      <main className="ml-64">{children}</main>
     </>
   );
 }
