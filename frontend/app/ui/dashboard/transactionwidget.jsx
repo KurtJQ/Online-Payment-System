@@ -1,7 +1,7 @@
 import Link from "next/link";
 export default function transactionWidget() {
   return (
-    <div className="bg-gray-300 rounded-3xl w-1/4 h-96 flex flex-col items-center p-3">
+    <div className="bg-gray-300 rounded-3xl min-w-fit flex flex-col items-center p-3">
       {/* Header */}
       <div className="font-bold text-2xl">Recent Transactions</div>
       {/* Main Content */}
