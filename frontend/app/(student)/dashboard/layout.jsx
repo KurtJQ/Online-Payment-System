@@ -1,12 +1,6 @@
 import Image from "next/image";
 import SideNav from "app/ui/dashboard/sidenav.jsx";
 
-export const viewport = {
-  width: "device-width",
-  maximumScale: 1,
-  userScalable: false,
-};
-
 export default function DashboardLayout({ children }) {
   return (
     <>
