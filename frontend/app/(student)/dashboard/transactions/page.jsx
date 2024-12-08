@@ -10,8 +10,9 @@ export default function Page() {
         <div className="bg-gray-400 rounded-3xl p-2 font-bold">Search Bar</div>
       </div>
       <div className="rounded-3xl h-96 mt-3 bg-gray-500 overflow-y-auto">
-        <div className="grid grid-cols-5 items-center bg-gray-300 rounded-3xl m-3 p-2 font-bold text-lg text-center">
+        <div className="grid grid-cols-6 items-center bg-gray-300 rounded-3xl m-3 p-2 font-bold text-lg text-center">
           <div>11/15/2024</div>
+          <div>#0001</div>
           <div>
             4th Year
             <br />
