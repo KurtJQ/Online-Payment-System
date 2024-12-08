@@ -30,6 +30,13 @@ export default function SideNav() {
           >
             <Link href={"/dashboard/payment"}>Payment</Link>
           </div>
+          <div
+            className={`mt-12 ${
+              pathName === "/dashboard/payment-methods" ? `text-blue-300` : ``
+            }`}
+          >
+            <Link href={"/dashboard/payment-methods"}>Payment Methods</Link>
+          </div>
         </div>
       </nav>
     </>
