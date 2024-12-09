@@ -12,7 +12,7 @@ export default function transactionWidget() {
       </div>
       {/* Footer */}
       <div className="ml-auto bg-gray-500 text-white p-1 px-2 rounded-full text-xs ">
-        <Link href={"/dashboard/transactions"}>Show more</Link>
+        <Link href={"/dashboard/invoice"}>Show more</Link>
       </div>
     </div>
   );
