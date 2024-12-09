@@ -12,6 +12,7 @@ export default function Page() {
           src={"/background.webp"}
           width={1280}
           height={720}
+          priority={true}
           className="w-2/3 h-screen"
           alt="St Clare College Background"
         />
