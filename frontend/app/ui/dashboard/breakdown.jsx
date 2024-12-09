@@ -1,6 +1,6 @@
 export default function Fees({ hidePay }) {
   return (
-    <div className="basis-full w-3/4 drop-shadow">
+    <div className="basis-full drop-shadow">
       {/* Top */}
       <div className="flex mb-4 justify-between text-2xl">
         <div className="bg-gray-300 px-3 py-4 rounded-full font-bold">
