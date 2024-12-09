@@ -3,7 +3,7 @@ import Fees from "app/ui/dashboard/breakdown";
 export default function Page() {
   return (
     <div className="m-8 flex">
-      <div className="w-1/4">
+      <div className="w-1/3">
         <Fees hidePay={true} />
       </div>
       <div className="bg-gray-300 rounded-3xl ml-8 p-3">
