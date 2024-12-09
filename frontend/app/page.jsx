@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
   return (
     <>
       <div className="flex">
@@ -11,8 +15,8 @@ export default function Page() {
           className="w-2/3 h-screen"
           alt="St Clare College Background"
         />
-        <div className="w-1/4 mx-auto mt-12">
-          <form action={""} className="">
+        <div className="w-1/4 h-full mx-auto mt-12">
+          <form className="">
             <div>
               <Image
                 src={"/SCC icon.webp"}
@@ -66,6 +70,7 @@ export default function Page() {
             <button
               type="submit"
               className="bg-black text-white py-2 px-16 font-bold rounded-full float-right mt-4"
+              onClick={() => router.push("/dashboard")}
             >
               SIGN IN
             </button>
