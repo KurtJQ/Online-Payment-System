@@ -18,10 +18,10 @@ export default function SideNav() {
           </div>
           <div
             className={`mt-12 ${
-              pathName === "/dashboard/transactions" ? `text-blue-300` : ``
+              pathName === "/dashboard/invoice" ? `text-blue-300` : ``
             }`}
           >
-            <Link href={"/dashboard/transactions"}>Transactions</Link>
+            <Link href={"/dashboard/invoice"}>Invoice</Link>
           </div>
           <div
             className={`mt-12 ${
