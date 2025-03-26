@@ -10,13 +10,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "devDependencies": {
     "nodemon": "^3.1.7"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
-    "mysql2": "^3.11.4"
-  }
+    "mongodb": "^6.15.0"
+  },
+  "description": ""
 }
