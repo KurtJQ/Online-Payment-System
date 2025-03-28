@@ -5,6 +5,27 @@ import { useRouter } from "next/navigation";
 
 export default function Page() {
   const router = useRouter();
+
+  const login = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    const response = await fetch("http://localhost:5050/api/student/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const json = await response.json();
+
+    if (response.ok) {
+      router.push("dashboard");
+    } else {
+      console.log(json.error);
+    }
+  };
   return (
     <>
       <div className="flex">
@@ -17,7 +38,7 @@ export default function Page() {
           alt="St Clare College Background"
         />
         <div className="w-1/4 h-full mx-auto mt-12">
-          <form className="">
+          <form className="" onSubmit={login}>
             <div>
               <Image
                 src={"/SCC icon.webp"}
@@ -30,13 +51,13 @@ export default function Page() {
             <div className="mt-3 w-full">
               <div>
                 <label htmlFor="studentID" className="hidden">
-                  Student ID
+                  Email
                 </label>
                 <input
                   type="text"
-                  name="studentID"
-                  id="studentID"
-                  placeholder="Student ID"
+                  name="email"
+                  id="email"
+                  placeholder="Email"
                   className="px-6 py-2 border-2 border-black w-full rounded-full"
                 />
               </div>
@@ -71,7 +92,6 @@ export default function Page() {
             <button
               type="submit"
               className="bg-black text-white py-2 px-16 font-bold rounded-full float-right mt-4"
-              onClick={() => router.push("/dashboard")}
             >
               SIGN IN
             </button>
