@@ -11,11 +11,11 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 
 try {
   await client.connect();
-  await client.db("thesis").command({ ping: 1 });
+  await client.db("enrollment").command({ ping: 1 });
 } catch (err) {
   console.err(err);
 }
 
-let db = client.db("thesis");
+let db = client.db("enrollment");
 
 export default db;
