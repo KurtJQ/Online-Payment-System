@@ -1,5 +1,6 @@
 import Image from "next/image";
 import SideNav from "components/dashboard/sidenav.jsx";
+import UserName from "components/dashboard/username";
 
 export default function DashboardLayout({ children }) {
   return (
@@ -36,7 +37,7 @@ export default function DashboardLayout({ children }) {
                 alt="Default Profile Picture"
               />
             </div>
-            <span className="text-2xl font-bold">KURT JUSTINE QUE</span>
+            <UserName />
           </div>
         </div>
       </header>

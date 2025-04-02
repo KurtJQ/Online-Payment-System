@@ -22,13 +22,17 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
                     body: JSON.stringify({email: email, password: password}),
                     });
 
+                    if(!response.ok){
+                        throw new Error("Error authenticating")
+                    }
+
                     user = await response.json();
     
                     if (!user) {
                         throw new Error("Invalid credentials.")
-                      }
+                    }
     
-                    return user
+                    return {...user}
                 }
                 catch(error){
                     console.log(error)
@@ -43,6 +47,17 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
         error: '/'
     },
     callbacks: {
+        async session({ session, token }) {
+            session.user = token.user;
+            return session;
+          },
+          async jwt({ token, user }) {
+            if (user) {
+              token.user = user;
+            }
+            return token;
+          },
+      
         authorized: async ({auth}) => {
             return !!auth
         }
