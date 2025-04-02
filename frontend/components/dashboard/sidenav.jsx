@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { logout } from "@/components/auth/sign-out";
 import { usePathname } from "next/navigation";
 
 export default function SideNav() {
@@ -36,6 +37,11 @@ export default function SideNav() {
             }`}
           >
             <Link href={"/dashboard/payment-methods"}>Payment Methods</Link>
+          </div>
+          <div className="mt-12">
+            <form action={logout}>
+              <button type="submit">Sign Out</button>
+            </form>
           </div>
         </div>
       </nav>
