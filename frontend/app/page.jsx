@@ -3,14 +3,15 @@ import { login } from "@/components/auth/sign-in";
 
 export default function Page() {
   return (
-    <>
-      <div className="flex">
+    <div className="flex flex-col md:flex-row h-screen">
+      {/* Background Image (Hidden on Small Screens) */}
+      <div className="hidden md:block md:w-2/3">
         <Image
           src={"/background.webp"}
           width={1280}
           height={720}
           priority={true}
-          className="w-2/3 h-screen"
+          className="w-full h-screen object-cover"
           alt="St Clare College Background"
         />
         <div className="w-1/4 h-full mx-auto mt-12">
@@ -50,21 +51,19 @@ export default function Page() {
                 />
               </div>
             </div>
-            <div className="mt-2 flex justify-between">
-              <div>
-                <label htmlFor="rememberLogin" className="hidden">
-                  Remember Me
-                </label>
-                <input
-                  type="checkbox"
-                  htmlFor="rememberLogin"
-                  className="rounded-full"
-                  id="rememberLogin"
-                />
-                <span className="ml-2 font-bold">Remember Me</span>
-              </div>
-              <div>Forget Password?</div>
+
+            {/* Remember Me + Forgot Password */}
+            <div className="mt-4 flex justify-between text-sm">
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                Remember Me
+              </label>
+              <a href="#" className="text-blue-600 hover:underline">
+                Forgot Password?
+              </a>
             </div>
+
+            {/* Sign-In Button */}
             <button
               type="submit"
               className="bg-black text-white py-2 px-16 font-bold rounded-full float-right mt-4"
@@ -74,6 +73,6 @@ export default function Page() {
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 }

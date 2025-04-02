@@ -4,8 +4,9 @@ import Link from "next/link";
 import { logout } from "@/components/auth/sign-out";
 import { usePathname } from "next/navigation";
 
-export default function SideNav() {
+export default function SideNav({ isSidebarOpen }) {
   const pathName = usePathname();
+
   return (
     <>
       <nav className="bg-red-800 text-white fixed w-64 h-screen text-2xl font-bold">
