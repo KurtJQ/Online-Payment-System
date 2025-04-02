@@ -1,5 +1,5 @@
 import Image from "next/image";
-import SideNav from "app/ui/dashboard/sidenav.jsx";
+import SideNav from "components/dashboard/sidenav.jsx";
 
 export default function DashboardLayout({ children }) {
   return (

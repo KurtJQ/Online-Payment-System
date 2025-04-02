@@ -1,5 +1,5 @@
-import Transactions from "app/ui/dashboard/transactionwidget";
-import Fees from "app/ui/dashboard/breakdown";
+import Transactions from "components/dashboard/transactionwidget";
+import Fees from "components/dashboard/breakdown";
 
 export default function Page() {
   return (

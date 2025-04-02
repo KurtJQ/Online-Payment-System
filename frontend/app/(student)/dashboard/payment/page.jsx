@@ -1,4 +1,4 @@
-import Fees from "app/ui/dashboard/breakdown";
+import Fees from "components/dashboard/breakdown";
 
 export default function Page() {
   return (
