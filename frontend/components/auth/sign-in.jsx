@@ -3,9 +3,13 @@
 import { signIn } from "@/app/auth";
 
 export async function login(formData) {
-  await signIn("credentials", {
-    email: formData.get("email"),
-    password: formData.get("password"),
-    redirectTo: "/dashboard",
-  });
+  try {
+    const result = await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      redirectTo: "/dashboard",
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
