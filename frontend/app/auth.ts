@@ -7,8 +7,8 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
     providers:[
         Credentials({
             credentials: {
-                email: {},
-                password: {},
+                email: {label: "email", type: "text"},
+                password: {label: "password", type:"password"},
             },
             authorize: async (credentials) => {
                 try{
@@ -36,7 +36,9 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
                 }
                 catch(error){
                     if(error instanceof ZodError){
-                        return null
+                        throw new Error('Invalid input format. Please check your email and password.')
+                    } else {
+                        throw new Error("Authentication failed: " + error.message)
                     }
                 }
                 
@@ -49,6 +51,9 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
     },
     callbacks: {
         async session({ session, token }) {
+            if(!token.user){
+                return null
+            }
             session.user = token.user;
             return session;
           },
