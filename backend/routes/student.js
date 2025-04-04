@@ -71,10 +71,6 @@ router.post("/login", async (req, res) => {
   let result;
 
   try {
-    if (!email || !password) {
-      throw Error("All fields must be filled");
-    }
-
     let collection = db.collection("students");
     let user = await collection.findOne(query);
     if (!user) {
