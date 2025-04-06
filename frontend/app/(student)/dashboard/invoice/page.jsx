@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { InvoiceList } from "@/components/dashboard/invoiceList";
 
 export default function Page() {
