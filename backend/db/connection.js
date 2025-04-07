@@ -13,7 +13,7 @@ try {
   await client.connect();
   await client.db("enrollment").command({ ping: 1 });
 } catch (err) {
-  console.err(err);
+  console.error(err);
 }
 
 let db = client.db("enrollment");
