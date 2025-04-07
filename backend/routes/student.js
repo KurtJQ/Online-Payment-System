@@ -46,9 +46,32 @@ router.post("/new", async (req, res) => {
 });
 
 //Profile Data
-router.get("/profile-data", async (req, res) => {
-  let collection = db.collection("students");
-  let profileData = collection.findOne();
+router.get("/profile-data/:id", async (req, res) => {
+  try {
+    const collection = db.collection("students");
+    const query = { _studentId: req.params.id };
+    const profileData = await collection.find(query).toArray();
+    res.send(profileData).status(200);
+  } catch (error) {
+    res.status(500).send("Profile not found");
+  }
+});
+
+//Get Invoice by Year/Semester
+
+router.get("/invoices/:id/:yearLevel/:schoolYear", async (req, res) => {
+  try {
+    const collection = db.collection("payments");
+    const query = {
+      studentId: req.params.id,
+      yearLevel: req.params.yearLevel,
+      schoolYear: req.params.schoolYear,
+    };
+    const invoice = await collection.find(query).toArray();
+    res.send(invoice).status(200);
+  } catch (error) {
+    res.status(404).send("Error retrieving invoices");
+  }
 });
 
 //Get Invoice
