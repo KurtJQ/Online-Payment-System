@@ -31,7 +31,10 @@ export default async function transactionWidget() {
       {/* Main Content */}
       <div className="overflow-y-auto basis-full">
         {invoice.map((invoice) => (
-          <div className="bg-gray-500 text-white rounded-full p-2 text-sm mb-2">
+          <div
+            key={invoice.referenceNumber}
+            className="bg-gray-500 text-white rounded-full p-2 text-sm mb-2"
+          >
             {new Date(invoice.createdAt).toLocaleDateString()}{" "}
             {formatter.format(invoice.amount)}
           </div>

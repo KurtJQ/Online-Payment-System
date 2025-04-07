@@ -47,7 +47,10 @@ export async function InvoiceList() {
   return (
     <>
       {invoices.map((invoice) => (
-        <div className="grid grid-cols-6 items-center bg-gray-300 rounded-3xl m-3 py-4 font-bold text-lg text-center">
+        <div
+          key={invoice.referenceNumber}
+          className="grid grid-cols-6 items-center bg-gray-300 rounded-3xl m-3 py-4 font-bold text-lg text-center"
+        >
           <div>{new Date(invoice.createdAt).toLocaleDateString()}</div>
           <div>{invoice.referenceNumber}</div>
           <div>{formatYear(invoice.yearLevel)}</div>
