@@ -52,10 +52,11 @@ router.get("/profile-data", async (req, res) => {
 });
 
 //Get Invoice
-router.get("/invoice/", async (req, res) => {
+router.get("/invoice/:id", async (req, res) => {
   try {
-    let collection = db.collection("payments");
-    let invoice = await collection.find({}).toArray();
+    const collection = db.collection("payments");
+    const query = { studentId: req.params.id };
+    const invoice = await collection.find(query).toArray();
     res.send(invoice).status(200);
   } catch (e) {
     console.error(e);

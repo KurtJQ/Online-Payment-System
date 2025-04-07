@@ -1,15 +1,41 @@
 import { auth } from "app/auth";
 
+function formatYear(year) {
+  switch (year) {
+    case "1":
+      return "1st Year";
+    case "2":
+      return "2nd Year";
+    case "3":
+      return "3rd Year";
+    case "4":
+      return "4th Year";
+    default:
+      return "ERROR Wrong format";
+  }
+}
+
+function formatSemester(semester) {
+  switch (semester) {
+    case "1":
+      return "First Semester";
+    case "2":
+      return "Second Semester";
+  }
+}
+
 export async function InvoiceList() {
   let invoices;
   const session = await auth();
   if (!session.user) {
     return null;
   }
-  const studentId = session.user.studentId;
+  const studentId = session.user._studentId;
 
   try {
-    const res = await fetch(`http://localhost:5050/api/student/invoice/`);
+    const res = await fetch(
+      `http://localhost:5050/api/student/invoice/${studentId}`
+    );
     if (!res.ok) {
       throw new Error(res.statusText);
     }
@@ -24,8 +50,8 @@ export async function InvoiceList() {
         <div className="grid grid-cols-6 items-center bg-gray-300 rounded-3xl m-3 py-4 font-bold text-lg text-center">
           <div>{new Date(invoice.createdAt).toLocaleDateString()}</div>
           <div>{invoice.referenceNumber}</div>
-          <div>4th Year</div>
-          <div>Second Semester</div>
+          <div>{formatYear(invoice.yearLevel)}</div>
+          <div>{formatSemester("2")}</div>
           <div>{invoice.amount} PHP</div>
         </div>
       ))}
