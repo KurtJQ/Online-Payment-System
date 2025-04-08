@@ -15,7 +15,7 @@ async function getInfo() {
       throw new Error(res.statusText);
     }
     const info = await res.json();
-    return info[0];
+    return info;
   } catch (error) {
     console.error(error);
   }
