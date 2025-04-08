@@ -1,7 +1,19 @@
-import NextAuth from "next-auth";
+import NextAuth, { User, type DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials"
 import { ZodError } from "zod";
 import { signInSchema } from "./lib/zod";
+
+declare module "next-auth"{
+    interface Session{
+        user:{
+            _studentId: string,
+            fname: string,
+            mname: string,
+            lname: string,
+            id: string,
+        } & DefaultSession["user"]
+    }
+}
 
 export const {handlers, signIn, signOut, auth} = NextAuth({
     providers:[
@@ -12,7 +24,7 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
             },
             authorize: async (credentials) => {
                 try{
-                    let user = null
+                    let user: User;
                     
                     const { email, password } = await signInSchema.parseAsync(credentials)
 
@@ -50,16 +62,21 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
         error: '/'
     },
     callbacks: {
-        async session({ session, token }) {
+        session({ session, token, user }) {
             if(!token.user){
                 return null
             }
-            session.user = token.user;
+            // session.user._studentId = token._studentId
+            // session.user.fname = token.fname
+            // session.user.mname = token.mname
+            // session.user.lname = token.lname
+            // session.user.id = token.id
+            session.user = token.user
             return session;
           },
-          async jwt({ token, user }) {
+        jwt({ token, user }) {
             if (user) {
-              token.user = user;
+              token.user = user
             }
             return token;
           },
