@@ -20,7 +20,7 @@ export default async function Page() {
           className="w-2/3 h-screen"
           alt="St Clare College Background"
         />
-        <div className="w-1/4 h-full mx-auto mt-12">
+        <div className="flex flex-col w-1/4 h-full mx-auto mt-12">
           <div>
             <Image
               src={"/SCC icon.webp"}
@@ -79,6 +79,7 @@ export default async function Page() {
               SIGN IN
             </button>
           </form>
+          <div className="ml-auto">New Student? --{">"}</div>
         </div>
       </div>
     </>
