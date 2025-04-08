@@ -38,9 +38,15 @@ export default function Page() {
         <p className="font-medium text-lg">Payment Details</p>
         {/* Example payment details */}
         <div className="bg-white p-4 rounded-lg shadow-md">
-          <p>Amount to Pay: <span className="font-bold">₱5,000.00</span></p>
-          <p>Due Date: <span className="font-bold">April 15, 2025</span></p>
-          <p>Payment Status: <span className="font-bold">Pending</span></p>
+          <p>
+            Amount to Pay: <span className="font-bold">₱5,000.00</span>
+          </p>
+          <p>
+            Due Date: <span className="font-bold">April 15, 2025</span>
+          </p>
+          <p>
+            Payment Status: <span className="font-bold">Pending</span>
+          </p>
         </div>
       </div>
     </div>
