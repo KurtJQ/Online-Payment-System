@@ -50,7 +50,7 @@ router.get("/profile-data/:id", async (req, res) => {
   try {
     const collection = db.collection("students");
     const query = { _studentId: req.params.id };
-    const profileData = await collection.find(query).toArray();
+    const profileData = await collection.findOne(query);
     res.send(profileData).status(200);
   } catch (error) {
     res.status(500).send("Profile not found");
