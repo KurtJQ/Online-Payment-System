@@ -30,7 +30,7 @@ export async function InvoiceList() {
   if (!session.user) {
     return null;
   }
-  const studentId = session.user._studentId;
+  const studentId = session.user.id;
 
   try {
     const res = await fetch(

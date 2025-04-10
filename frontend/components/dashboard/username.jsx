@@ -5,7 +5,5 @@ export default async function UserName() {
   if (!session.user) return null;
   const user = session.user;
 
-  const name = user.fname + " " + user.mname + " " + user.lname;
-
-  return <span className="text-2xl font-bold">{name.toUpperCase()}</span>;
+  return <span className="text-2xl font-bold">{user.name.toUpperCase()}</span>;
 }
