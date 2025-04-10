@@ -79,7 +79,7 @@ export default async function Page() {
               SIGN IN
             </button>
           </form>
-          <div className="ml-auto">New Student? --{">"}</div>
+          <button className="ml-auto ">New Student? --{">"}</button>
         </div>
       </div>
     </>
