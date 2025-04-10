@@ -22,10 +22,9 @@ async function getInfo() {
 }
 
 async function getInvoices(user) {
-  let invoices;
   try {
     const res = await fetch(
-      `http://localhost:5050/api/student/invoices/${user.id}/${user.yearLevel}/${user.schoolYear}`
+      `http://localhost:5050/api/student/invoices/${user._studentId}/${user.yearLevel}/${user.schoolYear}`
     );
     if (!res.ok) {
       throw new Error(res.statusText);
