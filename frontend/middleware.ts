@@ -1,6 +1,8 @@
-import { auth } from "./app/auth";
+import authConfig from "./auth.config";
+import NextAuth from "next-auth";
 
-export default auth((req) => {
+const { auth } = NextAuth(authConfig)
+export default auth(async function middleware(req){
     if (!req.auth && req.nextUrl.pathname !== '/' && req.nextUrl.pathname !== '/signup'){
         const newUrl = new URL('/', req.nextUrl.origin)
         return Response.redirect(newUrl)
