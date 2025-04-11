@@ -109,10 +109,9 @@ router.post("/login", async (req, res) => {
     }
 
     result = {
-      _studentId: user._studentId,
-      fname: user.fname,
-      mname: user.mname,
-      lname: user.lname,
+      id: user._studentId,
+      name: user.fname + " " + user.mname + " " + user.lname,
+      email: user.email,
     };
     res.status(200).json(result);
   } catch (e) {

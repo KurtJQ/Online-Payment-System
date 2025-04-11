@@ -1,7 +1,9 @@
+"use server";
 import { auth } from "@/app/auth";
-const session = await auth();
 
 async function getInfo() {
+  const session = await auth();
+
   if (!session) {
     return null;
   }

@@ -1,6 +1,5 @@
 import Fees from "components/dashboard/breakdown";
 import { auth } from "@/app/auth";
-const session = await auth();
 
 function formatYear(year) {
   switch (year) {
@@ -27,23 +26,24 @@ function formatSemester(semester) {
 }
 
 export default async function Page() {
-  if (!session) {
-    return null;
-  }
-  const user = session.user;
-  let profile;
+  const session = await auth();
+  //   if (!session) {
+  //     return null;
+  //   }
+  //   const user = session.user;
+  //   let profile;
 
-  try {
-    const res = await fetch(
-      `http://localhost:5050/api/student/profile-data/${user.id}`
-    );
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
-    profile = await res.json();
-  } catch (error) {
-    console.error(error);
-  }
+  //   try {
+  //     const res = await fetch(
+  //       `http://localhost:5050/api/student/profile-data/${user.id}`
+  //     );
+  //     if (!res.ok) {
+  //       throw new Error(res.statusText);
+  //     }
+  //     profile = await res.json();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
 
   return (
     <div className="m-4 md:m-8 flex flex-col md:flex-row">
@@ -53,7 +53,7 @@ export default async function Page() {
       </div>
 
       {/* Payment Section */}
-      <div className="ml-4 bg-gray-300 rounded-3xl p-4 md:p-6 w-full md:w-2/3">
+      {/* <div className="ml-4 bg-gray-300 rounded-3xl p-4 md:p-6 w-full md:w-2/3">
         <p className="font-medium">Select payment method</p>
         <div className="mt-3">
           <div className="border-2 border-black p-2 mb-2 rounded">
@@ -88,7 +88,7 @@ export default async function Page() {
             Complete payment
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

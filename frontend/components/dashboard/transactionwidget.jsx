@@ -1,3 +1,4 @@
+"use server";
 import Link from "next/link";
 import { auth } from "@/app/auth";
 
