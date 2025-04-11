@@ -13,7 +13,7 @@ export default async function Page() {
     <>
       <div className="flex">
         <Image
-          src={"/background.webp"}
+          src={"/images/background.webp"}
           width={1280}
           height={720}
           priority={true}
@@ -23,7 +23,7 @@ export default async function Page() {
         <div className="flex flex-col w-1/4 h-full mx-auto mt-12">
           <div>
             <Image
-              src={"/SCC icon.webp"}
+              src={"/images/SCC icon.webp"}
               width={200}
               height={200}
               className="m-auto size-3/4"

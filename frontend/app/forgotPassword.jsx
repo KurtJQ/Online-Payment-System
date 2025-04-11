@@ -11,7 +11,7 @@ export default function ForgotPassword() {
       {/* Left Side Image */}
       <div className="hidden md:block md:w-2/3">
         <Image
-          src="/background.webp"
+          src="/images/background.webp"
           width={1280}
           height={720}
           className="w-full h-screen object-cover"
@@ -21,7 +21,12 @@ export default function ForgotPassword() {
 
       {/* Forgot Password Form */}
       <div className="w-full md:w-1/3 flex flex-col items-center justify-center p-6">
-        <Image src="/SCC icon.webp" width={120} height={120} alt="SCC Icon" />
+        <Image
+          src="/images/SCC icon.webp"
+          width={120}
+          height={120}
+          alt="SCC Icon"
+        />
         <h2 className="text-2xl font-bold mt-4">Forgot Password</h2>
         <p className="text-gray-600 text-center mt-2">
           Enter your email to receive a password reset link.
