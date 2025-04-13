@@ -29,7 +29,6 @@ export default {
                     if (!user) {
                         return null
                     }
-                    console.log(user)
                     return user
                 }
                 catch(error){
