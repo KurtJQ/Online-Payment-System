@@ -2,6 +2,7 @@ import Image from "next/image";
 import { login } from "@/components/auth/sign-in";
 import { auth } from "./auth";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function Page() {
   const session = await auth();
@@ -13,17 +14,17 @@ export default async function Page() {
     <>
       <div className="flex">
         <Image
-          src={"/background.webp"}
+          src={"/images/background.webp"}
           width={1280}
           height={720}
           priority={true}
           className="w-2/3 h-screen"
           alt="St Clare College Background"
         />
-        <div className="w-1/4 h-full mx-auto mt-12">
+        <div className="flex flex-col w-1/4 h-full mx-auto mt-12">
           <div>
             <Image
-              src={"/SCC icon.webp"}
+              src={"/images/SCC icon.webp"}
               width={200}
               height={200}
               className="m-auto size-3/4"
@@ -79,6 +80,9 @@ export default async function Page() {
               SIGN IN
             </button>
           </form>
+          <Link href="/signup" className="ml-auto">
+            <button>New Student? --{">"}</button>
+          </Link>
         </div>
       </div>
     </>

@@ -14,32 +14,32 @@ router.get("/", async (req, res) => {
 //New Student Registration
 router.post("/new", async (req, res) => {
   try {
-    let collection = db.collection("registrations");
-    let newDocument = {
-      name: {
-        first: req.body.firstname,
-        middle: req.body.middlename,
-        last: req.body.lastname,
-      },
-      contactnum: req.body.contactnum,
-      facebook: req.body.facebook,
-      email: req.body.email,
-      password: req.body.password,
-      yearlevel: req.body.yearlevel,
-      semester: req.body.semester,
-      course: req.body.semester,
-      documents: {
-        PSA: req.body.psa,
-        Form138: req.body.form138,
-      },
-      address: req.body.address,
-      birthday: req.body.date,
-      guardian: req.body.guardian,
-      guardianContact: req.body.guardianContact,
-      sex: req.body.sex,
+    const collection = db.collection("students");
+    const currentYear = new Date().getFullYear();
+    const lastStudent = await collection
+      .find(
+        {
+          _studentId: new RegExp(`^${currentYear}-`),
+        },
+        { projection: { _studentId: 1 } }
+      )
+      .sort({ _studentId: -1 })
+      .limit(1)
+      .toArray();
+
+    let nextNumber = "0001";
+
+    if (lastStudent) {
+      const lastNumber = parseInt(lastStudent[0]._studentId.split("-")[1], 10);
+      nextNumber = String(lastNumber + 1).padStart(4, "0");
+    }
+    const newStudentNumber = `${currentYear}-${nextNumber}`;
+    const newStudent = {
+      _studentId: newStudentNumber,
+      ...req.body,
     };
-    let result = await collection.insertOne(newDocument);
-    res.send(result).status(204);
+    let result = await collection.insertOne(newStudent);
+    res.send(result).status(201);
   } catch (e) {
     res.status(500).send("Error Registering");
   }
@@ -109,10 +109,9 @@ router.post("/login", async (req, res) => {
     }
 
     result = {
-      _studentId: user._studentId,
-      fname: user.fname,
-      mname: user.mname,
-      lname: user.lname,
+      id: user._studentId,
+      name: user.fname + " " + user.mname + " " + user.lname,
+      email: user.email,
     };
     res.status(200).json(result);
   } catch (e) {

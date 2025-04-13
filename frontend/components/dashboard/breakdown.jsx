@@ -1,11 +1,13 @@
+"use server";
 import { auth } from "@/app/auth";
-const session = await auth();
 
 async function getInfo() {
+  const session = await auth();
+
   if (!session) {
     return null;
   }
-  const user = session.user._studentId;
+  const user = session.user.id;
 
   try {
     const res = await fetch(
@@ -22,7 +24,6 @@ async function getInfo() {
 }
 
 async function getInvoices(user) {
-  let invoices;
   try {
     const res = await fetch(
       `http://localhost:5050/api/student/invoices/${user._studentId}/${user.yearLevel}/${user.schoolYear}`

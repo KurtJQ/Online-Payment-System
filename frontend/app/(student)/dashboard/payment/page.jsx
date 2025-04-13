@@ -1,6 +1,5 @@
 import Fees from "components/dashboard/breakdown";
 import { auth } from "@/app/auth";
-const session = await auth();
 
 function formatYear(year) {
   switch (year) {
@@ -27,6 +26,7 @@ function formatSemester(semester) {
 }
 
 export default async function Page() {
+  const session = await auth();
   if (!session) {
     return null;
   }
@@ -35,7 +35,7 @@ export default async function Page() {
 
   try {
     const res = await fetch(
-      `http://localhost:5050/api/student/profile-data/${user._studentId}`
+      `http://localhost:5050/api/student/profile-data/${user.id}`
     );
     if (!res.ok) {
       throw new Error(res.statusText);

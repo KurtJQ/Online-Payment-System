@@ -1,3 +1,4 @@
+"use server";
 import Link from "next/link";
 import { auth } from "@/app/auth";
 
@@ -10,7 +11,7 @@ export default async function transactionWidget() {
   if (!session) {
     return null;
   }
-  const studentId = session.user._studentId;
+  const studentId = session.user.id;
   let invoice;
 
   try {
