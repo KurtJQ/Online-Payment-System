@@ -35,7 +35,7 @@ export default async function Page() {
 
   try {
     const res = await fetch(
-      `http://localhost:5050/api/student/profile-data/${user.id}`
+      process.env.NODE_ENV + `/api/student/profile-data/${user.id}`
     );
     if (!res.ok) {
       throw new Error(res.statusText);

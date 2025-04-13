@@ -11,7 +11,7 @@ async function getInfo() {
 
   try {
     const res = await fetch(
-      `http://localhost:5050/api/student/profile-data/${user}`
+      process.env.NODE_ENV + `/api/student/profile-data/${user}`
     );
     if (!res.ok) {
       throw new Error(res.statusText);
@@ -26,7 +26,8 @@ async function getInfo() {
 async function getInvoices(user) {
   try {
     const res = await fetch(
-      `http://localhost:5050/api/student/invoices/${user._studentId}/${user.yearLevel}/${user.schoolYear}`
+      process.env.NODE_ENV +
+        `/api/student/invoices/${user._studentId}/${user.yearLevel}/${user.schoolYear}`
     );
     if (!res.ok) {
       throw new Error(res.statusText);

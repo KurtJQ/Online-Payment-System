@@ -34,7 +34,7 @@ export async function InvoiceList() {
 
   try {
     const res = await fetch(
-      `http://localhost:5050/api/student/invoice/${studentId}`
+      process.env.NODE_ENV + `/api/student/invoice/${studentId}`
     );
     if (!res.ok) {
       throw new Error(res.statusText);
