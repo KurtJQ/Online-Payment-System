@@ -196,7 +196,7 @@ export default function Signup() {
             </div>
             <div>
               <label htmlFor="father" className="hidden">
-                Father's Name
+                Father&aposs Name
               </label>
               <input
                 type="text"
@@ -209,7 +209,7 @@ export default function Signup() {
             </div>
             <div>
               <label htmlFor="mother" className="hidden">
-                Mother's Name
+                Mother&aposs Name
               </label>
               <input
                 type="text"
@@ -222,7 +222,7 @@ export default function Signup() {
             </div>
             <div>
               <label htmlFor="guardian" className="hidden">
-                Guardian's Name
+                Guardian&aposs Name
               </label>
               <input
                 type="text"
@@ -235,7 +235,7 @@ export default function Signup() {
             </div>
             <div>
               <label htmlFor="guardianOccupation" className="hidden">
-                Guardian's Occupation
+                Guardian&aposs Occupation
               </label>
               <input
                 type="text"
