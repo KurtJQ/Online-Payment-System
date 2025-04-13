@@ -2,6 +2,7 @@ import Image from "next/image";
 import { login } from "@/components/auth/sign-in";
 import { auth } from "./auth";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function Page() {
   const session = await auth();
@@ -79,7 +80,9 @@ export default async function Page() {
               SIGN IN
             </button>
           </form>
-          <button className="ml-auto ">New Student? --{">"}</button>
+          <Link href="/signup" className="ml-auto">
+            <button>New Student? --{">"}</button>
+          </Link>
         </div>
       </div>
     </>
