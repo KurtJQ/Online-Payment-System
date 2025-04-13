@@ -14,7 +14,7 @@ export default {
                 try{
                     const { email, password } = await signInSchema.parseAsync(credentials)
 
-                    const response = await fetch(process.env.NODE_ENV + "/api/student/login", {
+                    const response = await fetch(process.env.SERVER_URL + "/api/student/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({email: email, password: password}),
