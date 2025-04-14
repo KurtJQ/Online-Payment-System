@@ -27,15 +27,18 @@ export default {
                     let user = await response.json()
     
                     if (!user) {
-                        return null
+                        throw new Error("User not found")
                     }
                     return user
                 }
                 catch(error){
                     if(error instanceof ZodError){
-                        throw new Error('Invalid input format. Please check your email and password.')
-                    } else {
-                        throw new Error("Authentication failed: " + error.message)
+                        console.error('Invalid input format. Please check your email and password.')
+                        return null
+                    }
+                    if(error.message === "User not found"){
+                        console.error("Authentication failed: " + error.message)
+                        return null
                     }
                     
                     return null

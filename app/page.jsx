@@ -1,13 +1,26 @@
+"use client";
+
 import Image from "next/image";
 import { login } from "@/components/auth/sign-in";
-import { auth } from "./auth";
-import { redirect } from "next/navigation";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default async function Page() {
-  const session = await auth();
-  if (session) {
-    redirect("dashboard");
+export default function Page() {
+  const router = useRouter();
+  const [error, setError] = useState("");
+
+  async function handleLogin(event) {
+    event.preventDefault();
+    setError("");
+    const formData = new FormData(event.currentTarget);
+    const response = await login(formData);
+
+    if (!response.success) {
+      setError(response.error);
+      return;
+    }
+    router.push("/dashboard");
   }
 
   return (
@@ -31,7 +44,7 @@ export default async function Page() {
               alt="SCC Icon"
             />
           </div>
-          <form action={login}>
+          <form onSubmit={handleLogin}>
             <div className="mt-3 w-full">
               <div>
                 <label htmlFor="email" className="hidden">
@@ -71,7 +84,7 @@ export default async function Page() {
                 />
                 <span className="ml-2 font-bold">Remember Me</span>
               </div>
-              <div>Forget Password?</div>
+              {error && <div className="text-red-500">{error}</div>}
             </div>
             <button
               type="submit"
