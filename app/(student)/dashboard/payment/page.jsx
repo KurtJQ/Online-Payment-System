@@ -46,14 +46,14 @@ export default async function Page() {
   }
 
   return (
-    <div className="m-4 md:m-8 flex flex-col md:flex-row">
+    <div className="m-4 md:m-8 flex flex-col gap-4 md:flex-row">
       {/* Fees Section */}
       <div className="w-full md:w-1/3 mb-6 md:mb-0">
         <Fees hidePay={true} />
       </div>
 
       {/* Payment Section */}
-      <div className="ml-4 bg-gray-300 rounded-3xl p-4 md:p-6 w-full md:w-2/3">
+      <div className="bg-gray-300 rounded-3xl p-4 md:p-6 w-full md:w-2/3">
         <p className="font-medium">Select payment method</p>
         <div className="mt-3">
           <div className="border-2 border-black p-2 mb-2 rounded">
