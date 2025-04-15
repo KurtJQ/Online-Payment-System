@@ -1,12 +1,12 @@
 import Image from "next/image";
-import SideNav from "components/dashboard/sidenav.jsx";
-import UserName from "components/dashboard/username";
+import { SideNavButton, SideNav } from "components/dashboard/sidenav.jsx";
 
 export default function DashboardLayout({ children }) {
   return (
     <>
-      <header className="bg-red-500 overflow-hidden p-3 px-12 flex justify-between">
-        <div className="inline-flex items-center">
+      <header className="bg-red-500 overflow-hidden flex flex-row items-center p-3 md:px-12">
+        <SideNavButton />
+        <div className="inline-flex items-center mx-auto md:mx-0">
           <Image
             src="/images/SCC icon.webp"
             width={200}
@@ -14,12 +14,12 @@ export default function DashboardLayout({ children }) {
             className="w-20 h-20 "
             alt="St Clare College Logo"
           />
-          <span className="text-white text-2xl font-bold">
+          <span className="text-white text-xl font-semibold md:text-2xl md:font-bold">
             St. Clare College <br />
             of Caloocan Inc.
           </span>
         </div>
-        <div className="inline-flex items-center gap-3">
+        {/* <div className="inline-flex items-center gap-3">
           <button className="bg-gray-300 rounded-full p-1">
             <Image
               src="/images/bell-regular-48.png"
@@ -28,21 +28,10 @@ export default function DashboardLayout({ children }) {
               alt="Notifications Button"
             />
           </button>
-          <div className="inline-flex items-center bg-gray-300 rounded-full gap-1 px-4 py-1">
-            <div>
-              <Image
-                src="/images/user-circle-solid-48.png"
-                width={48}
-                height={48}
-                alt="Default Profile Picture"
-              />
-            </div>
-            <UserName />
-          </div>
-        </div>
+          </div> */}
       </header>
       <SideNav />
-      <main className="ml-64">{children}</main>
+      <main className="md:ml-64">{children}</main>
     </>
   );
 }
