@@ -6,6 +6,7 @@ export const metadata = {
     icon: [{ url: "/favicon.ico" }, { url: "/icon.png", type: "image/png" }],
     apple: [{ url: "/apple-icon.png" }],
   },
+  title: "St. Clare Online Payment System",
 };
 
 export default function RootLayout({ children }) {
