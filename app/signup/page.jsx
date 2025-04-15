@@ -15,7 +15,7 @@ export default function Signup() {
   return (
     <div className="flex flex-col bg-[url(/images/background.webp)] bg-cover bg-center md:flex-row min-h-screen">
       <div className="m-auto">
-        <div className="w-full flex flex-col bg-white items-center justify-center my-6 p-6 rounded-3xl">
+        <div className="w-5/6 md:w-full flex flex-col bg-white items-center justify-center m-auto my-6 p-6 rounded-3xl">
           <h2 className="text-2xl font-bold mt-4">Create an Account</h2>
           <form className="w-full max-w-sm mt-4" onSubmit={handleSignUp}>
             <div>
@@ -160,7 +160,7 @@ export default function Signup() {
               />
             </div>
             <div className="flex justify-between py-2 mb-2 w-full gap-2">
-              <div className="px-4 py-2 border-2 border-black rounded-full">
+              <div className="px-4 py-2 border-2 text-center border-black rounded-full">
                 <input
                   type="radio"
                   name="sex"
@@ -171,7 +171,7 @@ export default function Signup() {
                 />
                 <label htmlFor="male">Male</label>
               </div>
-              <div className="px-4 py-2 border-2 border-black rounded-full">
+              <div className="px-4 py-2 border-2 text-center border-black rounded-full">
                 <input
                   type="radio"
                   name="sex"
@@ -182,7 +182,7 @@ export default function Signup() {
                 />
                 <label htmlFor="female">Female</label>
               </div>
-              <div className="px-4 py-2 border-2 border-black rounded-full">
+              <div className="px-4 py-2 border-2 text-center border-black rounded-full">
                 <input
                   type="radio"
                   name="sex"
