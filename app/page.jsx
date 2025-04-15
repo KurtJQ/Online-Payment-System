@@ -25,28 +25,30 @@ export default function Page() {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex flex-col overflow-hidden m-6 md:m-0 md:flex-row">
         <Image
           src={"/images/background.webp"}
           width={1280}
           height={720}
           priority={true}
-          className="w-2/3 h-screen"
+          className="hidden md:flex md:w-2/3 md:h-screen"
           alt="St Clare College Background"
         />
-        <div className="flex flex-col w-1/4 h-full mx-auto mt-12">
-          <div>
+        <div className="flex flex-col items-center justify-center w-full h-screen touch-none md:h-full md:self-center md:m-6 md:touch-auto">
+          <div className="mb-3">
             <Image
               src={"/images/SCC icon.webp"}
               width={200}
               height={200}
-              className="m-auto size-3/4"
               alt="SCC Icon"
             />
           </div>
-          <form onSubmit={handleLogin}>
-            <div className="mt-3 w-full">
-              <div>
+          <form
+            onSubmit={handleLogin}
+            className="min-w-sm max-w-lg w-full mb-6"
+          >
+            <div>
+              <div className="mt-2">
                 <label htmlFor="email" className="hidden">
                   Email
                 </label>
@@ -72,30 +74,25 @@ export default function Page() {
               </div>
             </div>
             <div className="mt-2 flex justify-between">
-              <div>
-                <label htmlFor="rememberLogin" className="hidden">
-                  Remember Me
-                </label>
-                <input
-                  type="checkbox"
-                  htmlFor="rememberLogin"
-                  className="rounded-full"
-                  id="rememberLogin"
-                />
-                <span className="ml-2 font-bold">Remember Me</span>
-              </div>
-              {error && <div className="text-red-500">{error}</div>}
+              <div className="ml-2 font-bold">Forgot Password?</div>
+              {error && <div className="text-red-500 text-right">{error}</div>}
             </div>
             <button
               type="submit"
-              className="bg-black text-white py-2 px-16 font-bold rounded-full float-right mt-4"
+              className="bg-black text-white py-2 px-16 font-bold rounded-full w-full mt-4"
             >
               SIGN IN
             </button>
           </form>
-          <Link href="/signup" className="ml-auto">
-            <button>New Student? --{">"}</button>
-          </Link>
+          <div className="font-semibold">
+            Not yet a student?{" "}
+            <Link href="/signup" className="text-blue-500">
+              Enroll now!--{">"}
+            </Link>
+          </div>
+          <footer className="text-center text-gray-300 foint-semibold">
+            St Clare College 2024-2025 | BSCS-4D
+          </footer>
         </div>
       </div>
     </>
