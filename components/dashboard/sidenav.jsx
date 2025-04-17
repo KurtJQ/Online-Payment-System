@@ -21,12 +21,9 @@ const SideNavController = {
     this._emit();
   },
 
-  open() {
-    (this._open = true), this._emit();
-  },
-
   close() {
-    (this._open = false), this._emit();
+    this._open = false;
+    this._emit();
   },
 
   _emit() {
@@ -49,68 +46,72 @@ export function SideNav() {
     <>
       {open && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 md:hidden"
+          className="fixed inset-0 bg-black/50 z-30"
           onClick={handleClose}
         />
       )}
+
       <nav
-        className={`fixed top-0 left-0 h-full w-2/3 max-w-xs bg-red-800 text-white z-40 transform transition-transform duration-300 ease-in-out md:translate-x-0 ${
-          open ? "translate-x-0" : "-translate-x-full"
-        } md:w-64 md:h-screen md:top-auto md:flex md:flex-col`}
+        className={`
+          fixed top-0 left-0 h-full z-40 bg-red-800 text-white
+          transform transition-transform duration-300 ease-in-out
+          ${open ? "translate-x-0" : "-translate-x-full"}
+          w-2/3 max-w-xs md:w-64
+        `}
       >
-        {/* PROFILE INFO */}
-        <div className="flex flex-row items-center py-12">
-          <div>
-            <Image
-              src="/images/user-circle-solid-48.png"
-              width={48}
-              height={48}
-              alt="Default Profile Picture"
-            />
-          </div>
-          <div>
-            <span className="text-2xl font-bold">KURT JUSTINE ROQUE QUE</span>
-          </div>
+        <div className="flex items-center gap-3 p-6 border-b border-white/20">
+          <Image
+            src="/images/user-circle-solid-48.png"
+            width={48}
+            height={48}
+            alt="Default Profile"
+            className="rounded-full shrink-0"
+          />
+          <span className="text-lg font-bold leading-tight break-words w-full">
+            KURT JUSTINE <br /> ROQUE QUE
+          </span>
         </div>
-        {/* SELECTION */}
-        <div className="flex flex-col items-center gap-12 text-2xl font-bold">
-          <div
-            className={` ${pathName === "/dashboard" ? `text-blue-300` : ``}`}
+
+        <div className="flex flex-col gap-6 p-6 text-xl font-semibold">
+          <Link
+            href="/dashboard"
+            className={pathName === "/dashboard" ? "text-blue-300" : ""}
             onClick={handleClose}
           >
-            <Link href={"/dashboard"}>Overview</Link>
-          </div>
-          <div
-            className={` ${
-              pathName === "/dashboard/invoice" ? `text-blue-300` : ``
-            }`}
+            Overview
+          </Link>
+          <Link
+            href="/dashboard/invoice"
+            className={pathName === "/dashboard/invoice" ? "text-blue-300" : ""}
             onClick={handleClose}
           >
-            <Link href={"/dashboard/invoice"}>Invoice</Link>
-          </div>
-          <div
-            className={`${
-              pathName === "/dashboard/payment" ? `text-blue-300` : ``
-            }`}
+            Invoice
+          </Link>
+          <Link
+            href="/dashboard/payment"
+            className={pathName === "/dashboard/payment" ? "text-blue-300" : ""}
             onClick={handleClose}
           >
-            <Link href={"/dashboard/payment"}>Payment</Link>
-          </div>
-          <div
-            className={` ${
-              pathName === "/dashboard/payment-methods" ? `text-blue-300` : ``
-            }`}
+            Payment
+          </Link>
+          <Link
+            href="/dashboard/payment-methods"
+            className={pathName === "/dashboard/payment-methods" ? "text-blue-300" : ""}
             onClick={handleClose}
           >
-            <Link href={"/dashboard/payment-methods"}>
-              Payment <br /> Methods
-            </Link>
-          </div>
-          <div className="">
-            <form action={logout}>
-              <button type="submit">Sign Out</button>
-            </form>
-          </div>
+            Payment <br className="md:hidden" /> Methods
+          </Link>
+        </div>
+
+        <div className="mt-auto p-6">
+          <form action={logout}>
+            <button
+              type="submit"
+              className="w-full py-2 px-4 bg-white text-red-800 rounded-md font-bold"
+            >
+              Sign Out
+            </button>
+          </form>
         </div>
       </nav>
     </>
@@ -119,10 +120,10 @@ export function SideNav() {
 
 export function SideNavButton() {
   return (
-    <div>
-      <button className="md:hidden" onClick={() => SideNavController.toggle()}>
-        <img src="/images/menu-regular-36.png" alt="SideNav Button" />
-      </button>
-    </div>
+    <button className="p-2" onClick={() => SideNavController.toggle()}>
+      <img src="/images/menu-regular-36.png" alt="Menu" className="w-6 h-6" />
+    </button>
   );
 }
+
+export { SideNavController };
