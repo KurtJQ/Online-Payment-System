@@ -46,49 +46,65 @@ export default async function Page() {
   }
 
   return (
-    <div className="m-4 md:m-8 flex flex-col gap-4 md:flex-row">
+    <div className="m-4 md:m-8 flex flex-col gap-6 md:flex-row">
       {/* Fees Section */}
-      <div className="w-full md:w-1/3 mb-6 md:mb-0">
+      <div className="w-full md:w-1/3">
         <Fees hidePay={true} />
       </div>
-
+  
       {/* Payment Section */}
-      <div className="bg-gray-300 rounded-3xl p-4 md:p-6 w-full md:w-2/3">
-        <p className="font-medium">Select payment method</p>
-        <div className="mt-3">
-          <div className="border-2 border-black p-2 mb-2 rounded">
-            GCash e-Wallet
-          </div>
-          <div className="border-2 border-black p-2 mb-2 rounded">
-            Paymaya e-Wallet
-          </div>
-          <div className="border-2 border-black p-2 mb-2 rounded">
-            Credit / Debit Card
-          </div>
-        </div>
+      <div className="bg-gray-300 rounded-3xl p-5 md:p-8 w-full md:w-2/3 shadow-md space-y-4">
+        {/* Payment Methods */}
         <div>
-          <p className="font-medium">Payment for</p>
-          <p>
-            {profile.fname} {profile.mname} {profile.lname}
+          <p className="text-lg font-semibold text-gray-900 mb-2">
+            Select payment method
           </p>
-          <p>{profile.course}</p>
-          <p>{formatYear(profile.yearLevel)}</p>
-          <p>Second Semester</p>
+          <div className="space-y-2">
+            <div className="border bg-gray-100 border-gray-500 p-3 rounded-xl hover:bg-gray-500 cursor-pointer">
+              GCash e-Wallet
+            </div>
+            <div className="border bg-gray-100 border-gray-500 p-3 rounded-xl hover:bg-gray-500 cursor-pointer">
+              Paymaya e-Wallet
+            </div>
+            <div className="border bg-gray-100 border-gray-500 p-3 rounded-xl hover:bg-gray-500 cursor-pointer">
+              Credit / Debit Card
+            </div>
+          </div>
         </div>
-        <input
-          type="number"
-          placeholder="Enter amount"
-          className="border-2 border-black p-2 mb-2 rounded w-full"
-        />
+  
+        {/* Payment Info */}
+        <div className="bg-gray-100 p-4 rounded-xl">
+          <p className="text-lg font-semibold mb-2 text-gray-700">Payment for:</p>
+          <div className="text-sm text-gray-800 space-y-1">
+            <p>
+              {profile.fname} {profile.mname} {profile.lname}
+            </p>
+            <p>{profile.course}</p>
+            <p>{formatYear(profile.yearLevel)}</p>
+            <p>{formatSemester(profile.semester)}</p>
+          </div>
+        </div>
+  
+        {/* Amount Input */}
+        <div>
+          <input
+            type="number"
+            placeholder="Enter amount"
+            className="w-full border border-gray-400 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          />
+        </div>
+  
+        {/* Submit Button */}
         <div>
           <button
-            className="bg-red-500 text-center text-white p-2 rounded-full font-bold"
+            className="w-full bg-red-500 text-white p-3 rounded-full font-bold hover:bg-red-600 transition duration-200"
             type="submit"
           >
-            Complete payment
+            Complete Payment
           </button>
         </div>
       </div>
     </div>
   );
+  
 }

@@ -45,19 +45,45 @@ export async function InvoiceList() {
   }
 
   return (
-    <>
+    <div className="space-y-4">
       {invoices.map((invoice) => (
         <div
           key={invoice.referenceNumber}
-          className="grid grid-cols-6 items-center bg-gray-300 rounded-3xl m-3 py-4 font-bold text-lg text-center"
+          className="bg-white rounded-2xl shadow-md px-4 py-4 mx-2 md:mx-0"
         >
-          <div>{new Date(invoice.createdAt).toLocaleDateString()}</div>
-          <div>{invoice.referenceNumber}</div>
-          <div>{formatYear(invoice.yearLevel)}</div>
-          <div>{formatSemester("2")}</div>
-          <div>{invoice.amount} PHP</div>
+          {/* Mobile layout */}
+          <div className="flex flex-col md:hidden space-y-1 text-sm text-gray-800 font-medium">
+            <div>
+              <span className="font-semibold">Date:</span>{" "}
+              {new Date(invoice.createdAt).toLocaleDateString()}
+            </div>
+            <div>
+              <span className="font-semibold">Reference:</span>{" "}
+              {invoice.referenceNumber}
+            </div>
+            <div>
+              <span className="font-semibold">Year Level:</span>{" "}
+              {formatYear(invoice.yearLevel)}
+            </div>
+            <div>
+              <span className="font-semibold">Semester:</span>{" "}
+              {formatSemester("2")}
+            </div>
+            <div>
+              <span className="font-semibold">Amount:</span> {invoice.amount} PHP
+            </div>
+          </div>
+  
+          {/* Desktop layout */}
+          <div className="hidden md:grid md:grid-cols-5 text-center text-base font-semibold text-gray-800">
+            <div>{new Date(invoice.createdAt).toLocaleDateString()}</div>
+            <div>{invoice.referenceNumber}</div>
+            <div>{formatYear(invoice.yearLevel)}</div>
+            <div>{formatSemester("2")}</div>
+            <div>{invoice.amount} PHP</div>
+          </div>
         </div>
       ))}
-    </>
+    </div>
   );
 }

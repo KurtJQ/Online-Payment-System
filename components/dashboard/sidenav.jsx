@@ -34,6 +34,11 @@ const SideNavController = {
 export function SideNav() {
   const pathName = usePathname();
   const [open, setOpen] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+
+useEffect(() => {
+  setHasMounted(true);
+}, []);
 
   useEffect(() => {
     const unsubscribe = SideNavController.subscribe(setOpen);
@@ -71,7 +76,7 @@ export function SideNav() {
             KURT JUSTINE <br /> ROQUE QUE
           </span>
         </div>
-
+        {hasMounted && (
         <div className="flex flex-col gap-6 p-6 text-xl font-semibold">
           <Link
             href="/dashboard"
@@ -101,7 +106,15 @@ export function SideNav() {
           >
             Payment <br className="md:hidden" /> Methods
           </Link>
+          <Link
+            href="/dashboard/account"
+            className={pathName === "/dashboard/account" ? "text-blue-300" : ""}
+            onClick={handleClose}
+          >
+            Account
+          </Link>
         </div>
+        )}
 
         <div className="mt-auto p-6">
           <form action={logout}>

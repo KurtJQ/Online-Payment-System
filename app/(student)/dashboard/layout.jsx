@@ -15,9 +15,8 @@ export default function DashboardLayout({ children }) {
   return (
     <>
       {/* Fixed Header */}
-      <header className="fixed top-0 left-0 right-0 bg-red-500 z-40 flex transition-all duration-300 items-center p-3 md:px-12 h-20">
+      <header className="fixed top-0 left-0 right-0 bg-red-500 z-40 flex transition-all duration-300 items-center p-3 md:px-4 h-20">
         <SideNavButton />
-
         <div
           className={`inline-flex items-center gap-2 transition-all duration-300 ${
             isNavOpen ? "ml-auto" : "mr-auto"

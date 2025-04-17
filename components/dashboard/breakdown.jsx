@@ -59,27 +59,33 @@ export default async function Fees({ hidePay }) {
   let balance = total - currentPayments;
 
   return (
-    <div className="basis-full drop-shadow">
-      <div className="grid gap-3 bg-gray-300 rounded-3xl p-8 font-bold text-2xl ">
-        <div>Amount to pay</div>
-        <div className="flex border-b-2 pt-4 border-black">
-          Amount Currently Paid{" "}
-          <span className="ml-auto">{formatter.format(currentPayments)}</span>
+    <div>
+      <div className="bg-gray-300 rounded-3xl p-6 md:p-8 font-bold text-lg md:text-2xl space-y-5 shadow-md">
+        {/* Title */}
+        <div className="text-center text-xl md:text-2xl text-gray-800">Amount to Pay</div>
+  
+        {/* Current Payment */}
+        <div className="flex items-center border-b-2 border-black pb-2 text-gray-700">
+          <span>Amount Currently Paid</span>
+          <span className="ml-auto text-right">{formatter.format(currentPayments)}</span>
         </div>
-        <div className="flex border-b-2 pt-4 border-black">
-          Total Balance{" "}
-          <span className="ml-auto">{formatter.format(balance)}</span>
+  
+        {/* Total Balance */}
+        <div className="flex items-center border-b-2 border-black pb-2 text-gray-700">
+          <span>Total Balance</span>
+          <span className="ml-auto text-right">{formatter.format(balance)}</span>
         </div>
-        {hidePay ? (
-          ""
-        ) : (
-          <div className="mt-8 flex">
-            <div className="bg-green-300 px-3 py-2 rounded-full font-semi ml-auto">
+  
+        {/* Pay Button */}
+        {!hidePay && (
+          <div className="flex justify-end mt-6">
+            <button className="bg-green-400 hover:bg-green-500 transition text-white px-5 py-2 rounded-full text-sm md:text-base font-semibold">
               Pay Now
-            </div>
+            </button>
           </div>
         )}
       </div>
     </div>
   );
+  
 }
