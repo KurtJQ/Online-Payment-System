@@ -3,19 +3,18 @@ import { auth } from "@/app/auth";
 
 function formatYear(year) {
   switch (year) {
-    case "1":
+    case "1st":
       return "1st Year";
-    case "2":
+    case "2nd":
       return "2nd Year";
-    case "3":
+    case "3rd":
       return "3rd Year";
-    case "4":
+    case "4th":
       return "4th Year";
     default:
       return "ERROR Wrong format";
   }
 }
-
 
 export default async function Page() {
   const session = await auth();
@@ -43,38 +42,39 @@ export default async function Page() {
       <div className="w-full md:w-1/3">
         <Fees hidePay={true} />
       </div>
-  
+
       {/* Payment Section */}
       <div className="bg-gray-300 rounded-3xl p-5 md:p-8 w-full md:w-2/3 transition-all duration-300 hover:shadow-2xl space-y-4">
-
         {/* ExamPeriod */}
         <div className="bg-gray-100 p-4 rounded-xl">
-        <label className="block text-gray-700 font-medium mb-1">Exam Period</label>
+          <label className="block text-gray-700 font-medium mb-1">
+            Exam Period
+          </label>
 
-        <select
-          className="w-full p-3 border border-gray-400 rounded-xl bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
-          required
-          // value={examPeriod}
-          // onChange={(e) => setExamPeriod(e.target.value)}
-        >
-          <option value="">Select Exam Period</option>
-          <option value="downpayment">Downpayment</option>
-          <option value="1st Periodic">1st Periodic</option>
-          <option value="Prelim">Prelim</option>
-          <option value="2nd Periodic">2nd Periodic</option>
-          <option value="Midterm">Midterm</option>
-          <option value="3rd Periodic">3rd Periodic</option>
-          <option value="Pre-final">Pre-final</option>
-          <option value="4th Periodic">4th Periodic</option>
-          <option value="Finals">Finals</option>
-        </select>
-
+          <select
+            className="w-full p-3 border border-gray-400 rounded-xl bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            required
+            // value={examPeriod}
+            // onChange={(e) => setExamPeriod(e.target.value)}
+          >
+            <option value="">Select Exam Period</option>
+            <option value="downpayment">Downpayment</option>
+            <option value="1st Periodic">1st Periodic</option>
+            <option value="Prelim">Prelim</option>
+            <option value="2nd Periodic">2nd Periodic</option>
+            <option value="Midterm">Midterm</option>
+            <option value="3rd Periodic">3rd Periodic</option>
+            <option value="Pre-final">Pre-final</option>
+            <option value="4th Periodic">4th Periodic</option>
+            <option value="Finals">Finals</option>
+          </select>
         </div>
-        
-  
+
         {/* Payment Info */}
         <div className="bg-gray-100 p-4 rounded-xl">
-          <p className="text-lg font-semibold mb-2 text-gray-700">Payment for:</p>
+          <p className="text-lg font-semibold mb-2 text-gray-700">
+            Payment for:
+          </p>
           <div className="text-sm text-gray-800 space-y-1">
             <p>
               {profile.fname} {profile.mname} {profile.lname}
@@ -84,7 +84,7 @@ export default async function Page() {
             <p>{profile.semester}</p>
           </div>
         </div>
-  
+
         {/* Amount Input */}
         <div>
           <input
@@ -93,7 +93,7 @@ export default async function Page() {
             className="w-full hover:bg-gray-100 border border-gray-400 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-gray-500"
           />
         </div>
-  
+
         {/* Submit Button */}
         <div>
           <button
@@ -106,5 +106,4 @@ export default async function Page() {
       </div>
     </div>
   );
-  
 }

@@ -2,19 +2,18 @@ import { auth } from "app/auth";
 
 function formatYear(year) {
   switch (year) {
-    case "1":
+    case "1st":
       return "1st Year";
-    case "2":
+    case "2nd":
       return "2nd Year";
-    case "3":
+    case "33rd":
       return "3rd Year";
-    case "4":
+    case "4th":
       return "4th Year";
     default:
       return "ERROR Wrong format";
   }
 }
-
 
 export async function InvoiceList() {
   let invoices;
@@ -46,7 +45,9 @@ export async function InvoiceList() {
           {/* Mobile layout */}
           <div className="flex flex-col md:hidden space-y-1 text-sm text-gray-800 font-medium">
             <div>
-            <span>{new Date(invoice.createdAt).toISOString().split("T")[0]}</span>
+              <span>
+                {new Date(invoice.createdAt).toISOString().split("T")[0]}
+              </span>
             </div>
             <div>
               <span className="font-semibold">Reference:</span>{" "}
@@ -61,13 +62,15 @@ export async function InvoiceList() {
               {invoice.semester}
             </div>
             <div>
-              <span className="font-semibold">Exam Period:</span> {invoice.examPeriod}
+              <span className="font-semibold">Exam Period:</span>{" "}
+              {invoice.examPeriod}
             </div>
             <div>
-              <span className="font-semibold">Amount:</span> {invoice.amount} PHP
+              <span className="font-semibold">Amount:</span> {invoice.amount}{" "}
+              PHP
             </div>
           </div>
-  
+
           {/* Desktop layout */}
           <div className="hidden md:grid md:grid-cols-6 text-center text-base font-semibold text-gray-800">
             <div>{new Date(invoice.createdAt).toLocaleDateString()}</div>
