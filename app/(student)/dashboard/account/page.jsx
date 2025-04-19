@@ -5,7 +5,7 @@ import Input from "@/components/Input";
 import { getProfileData } from "@/components/dashboard/getProfileData";
 import { getSession } from "next-auth/react";
 import bcrypt from "bcryptjs";
-import LoadingSpinner from "@/components/LoadingSpinner"; 
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function AccountPage() {
   const [profile, setProfile] = useState(null);
@@ -17,12 +17,10 @@ export default function AccountPage() {
       setLoading(true);
       const session = await getSession();
       const studentId = session?.user?.id;
-      
-  
+
       if (studentId) {
         const data = await getProfileData(studentId); // Pass studentId here
 
-        
         if (data) {
           setProfile(data);
           setUpdatedProfile(data);
@@ -33,7 +31,7 @@ export default function AccountPage() {
     fetchProfile();
   }, []);
   if (loading) {
-    return <LoadingSpinner />;  // Show loading spinner while fetching profile
+    return <LoadingSpinner />; // Show loading spinner while fetching profile
   }
 
   if (!profile) {
@@ -53,28 +51,22 @@ export default function AccountPage() {
     try {
       const session = await getSession();
       const studentId = session?.user?.id;
-      
+
       console.log("Fetching profile for studentId:", studentId);
       if (!studentId) {
         throw new Error("No student ID found");
       }
-  
+
       let updatedData = { ...updatedProfile };
       if (updatedData.password && updatedData.password !== "••••••••••••") {
         updatedData.password = await bcrypt.hash(updatedData.password, 10);
       } else {
         delete updatedData.password;
       }
-      
+
       console.log("Updated data:", updatedData);
 
-      const response = await patchProfileData(studentId, updatedData ); 
-        
-      if (response?.status === 200 || response?.success) {
-        alert("Profile updated successfully!");
-      } else {
-        alert("Failed to update profile.");
-      }
+      const response = await patchProfileData(updatedData);
     } catch (error) {
       console.error("Error updating profile:", error);
       alert("Failed to update profile.");
@@ -98,35 +90,46 @@ export default function AccountPage() {
                 label="First Name"
                 value={updatedProfile.fname || ""}
                 onChange={handleInputChange}
-                name="fname" type="text"
+                name="fname"
+                type="text"
               />
               <Input
                 label="Middle Name"
                 value={updatedProfile.mname || ""}
                 onChange={handleInputChange}
-                name="mname" type="text"
+                name="mname"
+                type="text"
               />
               <Input
                 label="Last Name"
                 value={updatedProfile.lname || ""}
                 onChange={handleInputChange}
-                name="lname" type="text"
+                name="lname"
+                type="text"
               />
               <Input
                 label="Address"
                 value={updatedProfile.address || ""}
                 onChange={handleInputChange}
-                name="address" type="text"
+                name="address"
+                type="text"
               />
               <Input
                 label="Mobile"
                 value={updatedProfile.mobile || ""}
                 onChange={handleInputChange}
-                name="mobile" type="text"
+                name="mobile"
+                type="text"
               />
               <Input
                 label="Birthdate"
-                value={updatedProfile.birthdate ? new Date(updatedProfile.birthdate).toISOString().split('T')[0] : ""}
+                value={
+                  updatedProfile.birthdate
+                    ? new Date(updatedProfile.birthdate)
+                        .toISOString()
+                        .split("T")[0]
+                    : ""
+                }
                 onChange={handleInputChange}
                 name="birthdate"
                 type="date"
@@ -135,25 +138,29 @@ export default function AccountPage() {
                 label="Birthplace"
                 value={updatedProfile.birthplace || ""}
                 onChange={handleInputChange}
-                name="birthplace" type="text"
+                name="birthplace"
+                type="text"
               />
               <Input
                 label="Nationality"
                 value={updatedProfile.nationality || ""}
                 onChange={handleInputChange}
-                name="nationality" type="text"
+                name="nationality"
+                type="text"
               />
               <Input
                 label="Sex"
                 value={updatedProfile.sex || ""}
                 onChange={handleInputChange}
-                name="sex" type="text"
+                name="sex"
+                type="text"
               />
               <Input
                 label="Facebook"
                 value={updatedProfile.facebook || ""}
                 onChange={handleInputChange}
-                name="facebook" type="text"
+                name="facebook"
+                type="text"
               />
             </div>
           </section>
@@ -167,37 +174,43 @@ export default function AccountPage() {
                 label="Course"
                 value={updatedProfile.course || ""}
                 onChange={handleInputChange}
-                name="course" type="text"
+                name="course"
+                type="text"
               />
               <Input
                 label="Year Level"
                 value={updatedProfile.yearLevel || ""}
                 onChange={handleInputChange}
-                name="yearLevel" type="number"
+                name="yearLevel"
+                type="text"
               />
               <Input
                 label="Semester"
                 value={updatedProfile.semester || ""}
                 onChange={handleInputChange}
-                name="semester" type="text"
+                name="semester"
+                type="text"
               />
               <Input
                 label="School Year"
                 value={updatedProfile.schoolYear || ""}
                 onChange={handleInputChange}
-                name="schoolYear" type="text"
+                name="schoolYear"
+                type="text"
               />
               <Input
                 label="LRN"
                 value={updatedProfile.lrn || ""}
                 onChange={handleInputChange}
-                name="lrn" type="number"
+                name="lrn"
+                type="number"
               />
               <Input
                 label="Education"
                 value={updatedProfile.education || ""}
                 onChange={handleInputChange}
-                name="education" type="text"
+                name="education"
+                type="text"
               />
             </div>
           </section>
@@ -211,31 +224,36 @@ export default function AccountPage() {
                 label="Landline"
                 value={updatedProfile.landline || ""}
                 onChange={handleInputChange}
-                name="landline" type="number"
+                name="landline"
+                type="number"
               />
               <Input
                 label="Father"
                 value={updatedProfile.father || ""}
                 onChange={handleInputChange}
-                name="father" type="text"
+                name="father"
+                type="text"
               />
               <Input
                 label="Mother"
                 value={updatedProfile.mother || ""}
                 onChange={handleInputChange}
-                name="mother"type="text"
+                name="mother"
+                type="text"
               />
               <Input
                 label="Guardian"
                 value={updatedProfile.guardian || ""}
                 onChange={handleInputChange}
-                name="guardian" type="text"
+                name="guardian"
+                type="text"
               />
               <Input
                 label="Guardian Occupation"
                 value={updatedProfile.guardianOccupation || ""}
                 onChange={handleInputChange}
-                name="guardianOccupation" type="text"
+                name="guardianOccupation"
+                type="text"
               />
             </div>
           </section>
