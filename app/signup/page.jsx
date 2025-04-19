@@ -88,13 +88,17 @@ export default function Signup() {
             />
 
             {/* Birthday and Birthplace */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <label className="text-md font-semibold text-gray-700">Birth Date:</label>
               <input
                 type="date"
                 name="birthdate"
+                placeholder="Birth Date"
                 required
                 className="input-style"
               />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 type="text"
                 name="birthplace"
@@ -141,6 +145,8 @@ export default function Signup() {
               ))}
             </div>
 
+
+
             {/* Additional Fields */}
             <input
               type="text"
@@ -170,12 +176,16 @@ export default function Signup() {
               required
               className="input-style"
             />
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
+            <label className="text-md flex items-center space-x-2 gap-4 font-semibold text-black">Registration Date:</label>
             <input
               type="date"
               name="registrationDate"
+              placeholder="Registration Date"
               required
               className="input-style"
             />
+            </div>
             <input
               type="number"
               name="lrn"
@@ -234,6 +244,12 @@ export default function Signup() {
               <option value="2nd">2nd Year</option>
               <option value="3rd">3rd Year</option>
               <option value="4th">4th Year</option>
+            </select>
+
+            <select name="semester" className="input-style">
+              <option value="">Select Semester</option>
+              <option value="1st semester">1st Semester</option>
+              <option value="2nd semester">2nd Semester</option>
             </select>
 
             <div className="flex flex-col gap-4 mt-4">
