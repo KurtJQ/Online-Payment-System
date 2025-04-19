@@ -12,7 +12,7 @@ export async function signup(formData) {
     mobile: formData.get("mobile"),
     landline: formData.get("landline"),
     facebook: formData.get("facebook"),
-    birthdate: new Date(formData.get("birthday")),
+    birthdate: new Date(formData.get("birthdate")),
     birthplace: formData.get("birthplace"),
     nationality: formData.get("nationality"),
     religion: formData.get("religion"),
