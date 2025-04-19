@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { signup } from "components/auth/sign-up";
 import { useState } from "react";
 
-
 export default function Signup() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -13,7 +12,7 @@ export default function Signup() {
     event.preventDefault();
     setLoading(true);
     const data = new FormData(event.currentTarget);
-    
+
     try {
       await signup(data);
     } catch (error) {
@@ -89,7 +88,9 @@ export default function Signup() {
 
             {/* Birthday and Birthplace */}
             <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
-            <label className="text-md flex items-center space-x-2 gap-4 font-semibold text-black">Birth Date:</label>
+              <label className="text-md flex items-center space-x-2 gap-4 font-semibold text-black">
+                Birth Date:
+              </label>
               <input
                 type="date"
                 name="birthdate"
@@ -97,8 +98,8 @@ export default function Signup() {
                 required
                 className="input-style"
               />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 type="text"
                 name="birthplace"
@@ -145,8 +146,6 @@ export default function Signup() {
               ))}
             </div>
 
-
-
             {/* Additional Fields */}
             <input
               type="text"
@@ -177,14 +176,16 @@ export default function Signup() {
               className="input-style"
             />
             <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
-            <label className="text-md flex items-center space-x-2 gap-4 font-semibold text-black">Registration Date:</label>
-            <input
-              type="date"
-              name="registrationDate"
-              placeholder="Registration Date"
-              required
-              className="input-style"
-            />
+              <label className="text-md flex items-center space-x-2 gap-4 font-semibold text-black">
+                Registration Date:
+              </label>
+              <input
+                type="date"
+                name="registrationDate"
+                placeholder="Registration Date"
+                required
+                className="input-style"
+              />
             </div>
             <input
               type="number"
@@ -252,25 +253,32 @@ export default function Signup() {
               <option value="2nd semester">2nd Semester</option>
             </select>
 
+            <input
+              type="text"
+              name="schoolYear"
+              placeholder="School Year"
+              required
+              className="input-style"
+            />
+
             <div className="flex flex-col gap-4 mt-4">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              required
-              className="input-style"
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-              className="input-style"
-            />
-          </div>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+                className="input-style"
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                className="input-style"
+              />
+            </div>
 
-
-          <button
+            <button
               type="submit"
               className="w-full bg-red-600 text-white py-2 font-bold rounded-full flex justify-center items-center gap-2"
               disabled={loading}
