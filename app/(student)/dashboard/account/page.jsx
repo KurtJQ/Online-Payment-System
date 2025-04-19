@@ -65,9 +65,6 @@ export default function AccountPage() {
         updatedData.password = newPassword;
       }
 
-      console.log("Original Data:", profile);
-      console.log("Updated data:", updatedData);
-
       const response = await patchProfileData(updatedData);
     } catch (error) {
       console.error("Error updating profile:", error);
