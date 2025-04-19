@@ -75,17 +75,7 @@ export function SideNav({ profile }) {
             >
               Payment
             </Link>
-            {/* <Link
-              href="/dashboard/payment-methods"
-              className={
-                pathName === "/dashboard/payment-methods"
-                  ? "text-blue-300"
-                  : ""
-              }
-              onClick={handleClose}
-            >
-              Payment <br className="md:hidden" /> Methods
-            </Link> */}
+            
             <Link
               href="/dashboard/account"
               className={
