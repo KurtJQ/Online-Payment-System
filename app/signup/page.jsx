@@ -1,28 +1,26 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { signup } from "components/auth/sign-up";
-import LoadingSpinner from "components/LoadingSpinner";
+import { useState } from "react";
+
 
 export default function Signup() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  function handleSignUp(event) {
+  async function handleSignUp(event) {
     event.preventDefault();
+    setLoading(true);
     const data = new FormData(event.currentTarget);
-    setLoading(true); // Set loading to true when form is submitted
-    signup(data)
-      .then(() => {
-        setLoading(false); // Set loading to false after signup is done
-        router.push("/"); // Redirect to the login page (or another page)
-      })
-      .catch((error) => {
-        setLoading(false); // Set loading to false in case of error
-        console.error("Signup error:", error);
-        alert("Signup failed. Please try again.");
-      });
+    
+    try {
+      await signup(data);
+    } catch (error) {
+      console.error("Signup failed", error);
+    } finally {
+      setLoading(false); // End loading
+    }
   }
 
   return (
@@ -258,14 +256,32 @@ export default function Signup() {
 
           <button
               type="submit"
-              className="w-full bg-red-600 text-white py-2 font-bold rounded-full"
-              disabled={loading} // Disable button when loading
+              className="w-full bg-red-600 text-white py-2 font-bold rounded-full flex justify-center items-center gap-2"
+              disabled={loading}
             >
-              {loading ? (
-                <LoadingSpinner /> // Use the LoadingSpinner component here
-              ) : (
-                "SIGN UP"
+              {loading && (
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  ></path>
+                </svg>
               )}
+              {loading ? "Signing Up..." : "SIGN UP"}
             </button>
           </form>
 
