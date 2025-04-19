@@ -88,8 +88,8 @@ export default function Signup() {
             />
 
             {/* Birthday and Birthplace */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <label className="text-md font-semibold text-gray-700">Birth Date:</label>
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
+            <label className="text-md flex items-center space-x-2 gap-4 font-semibold text-black">Birth Date:</label>
               <input
                 type="date"
                 name="birthdate"
