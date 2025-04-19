@@ -9,7 +9,7 @@ export default function Page() {
           01/01/2024 - 12/31/2024
         </div>
 
-        {/* Search Bar Placeholder */}
+        {/* Search Bar Placeholder
         <div className="flex w-full md:w-auto">
           <input
             type="text"
@@ -17,7 +17,7 @@ export default function Page() {
             className="w-full md:w-64 bg-white px-4 py-2 rounded-3xl text-sm outline-none shadow-inner"
             disabled // Remove this and wire it up to make functional
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Invoice List Container */}

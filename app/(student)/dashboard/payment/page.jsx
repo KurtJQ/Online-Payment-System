@@ -16,14 +16,6 @@ function formatYear(year) {
   }
 }
 
-function formatSemester(semester) {
-  switch (semester) {
-    case "1":
-      return "First Semester";
-    case "2":
-      return "Second Semester";
-  }
-}
 
 export default async function Page() {
   const session = await auth();
@@ -53,24 +45,32 @@ export default async function Page() {
       </div>
   
       {/* Payment Section */}
-      <div className="bg-gray-300 rounded-3xl p-5 md:p-8 w-full md:w-2/3 shadow-md space-y-4">
-        {/* Payment Methods */}
-        <div>
-          <p className="text-lg font-semibold text-gray-900 mb-2">
-            Select payment method
-          </p>
-          <div className="space-y-2">
-            <div className="border bg-gray-100 border-gray-500 p-3 rounded-xl hover:bg-gray-500 cursor-pointer">
-              GCash e-Wallet
-            </div>
-            <div className="border bg-gray-100 border-gray-500 p-3 rounded-xl hover:bg-gray-500 cursor-pointer">
-              Paymaya e-Wallet
-            </div>
-            <div className="border bg-gray-100 border-gray-500 p-3 rounded-xl hover:bg-gray-500 cursor-pointer">
-              Credit / Debit Card
-            </div>
-          </div>
+      <div className="bg-gray-300 rounded-3xl p-5 md:p-8 w-full md:w-2/3 transition-all duration-300 hover:shadow-2xl space-y-4">
+
+        {/* ExamPeriod */}
+        <div className="bg-gray-100 p-4 rounded-xl">
+        <label className="block text-gray-700 font-medium mb-1">Exam Period</label>
+
+        <select
+          className="w-full p-3 border border-gray-400 rounded-xl bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          required
+          // value={examPeriod}
+          // onChange={(e) => setExamPeriod(e.target.value)}
+        >
+          <option value="">Select Exam Period</option>
+          <option value="downpayment">Downpayment</option>
+          <option value="1st Periodic">1st Periodic</option>
+          <option value="Prelim">Prelim</option>
+          <option value="2nd Periodic">2nd Periodic</option>
+          <option value="Midterm">Midterm</option>
+          <option value="3rd Periodic">3rd Periodic</option>
+          <option value="Pre-final">Pre-final</option>
+          <option value="4th Periodic">4th Periodic</option>
+          <option value="Finals">Finals</option>
+        </select>
+
         </div>
+        
   
         {/* Payment Info */}
         <div className="bg-gray-100 p-4 rounded-xl">
@@ -81,7 +81,7 @@ export default async function Page() {
             </p>
             <p>{profile.course}</p>
             <p>{formatYear(profile.yearLevel)}</p>
-            <p>{formatSemester(profile.semester)}</p>
+            <p>{profile.semester}</p>
           </div>
         </div>
   
@@ -90,7 +90,7 @@ export default async function Page() {
           <input
             type="number"
             placeholder="Enter amount"
-            className="w-full border border-gray-400 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="w-full hover:bg-gray-100 border border-gray-400 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-gray-500"
           />
         </div>
   

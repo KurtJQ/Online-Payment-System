@@ -15,14 +15,6 @@ function formatYear(year) {
   }
 }
 
-function formatSemester(semester) {
-  switch (semester) {
-    case "1":
-      return "First Semester";
-    case "2":
-      return "Second Semester";
-  }
-}
 
 export async function InvoiceList() {
   let invoices;
@@ -54,8 +46,7 @@ export async function InvoiceList() {
           {/* Mobile layout */}
           <div className="flex flex-col md:hidden space-y-1 text-sm text-gray-800 font-medium">
             <div>
-              <span className="font-semibold">Date:</span>{" "}
-              {new Date(invoice.createdAt).toLocaleDateString()}
+            <span>{new Date(invoice.createdAt).toISOString().split("T")[0]}</span>
             </div>
             <div>
               <span className="font-semibold">Reference:</span>{" "}
@@ -67,7 +58,10 @@ export async function InvoiceList() {
             </div>
             <div>
               <span className="font-semibold">Semester:</span>{" "}
-              {formatSemester("2")}
+              {invoice.semester}
+            </div>
+            <div>
+              <span className="font-semibold">Exam Period:</span> {invoice.examPeriod}
             </div>
             <div>
               <span className="font-semibold">Amount:</span> {invoice.amount} PHP
@@ -75,11 +69,12 @@ export async function InvoiceList() {
           </div>
   
           {/* Desktop layout */}
-          <div className="hidden md:grid md:grid-cols-5 text-center text-base font-semibold text-gray-800">
+          <div className="hidden md:grid md:grid-cols-6 text-center text-base font-semibold text-gray-800">
             <div>{new Date(invoice.createdAt).toLocaleDateString()}</div>
             <div>{invoice.referenceNumber}</div>
             <div>{formatYear(invoice.yearLevel)}</div>
-            <div>{formatSemester("2")}</div>
+            <div>{invoice.semester}</div>
+            <div>{invoice.examPeriod}</div>
             <div>{invoice.amount} PHP</div>
           </div>
         </div>

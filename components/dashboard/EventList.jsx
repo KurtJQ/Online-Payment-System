@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import LoadingSpinner from "@/components/LoadingSpinner"; // Make sure to import the spinner
 
 export default function Events() {
   const [events, setEvents] = useState([]);
@@ -54,11 +55,13 @@ export default function Events() {
       <h2 className="text-xl font-bold text-black mb-4">📅 Events</h2>
 
       {loading ? (
-        <p className="text-gray-500">Loading events...</p>
+        <div className="flex justify-center mt-4">
+          <LoadingSpinner /> {/* Display the spinner */}
+        </div>
       ) : events.length === 0 ? (
         <p className="text-gray-500">No events available.</p>
       ) : (
-        <div className="overflow-y-auto max-h-[400px] pr-1">
+        <div className="overflow-y-auto max-h-[240px] pr-1 custom-scrollbar">
           <ul className="space-y-3">
             {events.map((event) => {
               const isExpanded = expandedEventId === event._id;
