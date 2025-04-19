@@ -1,6 +1,6 @@
 "use server";
 
-export async function patchProfileData(studentId) {
+export async function patchProfileData(data) {
   const dataTest = {
     fname: data.fname,
     mname: data.mname,
@@ -9,7 +9,7 @@ export async function patchProfileData(studentId) {
     mobile: data.mobile,
     landline: data.landline,
     facebook: data.facebook,
-    birthdate: data.birthdate,
+    birthdate: new Date(data.birthdate),
     birthplace: data.birthplace,
     nationality: data.nationality,
     religion: data.religion,
@@ -18,24 +18,23 @@ export async function patchProfileData(studentId) {
     mother: data.mother,
     guardian: data.guardian,
     guardianOccupation: data.guardianOccupation,
-    registrationDate: data.registrationDate,
-    lrn: data.lrn,
     email: data.email,
     password: data.password,
-    education: data.education,
-    course : data.course,
-    lrn: data.lrn,
-    
-    }
+  };
+
   try {
-    const res = await fetch( process.env.SERVER_URL + `/api/student/profile-data/${studentId}/update`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataTest),
-      cache: "no-store",
-    });
+    const res = await fetch(
+      process.env.SERVER_URL +
+        `/api/student/profile-data/${data._studentId}/update`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataTest),
+        cache: "no-store",
+      }
+    );
 
     if (!res.ok) {
       throw new Error(`Failed to update profile: ${res.status}`);
