@@ -6,11 +6,13 @@ import { getProfileData } from "@/components/dashboard/getProfileData";
 import { getSession } from "next-auth/react";
 import bcrypt from "bcryptjs";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { useRouter } from "next/navigation";
 
 export default function AccountPage() {
   const [profile, setProfile] = useState(null);
   const [updatedProfile, setUpdatedProfile] = useState({});
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -58,18 +60,21 @@ export default function AccountPage() {
       }
 
       let updatedData = { ...updatedProfile };
-      if (updatedData.password && updatedData.password !== "••••••••••••") {
-        updatedData.password = await bcrypt.hash(updatedData.password, 10);
-      } else {
-        delete updatedData.password;
+      if (updatedData.password !== profile.password) {
+        const newPassword = await bcrypt.hash(updatedData.password, 10);
+        updatedData.password = newPassword;
       }
 
+      console.log("Original Data:", profile);
       console.log("Updated data:", updatedData);
 
       const response = await patchProfileData(updatedData);
     } catch (error) {
       console.error("Error updating profile:", error);
       alert("Failed to update profile.");
+    } finally {
+      router.push("/dashboard");
+      alert("Profile Update Successful");
     }
   };
 
@@ -265,14 +270,12 @@ export default function AccountPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Input
                 label="Email"
-                value={updatedProfile.email || ""}
                 onChange={handleInputChange}
                 name="email"
                 type="email"
               />
               <Input
                 label="Password"
-                value={updatedProfile.password || ""}
                 onChange={handleInputChange}
                 name="password"
                 type="password"

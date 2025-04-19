@@ -35,11 +35,9 @@ export async function patchProfileData(data) {
         cache: "no-store",
       }
     );
-
     if (!res.ok) {
       throw new Error(`Failed to update profile: ${res.status}`);
     }
-
     return await res.json();
   } catch (err) {
     console.error("Error updating profile:", err);
