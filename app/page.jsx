@@ -75,6 +75,7 @@ export default function Page() {
                   id="password"
                   placeholder="Password"
                   className="px-6 py-2 border-2 border-black w-full rounded-full"
+                  minLength={8}
                 />
               </div>
             </div>

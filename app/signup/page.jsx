@@ -399,16 +399,16 @@ export default function Signup() {
 
             <select name="yearLevel" className="input-style">
               <option value="">Select Year Level</option>
-              <option value="1st">1st Year</option>
-              <option value="2nd">2nd Year</option>
-              <option value="3rd">3rd Year</option>
-              <option value="4th">4th Year</option>
+              <option value="1">1st Year</option>
+              <option value="2">2nd Year</option>
+              <option value="3">3rd Year</option>
+              <option value="4">4th Year</option>
             </select>
 
             <select name="semester" className="input-style">
               <option value="">Select Semester</option>
-              <option value="1st semester">1st Semester</option>
-              <option value="2nd semester">2nd Semester</option>
+              <option value="1st Semester">1st Semester</option>
+              <option value="2nd Semester">2nd Semester</option>
             </select>
 
             <SchoolYearInput name="schoolYear" />

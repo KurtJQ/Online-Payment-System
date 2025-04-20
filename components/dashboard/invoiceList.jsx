@@ -2,13 +2,13 @@ import { auth } from "app/auth";
 
 function formatYear(year) {
   switch (year) {
-    case "1st":
+    case "1":
       return "1st Year";
-    case "2nd":
+    case "2":
       return "2nd Year";
-    case "33rd":
+    case "3":
       return "3rd Year";
-    case "4th":
+    case "4":
       return "4th Year";
     default:
       return "ERROR Wrong format";
@@ -33,6 +33,15 @@ export async function InvoiceList() {
     invoices = await res.json();
   } catch (error) {
     console.error("An error occured while fetching data: ", error);
+  }
+
+  // Check if invoices are empty or null
+  if (!invoices || invoices.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <p className="text-xl font-semibold text-gray-700">No Payment Found</p>
+      </div>
+    );
   }
 
   return (

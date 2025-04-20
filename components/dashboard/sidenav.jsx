@@ -35,7 +35,7 @@ export function SideNav({ profile }) {
           open ? "translate-x-0" : "-translate-x-full"
         } w-2/3 max-w-xs md:w-64`}
       >
-        <div className="flex items-center gap-3 p-6 border-b border-white/20">
+        <div className="flex items-center gap-3 p-6 border-b border-white/20 overflow-hidden">
           <Image
             src="/images/user-circle-solid-48.png"
             width={48}
