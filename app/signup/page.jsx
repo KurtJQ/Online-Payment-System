@@ -289,12 +289,11 @@ export default function Signup() {
               />
             </div>
 
-            {/* Gender Selection */}
-            <div className="flex justify-around text-sm font-medium text-gray-700">
+            <div className="flex flex-col sm:flex-row sm:justify-around gap-2 sm:gap-4 text-sm font-medium text-gray-700">
               {["Male", "Female", "Other"].map((gender) => (
                 <label
                   key={gender}
-                  className="flex items-center space-x-2 border border-gray-300 px-4 py-2 rounded-full cursor-pointer hover:border-blue-500"
+                  className="flex items-center justify-center space-x-2 border border-gray-300 px-4 py-2 rounded-full cursor-pointer hover:border-blue-500"
                 >
                   <input
                     type="radio"

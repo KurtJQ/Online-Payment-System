@@ -7,6 +7,7 @@ import { getSession } from "next-auth/react";
 import bcrypt from "bcryptjs";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast"
 
 export default function AccountPage() {
   const [profile, setProfile] = useState(null);
@@ -65,13 +66,12 @@ export default function AccountPage() {
         updatedData.password = newPassword;
       }
 
-      const response = await patchProfileData(updatedData);
+      await patchProfileData(updatedData);
+      toast.success("Profile updated successfully!");
+      router.push("/dashboard");
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("Failed to update profile.");
-    } finally {
-      router.push("/dashboard");
-      alert("Profile Update Successful");
+      toast.error("Failed to update profile.");
     }
   };
 

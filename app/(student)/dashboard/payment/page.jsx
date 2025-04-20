@@ -16,6 +16,8 @@ function formatYear(year) {
   }
 }
 
+// export default function Payment() {}  
+
 export default async function Page() {
   const session = await auth();
   if (!session) {
@@ -54,8 +56,20 @@ export default async function Page() {
           <select
             className="w-full p-3 border border-gray-400 rounded-xl bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
             required
-            // value={examPeriod}
-            // onChange={(e) => setExamPeriod(e.target.value)}
+          //   <select
+          //   value={examPeriod}
+          //   onChange={(e) => {
+          //     const value = e.target.value;
+          //     setExamPeriod(value);
+          //     if (value === "downpayment" && amount > 2000) {
+          //       setAmount(2000);
+          //     } else if (value !== "" && value !== "downpayment" && amount > 1500) {
+          //       setAmount(1500);
+          //     }
+          //   }}
+          //   className="w-full p-2 border rounded-lg bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+          //   required
+          // >
           >
             <option value="">Select Exam Period</option>
             <option value="downpayment">Downpayment</option>
@@ -92,7 +106,30 @@ export default async function Page() {
             placeholder="Enter amount"
             className="w-full hover:bg-gray-100 border border-gray-400 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-gray-500"
           />
-        </div>
+        </div> 
+
+        {/* Amount */}
+        {/* <div>
+          <label className="block text-gray-700 dark:text-gray-200 font-medium">Amount (PHP)</label>
+          <input
+            type="number"
+            value={amount}
+            onChange={(e) => {
+              const inputAmount = parseFloat(e.target.value);
+              const max =
+                examPeriod === "downpayment"
+                  ? 2000
+                  : examPeriod !== ""
+                  ? 1500
+                  : 9999999.99;
+              setAmount(inputAmount > max ? max : inputAmount);
+            }}
+            max={examPeriod === "downpayment" ? 2000 : examPeriod !== "" ? 1500 : 9999999.99}
+            className="w-full p-2 border rounded-lg capitalize bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+            placeholder="Enter amount"
+            required
+          />
+        </div> */}
 
         {/* Submit Button */}
         <div>
