@@ -3,15 +3,164 @@
 import { useRouter } from "next/navigation";
 import { signup } from "components/auth/sign-up";
 import { useState } from "react";
+import toast from "react-hot-toast";
+
+function validateFacebookUrl(value) {
+  const facebookRegex = /^(https:\/\/www\.facebook\.com\/[A-Za-z0-9_.-]+)$/;
+
+  if (!facebookRegex.test(value)) {
+    toast.error("Please enter a valid Facebook URL starting with 'https://www.facebook.com/'");
+    return false;
+  }
+  return true;
+}
+
+function YearAttendedInput({ name }) {
+  const [value, setValue] = useState("");
+  const handleChange = (e) => {
+    const raw = e.target.value.replace(/\D/g, "").slice(0, 8); // only digits, max 8
+    let formatted = raw;
+    if (raw.length > 4) {
+      formatted = `${raw.slice(0, 4)}-${raw.slice(4)}`;
+    }
+    setValue(formatted);
+    if (formatted.length === 9 && !/^\d{4}-\d{4}$/.test(formatted)) {
+      toast.error("Please use the format YYYY-YYYY");
+    }
+  };
+
+  return (
+    <input
+      type="text"
+      name={name}
+      placeholder="Year Attended (e.g., 2000-2004)"
+      value={value}
+      onChange={handleChange}
+      className="input-style"
+    />
+  );
+}
+
+function SchoolYearInput({ name }) {
+  const [value, setValue] = useState("");
+
+  const handleChange = (e) => {
+    const raw = e.target.value.replace(/\D/g, "").slice(0, 8); // remove non-digits, max 8 digits
+    let formatted = raw;
+
+    if (raw.length > 4) {
+      formatted = `${raw.slice(0, 4)}-${raw.slice(4)}`;
+    }
+
+    setValue(formatted);
+
+    if (formatted.length === 9 && !/^\d{4}-\d{4}$/.test(formatted)) {
+      toast.error("Please use the format YYYY-YYYY");
+    }
+  };
+
+  return (
+    <input
+      type="text"
+      name={name}
+      placeholder="School Year (e.g., 2000-2001)"
+      value={value}
+      onChange={handleChange}
+      className="input-style"
+      required
+    />
+  );
+}
+
 
 export default function Signup() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [mobile, setMobile] = useState("");
+  const [landline, setLandline] = useState("");
+  const [facebook, setFacebook] = useState("");
+  const [lrn, setLrn] = useState("");
+  const [email, setEmail] = useState("");
+
+  const handleLrnChange = (e) => {
+    const inputValue = e.target.value;
+    if (inputValue.length > 12) {
+      toast.error("LRN should only be 12 digits");
+      return;
+    }
+    setLrn(inputValue);
+  };
+
+  const handleFacebookChange = (e) => {
+    const inputValue = e.target.value;
+    setFacebook(inputValue);
+    validateFacebookUrl(inputValue);
+  };
+
+  //mobile number
+  function formatPhoneNumber(value) {
+    const cleaned = value.replace(/\D/g, "");
+    const formatted = cleaned.slice(0, 11);
+    
+    if (cleaned.length > 11) {
+      toast.error("Phone number cannot exceed 11 digits!");
+      return formatted.slice(0, 11);
+    }
+
+    if (formatted.length <= 4) {
+      return formatted;
+    } else if (formatted.length <= 7) {
+      return `${formatted.slice(0, 4)}-${formatted.slice(4)}`;
+      
+    } else {
+      return `${formatted.slice(0, 4)}-${formatted.slice(4, 7)}-${formatted.slice(7, 11)}`;
+    }
+  }
+
+//gmail
+  function validateGmail(email) {
+    const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    if (!gmailRegex.test(email)) {
+      toast.error("Please enter a valid Gmail address ending in @gmail.com");
+      return false;
+    }
+    return true;
+  }
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+    validateGmail(value);
+  };
+
+//landline
+  function formatLandline(value) {
+    const cleaned = value.replace(/\D/g, "");
+    const formatted = cleaned.slice(0, 11);
+
+    if (cleaned.length > 11) {
+      toast.error("Landline number cannot exceed 11 digits!");
+      return formatted.slice(0, 11);
+    }
+  
+    if (formatted.length <= 3) {
+      return formatted;
+    } else if (formatted.length <= 5) {
+      return `${formatted.slice(0, 2)}-${formatted.slice(2)}`;
+    } else if (formatted.length <= 8) {
+      return `${formatted.slice(0, 2)}-${formatted.slice(2, 5)}-${formatted.slice(5)}`;
+    } else {
+      return `${formatted.slice(0, 2)}-${formatted.slice(2, 5)}-${formatted.slice(5, 8)}-${formatted.slice(8)}`;
+    }
+  }
+  
 
   async function handleSignUp(event) {
     event.preventDefault();
     setLoading(true);
     const data = new FormData(event.currentTarget);
+    
+    data.set("mobile",mobile);
+    data.set("landline",landline);
 
     try {
       await signup(data);
@@ -37,21 +186,21 @@ export default function Signup() {
                 name="fname"
                 placeholder="First Name"
                 required
-                className="input-style "
+                className="input-style capitalize"
               />
               <input
                 type="text"
                 name="mname"
                 placeholder="Middle Name"
                 required
-                className="input-style"
+                className="input-style capitalize"
               />
               <input
                 type="text"
                 name="lname"
                 placeholder="Last Name"
                 required
-                className="input-style"
+                className="input-style capitalize"
               />
             </div>
 
@@ -61,26 +210,39 @@ export default function Signup() {
               name="address"
               placeholder="Address"
               required
-              className="input-style"
+              className="input-style capitalize"
             />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                type="tel"
-                name="mobile"
-                placeholder="Mobile Phone Number"
-                required
-                className="input-style"
+            <input
+              type="tel"
+              name="mobile"
+              placeholder="Mobile Phone Number (11 digits)"
+              required
+              className="input-style"
+              value={mobile}
+              onChange={(e) => {
+                const formattedPhone = formatPhoneNumber(e.target.value);
+                setMobile(formattedPhone);
+              }}
               />
               <input
                 type="tel"
                 name="landline"
-                placeholder="Landline Number"
+                placeholder="Landline Number (11 digits)"
+                required
                 className="input-style"
+                value={landline}
+                onChange={(e) => {
+                  const formattedLandline = formatLandline(e.target.value);
+                  setLandline(formattedLandline);
+                }}
               />
             </div>
             <input
               type="url"
               name="facebook"
+              value={facebook}
+              onChange={handleFacebookChange}
               placeholder="Facebook Profile URL"
               required
               className="input-style"
@@ -99,13 +261,13 @@ export default function Signup() {
                 className="input-style"
               />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
               <input
                 type="text"
                 name="birthplace"
                 placeholder="Birth Place"
                 required
-                className="input-style"
+                className="input-style capitalize"
               />
             </div>
 
@@ -116,14 +278,14 @@ export default function Signup() {
                 name="nationality"
                 placeholder="Nationality"
                 required
-                className="input-style"
+                className="input-style capitalize"
               />
               <input
                 type="text"
                 name="religion"
                 placeholder="Religion"
                 required
-                className="input-style"
+                className="input-style capitalize"
               />
             </div>
 
@@ -152,28 +314,28 @@ export default function Signup() {
               name="father"
               placeholder="Father's Name"
               required
-              className="input-style"
+              className="input-style capitalize"
             />
             <input
               type="text"
               name="mother"
               placeholder="Mother's Name"
               required
-              className="input-style"
+              className="input-style capitalize"
             />
             <input
               type="text"
               name="guardian"
               placeholder="Guardian's Name"
               required
-              className="input-style"
+              className="input-style capitalize"
             />
             <input
               type="text"
               name="guardianOccupation"
               placeholder="Guardian's Occupation"
               required
-              className="input-style"
+              className="input-style capitalize"
             />
             <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
               <label className="text-md flex items-center space-x-2 gap-4 font-semibold text-black">
@@ -190,11 +352,12 @@ export default function Signup() {
             <input
               type="number"
               name="lrn"
-              placeholder="LRN Number"
+              value={lrn}
+              onChange={handleLrnChange}
+              placeholder="Enter LRN (12 digits)"
               required
               className="input-style"
             />
-            {/* Education Fields */}
             {[
               { label: "Nursery", name: "nursery" },
               { label: "Elementary", name: "elementary" },
@@ -208,14 +371,9 @@ export default function Signup() {
                     type="text"
                     name={`${name}Name`}
                     placeholder="School Name"
-                    className="input-style"
+                    className="input-style capitalize"
                   />
-                  <input
-                    type="text"
-                    name={`${name}Year`}
-                    placeholder="Year Attended"
-                    className="input-style"
-                  />
+                  <YearAttendedInput name={`${name}Year`} />
                 </div>
               </div>
             ))}
@@ -253,22 +411,18 @@ export default function Signup() {
               <option value="2nd semester">2nd Semester</option>
             </select>
 
-            <input
-              type="text"
-              name="schoolYear"
-              placeholder="School Year"
-              required
-              className="input-style"
-            />
+            <SchoolYearInput name="schoolYear" />
 
             <div className="flex flex-col gap-4 mt-4">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-                className="input-style"
-              />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              required
+              value={email}
+              onChange={handleEmailChange}
+              className="input-style"
+            />
               <input
                 type="password"
                 name="password"
