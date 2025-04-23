@@ -2,13 +2,13 @@
 
 function formatYear(year) {
   switch (year) {
-    case "1st":
+    case "1":
       return "1st Year";
-    case "2nd":
+    case "2":
       return "2nd Year";
-    case "3rd":
+    case "3":
       return "3rd Year";
-    case "4th":
+    case "4":
       return "4th Year";
     default:
       return "ERROR Wrong format";
