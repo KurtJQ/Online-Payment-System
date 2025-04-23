@@ -384,12 +384,12 @@ export default function Signup() {
             ))}
 
             {/* Education and Course */}
-            <select name="education" className="input-style">
+            <select name="education" className="input-style" required>
               <option value="">Select Education Level</option>
               <option value="college">College</option>
             </select>
 
-            <select name="course" className="input-style">
+            <select name="course" className="input-style" required>
               <option value="">Select Course</option>
               <option value="BSCS">BS Computer Science</option>
               <option value="BSHM">BS Hospitality Management</option>
@@ -402,7 +402,7 @@ export default function Signup() {
               <option value="bapos">BA Political Science</option>
             </select>
 
-            <select name="yearLevel" className="input-style">
+            <select name="yearLevel" className="input-style" required>
               <option value="">Select Year Level</option>
               <option value="1">1st Year</option>
               <option value="2">2nd Year</option>
@@ -410,13 +410,13 @@ export default function Signup() {
               <option value="4">4th Year</option>
             </select>
 
-            <select name="semester" className="input-style">
+            <select name="semester" className="input-style" required>
               <option value="">Select Semester</option>
               <option value="1st Semester">1st Semester</option>
               <option value="2nd Semester">2nd Semester</option>
             </select>
 
-            <SchoolYearInput name="schoolYear" />
+            <SchoolYearInput required name="schoolYear" />
 
             <div className="flex flex-col gap-4 mt-4">
               <input
