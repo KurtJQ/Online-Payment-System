@@ -13,6 +13,7 @@ export default function AccountPage() {
   const [profile, setProfile] = useState(null);
   const [updatedProfile, setUpdatedProfile] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -50,8 +51,6 @@ export default function AccountPage() {
       formattedValue = value.replace(/\b\w/g, (char) => char.toUpperCase());
     }
 
-
-
     setUpdatedProfile((prev) => ({
       ...prev,
       [name]: value,
@@ -60,6 +59,7 @@ export default function AccountPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoadingUpdate(true);
     try {
       const session = await getSession();
       const studentId = session?.user?.id;
@@ -77,10 +77,12 @@ export default function AccountPage() {
 
       await patchProfileData(updatedData);
       toast.success("Profile updated successfully!");
-      router.push("/dashboard");
+      router.push("/dashboard/account/");
     } catch (error) {
       console.error("Error updating profile:", error);
       toast.error("Failed to update profile.");
+    } finally {
+      setLoadingUpdate(false);
     }
   };
 
@@ -291,11 +293,12 @@ export default function AccountPage() {
           </section>
 
           <div className="text-center mt-8">
-            <button
+          <button
               type="submit"
               className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-full transition duration-200"
+              disabled={loadingUpdate} // Disable the button while updating
             >
-              Update Info
+              {loadingUpdate ? "Updating..." : "Save"}
             </button>
           </div>
         </form>

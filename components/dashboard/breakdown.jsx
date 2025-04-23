@@ -1,7 +1,6 @@
 // components/dashboard/breakdown.jsx
 import React, { Suspense } from 'react';
-import LoadingSpinner from 'components/LoadingSpinner';  // Import the LoadingSpinner component
-import Link from "next/link";
+import PayNowButton from "@/components/PayNow";
 import { auth } from "@/app/auth";
 
 // Async function to fetch user data
@@ -59,7 +58,8 @@ export default async function Fees({ hidePay = false }) {
   const balance = total - currentPayments;
 
   return (
-    <div className="w-full h-full rounded-2xl p-6 md:p-8 bg-gray-600/20 backdrop-blur-md border border-white/30 hover:shadow-2xl transition-all duration-300">
+   <div className="flex flex-col gap-6 w-full backdrop-blur-md border border-white/30 hover:shadow-2xl transition-all duration-300 rounded-2xl bg-gray-600/20 h-full">
+    <div className="w-full h-full  p-6 md:p-8 ">
       <div className="flex flex-col gap-6 text-gray-800">
         {/* Header */}
         <div className="text-center">
@@ -82,15 +82,13 @@ export default async function Fees({ hidePay = false }) {
             </span>
           </div>
         </div>
-
         {!hidePay && (
-          <div className="flex justify-end pt-4">
-            <Link href="/dashboard/payment" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-              Pay Now
-            </Link>
+          <div className="flex justify-center pt-4">
+            <PayNowButton />
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }

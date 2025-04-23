@@ -1,11 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import transactionWidget from "@/components/dashboard/transaction"; // Import the server component
+import transactionWidget from "@/components/dashboard/transaction";
 
 export default function TransactionWidget() {
   const [invoice, setInvoice] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -14,12 +16,17 @@ export default function TransactionWidget() {
 
   useEffect(() => {
     const fetchInvoiceData = async () => {
-      const data = await transactionWidget(); // Fetch the data from the server
+      const data = await transactionWidget();
       setInvoice(data.invoice);
     };
 
     fetchInvoiceData();
   }, []);
+
+  const handleViewAll = () => {
+    setLoading(true);
+    router.push("/dashboard/invoice/");
+  };
 
   return (
     <div className="w-full max-w-xl mx-auto">
@@ -32,7 +39,6 @@ export default function TransactionWidget() {
         {/* Transactions List */}
         <div className="overflow-y-auto max-h-60 pr-1 custom-scrollbar flex flex-col gap-2">
           {invoice === null ? (
-            // Show loading spinner while waiting for invoice data
             <LoadingSpinner />
           ) : invoice.length > 0 ? (
             invoice.map((inv) => (
@@ -51,12 +57,17 @@ export default function TransactionWidget() {
 
         {/* Footer */}
         <div className="mt-2 self-end">
-          <Link
-            href="/dashboard/invoice/"
-            className="text-xs px-3 py-1 bg-gray-800 text-white rounded-full hover:bg-gray-700 transition"
+          <button
+            onClick={handleViewAll}
+            disabled={loading}
+            className={`text-xs px-4 py-3 rounded-full transition ${
+              loading
+                ? "bg-red-500 cursor-not-allowed text-white"
+                : "bg-red-600 hover:bg-red-800 text-white"
+            }`}
           >
-            Show more
-          </Link>
+            {loading ? "Loading..." : "View All"}
+          </button>
         </div>
       </div>
     </div>

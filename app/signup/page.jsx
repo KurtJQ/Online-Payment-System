@@ -1,5 +1,5 @@
+// app/signup/page.jsx
 "use client";
-
 import { useRouter } from "next/navigation";
 import { signup } from "components/auth/sign-up";
 import { useState } from "react";
@@ -200,7 +200,6 @@ export default function Signup() {
                 type="text"
                 name="mname"
                 placeholder="Middle Name"
-                required
                 className="input-style capitalize"
               />
               <input

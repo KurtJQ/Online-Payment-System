@@ -51,8 +51,8 @@ export default function Events() {
   }, []);
 
   return (
-    <div>
-      <h2 className="text-xl font-bold text-black mb-4">📅 Events</h2>
+    <div className=" w-full">
+      <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">📅 Events</h2>
 
       {loading ? (
         <div className="flex justify-center mt-4">
@@ -61,14 +61,14 @@ export default function Events() {
       ) : events.length === 0 ? (
         <p className="text-gray-500">No events available.</p>
       ) : (
-        <div className="overflow-y-auto max-h-[240px] pr-1 custom-scrollbar">
+        <div className="overflow-y-auto max-h-[240px] pr-1 custom-scrollbar-x">
           <ul className="space-y-3">
             {events.map((event) => {
               const isExpanded = expandedEventId === event._id;
               return (
                 <li
                   key={event._id}
-                  className="bg-gray-200 p-3 rounded-lg border border-gray-300 shadow-sm hover:shadow transition duration-200"
+                  className="bg-white/30 p-3 rounded-lg border border-gray-300 shadow-sm hover:shadow-lg transition duration-200"
                 >
                   <div className="flex justify-between items-start">
                     <div>
@@ -79,7 +79,7 @@ export default function Events() {
                     </div>
                     <button
                       onClick={() => setExpandedEventId(isExpanded ? null : event._id)}
-                      className="text-xs text-blue-500 hover:underline"
+                      className="text-xs text-red-500 font-semibold hover:underline"
                     >
                       {isExpanded ? "Hide" : "View"}
                     </button>
