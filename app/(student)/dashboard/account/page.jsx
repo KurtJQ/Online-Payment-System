@@ -43,6 +43,15 @@ export default function AccountPage() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    let formattedValue = value;
+
+    const nameFields = ["fname", "mname", "lname", "father", "mother", "guardian", "guardianOccupation", "address", "birthplace", "nationality", "religion"];
+    if (nameFields.includes(name)) {
+      formattedValue = value.replace(/\b\w/g, (char) => char.toUpperCase());
+    }
+
+
+
     setUpdatedProfile((prev) => ({
       ...prev,
       [name]: value,
@@ -155,7 +164,8 @@ export default function AccountPage() {
                 value={updatedProfile.sex || ""}
                 onChange={handleInputChange}
                 name="sex"
-                type="text"
+                type="radio"
+                options={["Male", "Female"]}
               />
               <Input
                 label="Facebook"
