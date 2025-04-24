@@ -144,7 +144,13 @@ export const SideNavController = {
 export function SideNavButton() {
   return (
     <button className="p-2" onClick={() => SideNavController.toggle()}>
-      <img src="/images/menu-regular-36.png" alt="Menu" className="w-6 h-6" />
+      <Image
+        src="/images/menu-regular-36.png"
+        alt="Menu"
+        width={24}
+        height={24}
+        className="w-6 h-6"
+      />
     </button>
   );
 }
