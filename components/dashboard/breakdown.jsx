@@ -2,6 +2,7 @@
 import React, { Suspense } from 'react';
 import PayNowButton from "@/components/PayNow";
 import { auth } from "@/app/auth";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 // Async function to fetch user data
 async function getInfo() {
