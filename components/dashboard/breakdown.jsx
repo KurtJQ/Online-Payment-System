@@ -36,9 +36,9 @@ async function getInvoices(user) {
   }
 }
 
-// Helper function to calculate total payments
 function getCurrentPayments(invoices) {
-  return invoices.reduce((sum, invoice) => sum + invoice.amount, 0);
+  invoices.forEach((i) => console.log(typeof i.amount, i.amount));
+  return invoices.reduce((sum, invoice) => sum + Number(invoice.amount), 0);
 }
 
 // The main Fees component that fetches and renders data
@@ -48,7 +48,7 @@ export default async function Fees({ hidePay = false }) {
     currency: "PHP",
   });
 
-  const total = 12000;
+  const total = 14000;
 
   // Fetch user data and invoices
   const user = await getInfo();
