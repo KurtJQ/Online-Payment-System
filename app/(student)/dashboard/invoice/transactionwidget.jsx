@@ -44,7 +44,7 @@ export default function TransactionWidget() {
             invoice.map((inv) => (
               <div
                 key={inv.referenceNumber}
-                className="flex justify-between items-center bg-white/30 backdrop-blur-sm px-4 py-2 rounded-lg text-sm text-gray-700 shadow-sm"
+                className="flex justify-between hover:shadow-lg items-center bg-gray-200 hover:bg-gray/30 backdrop-blur-sm px-4 py-2 rounded-lg text-sm text-gray-700 shadow-sm"
               >
                 <span>{new Date(inv.createdAt).toLocaleDateString()}</span>
                 <span className="font-medium">{formatter.format(inv.amount)}</span>

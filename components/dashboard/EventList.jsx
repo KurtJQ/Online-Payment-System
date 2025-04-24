@@ -68,7 +68,7 @@ export default function Events() {
               return (
                 <li
                   key={event._id}
-                  className="bg-white/30 p-3 rounded-lg border border-gray-300 shadow-sm hover:shadow-lg transition duration-200"
+                  className="bg-gray-200 hover:bg-gray/30 p-3 rounded-lg border border-gray-300 shadow-sm hover:shadow-lg transition duration-200"
                 >
                   <div className="flex justify-between items-start">
                     <div>
