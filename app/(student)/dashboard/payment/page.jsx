@@ -1,6 +1,7 @@
 import Fees from "components/dashboard/breakdown";
 import { auth } from "@/app/auth";
 import { PaymentForm } from "components/dashboard/paymentForm";
+import TransactionWidget from "../invoice/transactionwidget";
 
 export default async function Page() {
   const session = await auth();
@@ -31,6 +32,10 @@ export default async function Page() {
 
       {/* Payment Section */}
       <PaymentForm profile={profile} />
+
+      <div className="bg-gray-300 hover:shadow-2xl rounded-3xl p-4 md:p-6">
+        <TransactionWidget />
+      </div>
     </div>
   );
 }
