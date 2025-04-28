@@ -4,58 +4,37 @@ import toast from "react-hot-toast";
 
 export function PaymentForm(props) {
   const [loading, setLoading] = useState(false);
-  const [examPeriod, setExamPeriod] = useState("");
-  const [amount, setAmount] = useState("");
 
   function formatYear(year) {
     switch (year) {
-      case "1": return "1st Year";
-      case "2": return "2nd Year";
-      case "3": return "3rd Year";
-      case "4": return "4th Year";
-      default: return "ERROR Wrong format";
+      case "1":
+        return "1st Year";
+      case "2":
+        return "2nd Year";
+      case "3":
+        return "3rd Year";
+      case "4":
+        return "4th Year";
+      default:
+        return "ERROR Wrong format";
     }
   }
-
-  const handleExamPeriodChange = (e) => {
-    const selected = e.target.value;
-    setExamPeriod(selected);
-    if (selected === "downpayment") {
-      setAmount("2000");
-    } else if (selected) {
-      setAmount("1500");
-    } else {
-      setAmount("");
-    }
-  };
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
-    const numericAmount = parseFloat(amount);
-    const maxAllowed = examPeriod === "downpayment" ? 2000 : 1500;
-
-    if (isNaN(numericAmount) || numericAmount < 1499) {
-      toast.error("Minimum payment allowed is ₱1499.");
-      setLoading(false);
-      return;
-    }
-
-    if (numericAmount > maxAllowed) {
-      toast.error(`Maximum for ${examPeriod} is ₱${maxAllowed}.`);
-      setLoading(false);
-      return;
-    }
+    const formData = new FormData(e.currentTarget);
+    const examPeriod = formData.get("examPeriod");
+    const paymentMethodForm = formData.get("paymentMethod");
 
     const form = {
-      amount,
-      examPeriod,
+      examPeriod: examPeriod,
       description: "Tuition payment for " + examPeriod,
     };
 
     try {
-      const response = await fetch(
+      const paymentIntent = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/student/payment/${props.profile._studentId}`,
         {
           method: "POST",
@@ -63,17 +42,71 @@ export function PaymentForm(props) {
           body: JSON.stringify(form),
         }
       );
+      const paymentIntentData = await paymentIntent.json();
+      console.log("PAYMENT INTENT: ", paymentIntentData);
 
-      const data = await response.json();
+      const encodedKey = Buffer.from(process.env.NEXT_PUBLIC_PAYMONGO).toString(
+        "base64"
+      );
 
-      if (!response.ok) {
-        toast.error(data.error || "Something went wrong");
-        return;
-      }
+      const paymentMethod = await fetch(
+        "https://api.paymongo.com/v1/payment_methods",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Basic ${encodedKey}`,
+          },
+          body: JSON.stringify({
+            data: {
+              attributes: {
+                type: paymentMethodForm,
+                billing: {
+                  name:
+                    props.profile.fname +
+                    " " +
+                    props.profile.mname +
+                    " " +
+                    props.profile.lname,
+                  email: props.profile.email,
+                  phone: props.profile.mobile,
+                },
+              },
+            },
+          }),
+        }
+      );
 
-      toast.success("Payment link created!");
-      if (data.checkoutUrl) {
-        window.open(data.checkoutUrl, "_blank");
+      const paymentMethodData = await paymentMethod.json();
+      console.log("PAYMENT METHOD: ", paymentMethodData);
+
+      const attachPayment = await fetch(
+        `https://api.paymongo.com/v1/payment_intents/${paymentIntentData.pi}/attach`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Basic ${encodedKey}`,
+          },
+          body: JSON.stringify({
+            data: {
+              attributes: {
+                payment_method: paymentMethodData.data.id,
+                client_key: paymentIntentData.client_key,
+                return_url: "http://localhost:3000/dashboard/invoice",
+              },
+            },
+          }),
+        }
+      );
+
+      const attachPaymentData = await attachPayment.json();
+      console.log("ATTACH PAYMENT: ", attachPaymentData);
+      if (attachPaymentData.data.attributes.next_action) {
+        window.open(
+          attachPaymentData.data.attributes.next_action.redirect.url,
+          "_blank"
+        );
       }
     } catch (error) {
       console.error("❌ Error Occurred:", error);
@@ -97,44 +130,72 @@ export function PaymentForm(props) {
             className="w-full p-3 border border-gray-400 rounded-xl bg-white"
             required
             name="examPeriod"
-            value={examPeriod}
-            onChange={handleExamPeriodChange}
           >
             <option value="">Select Exam Period</option>
-            <option value="downpayment">Downpayment</option>
-            <option value="1st Periodic">1st Periodic</option>
-            <option value="Prelim">Prelim</option>
-            <option value="2nd Periodic">2nd Periodic</option>
-            <option value="Midterm">Midterm</option>
-            <option value="3rd Periodic">3rd Periodic</option>
-            <option value="Pre-final">Pre-final</option>
-            <option value="4th Periodic">4th Periodic</option>
-            <option value="Finals">Finals</option>
+            <option value="downpayment">Downpayment - PHP 2,000</option>
+            <option value="1st Periodic">1st Periodic - PHP 1,500</option>
+            <option value="Prelim">Prelim - PHP 1,500</option>
+            <option value="2nd Periodic">2nd Periodic - PHP 1,500</option>
+            <option value="Midterm">Midterm - PHP 1,500</option>
+            <option value="3rd Periodic">3rd Periodic - PHP 1,500</option>
+            <option value="Pre-final">Pre-final - PHP 1,500</option>
+            <option value="4th Periodic">4th Periodic - PHP 1,500</option>
+            <option value="Finals">Finals - PHP 1,500</option>
           </select>
         </div>
 
         <div className="bg-gray-100 p-4 rounded-xl">
-          <p className="text-lg font-semibold mb-2 text-gray-700">Payment for:</p>
+          <p className="text-lg font-semibold mb-2 text-gray-700">
+            Payment for:
+          </p>
           <div className="text-sm text-gray-800 space-y-1">
-            <p>{props.profile.fname} {props.profile.mname} {props.profile.lname}</p>
+            <p>
+              {props.profile.fname} {props.profile.mname} {props.profile.lname}
+            </p>
             <p>{props.profile.course}</p>
             <p>{formatYear(props.profile.yearLevel)}</p>
             <p>{props.profile.semester}</p>
           </div>
         </div>
 
-        <div>
-          <input
-            type="number"
-            name="amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            required
-            placeholder="Enter amount"
-            className="w-full border border-gray-400 rounded-xl p-3"
-            min={1499}
-            max={examPeriod === "downpayment" ? 2000 : 1500}
-          />
+        <div className="grid grid-cols-2 gap-4">
+          <label className="cursor-pointer">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="gcash"
+              className="hidden peer"
+              required
+            />
+            <div className="bg-gray-100 rounded-lg text-center p-2 flex flex-col items-center justify-center transition border border-transparent peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md">
+              <img
+                src="/images/gcash.webp"
+                alt="GCash logo"
+                width={60}
+                height={60}
+              />
+              <span className="mt-2 font-medium text-gray-700">GCash</span>
+            </div>
+          </label>
+
+          <label className="cursor-pointer">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="paymaya"
+              className="hidden peer"
+              required
+            />
+            <div className="bg-gray-100 rounded-lg text-center p-2 flex flex-col items-center justify-center transition border border-transparent peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md">
+              <img
+                src="/images/gcash.webp"
+                alt="GCash logo"
+                width={60}
+                height={60}
+              />
+              <span className="mt-2 font-medium text-gray-700">Paymaya</span>
+            </div>
+          </label>
         </div>
 
         <div>
@@ -143,7 +204,7 @@ export function PaymentForm(props) {
             type="submit"
             disabled={loading}
           >
-            {loading ? "Processing..." : "Complete Payment"}
+            {loading ? "Processing..." : "Proceed to Checkout"}
           </button>
         </div>
       </form>
