@@ -20,21 +20,65 @@ export function PaymentForm(props) {
     }
   }
 
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "PHP",
+  });
+
+  const exams = [
+    {
+      content: "Downpayment",
+      amount: 2000,
+    },
+    {
+      content: "1st Periodic",
+      amount: 1500,
+    },
+    {
+      content: "Prelim",
+      amount: 1500,
+    },
+    {
+      content: "2nd Periodic",
+      amount: 1500,
+    },
+    {
+      content: "Midterm",
+      amount: 1500,
+    },
+    {
+      content: "3rd Periodic",
+      amount: 1500,
+    },
+    {
+      content: "Pre-final",
+      amount: 1500,
+    },
+    {
+      content: "4th Periodic",
+      amount: 1500,
+    },
+    {
+      content: "Finals",
+      amount: 1500,
+    },
+  ];
+
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const examPeriod = formData.get("examPeriod");
-    const paymentMethodForm = formData.get("paymentMethod");
+    const examPeriod = formData.getAll("examPeriod");
 
     const form = {
       examPeriod: examPeriod,
-      description: "Tuition payment for " + examPeriod,
     };
 
+    console.log(form);
+
     try {
-      const paymentIntent = await fetch(
+      const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/student/payment/${props.profile._studentId}`,
         {
           method: "POST",
@@ -42,106 +86,53 @@ export function PaymentForm(props) {
           body: JSON.stringify(form),
         }
       );
-      const paymentIntentData = await paymentIntent.json();
-      console.log("PAYMENT INTENT: ", paymentIntentData);
 
-      const encodedKey = Buffer.from(process.env.NEXT_PUBLIC_PAYMONGO).toString(
-        "base64"
-      );
+      const data = await response.json();
 
-      const paymentMethod = await fetch(
-        "https://api.paymongo.com/v1/payment_methods",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Basic ${encodedKey}`,
-          },
-          body: JSON.stringify({
-            data: {
-              attributes: {
-                type: paymentMethodForm,
-                billing: {
-                  name:
-                    props.profile.fname +
-                    " " +
-                    props.profile.mname +
-                    " " +
-                    props.profile.lname,
-                  email: props.profile.email,
-                  phone: props.profile.mobile,
-                },
-              },
-            },
-          }),
-        }
-      );
+      if (!response.ok) {
+        console.error("ERROR: ", data);
+        toast.error(data.error);
+        return;
+      }
 
-      const paymentMethodData = await paymentMethod.json();
-      console.log("PAYMENT METHOD: ", paymentMethodData);
-
-      const attachPayment = await fetch(
-        `https://api.paymongo.com/v1/payment_intents/${paymentIntentData.pi}/attach`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Basic ${encodedKey}`,
-          },
-          body: JSON.stringify({
-            data: {
-              attributes: {
-                payment_method: paymentMethodData.data.id,
-                client_key: paymentIntentData.client_key,
-                return_url: "http://localhost:3000/dashboard/invoice",
-              },
-            },
-          }),
-        }
-      );
-
-      const attachPaymentData = await attachPayment.json();
-      console.log("ATTACH PAYMENT: ", attachPaymentData);
-      if (attachPaymentData.data.attributes.next_action) {
-        window.open(
-          attachPaymentData.data.attributes.next_action.redirect.url,
-          "_blank"
-        );
+      if (data.checkoutUrl) {
+        window.open(data.checkoutUrl, "_blank");
       }
     } catch (error) {
       console.error("❌ Error Occurred:", error);
       toast.error("An unexpected error occurred.");
+      setLoading(false);
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="w-full md:w-2/3">
+    <div className="w-full">
       <form
         onSubmit={handleSubmit}
         className="bg-gray-300 rounded-3xl p-5 space-y-4"
       >
         <div className="bg-gray-100 p-4 rounded-xl">
-          <label className="block text-gray-700 font-medium mb-1">
-            Exam Period
-          </label>
-          <select
-            className="w-full p-3 border border-gray-400 rounded-xl bg-white"
-            required
-            name="examPeriod"
-          >
-            <option value="">Select Exam Period</option>
-            <option value="downpayment">Downpayment - PHP 2,000</option>
-            <option value="1st Periodic">1st Periodic - PHP 1,500</option>
-            <option value="Prelim">Prelim - PHP 1,500</option>
-            <option value="2nd Periodic">2nd Periodic - PHP 1,500</option>
-            <option value="Midterm">Midterm - PHP 1,500</option>
-            <option value="3rd Periodic">3rd Periodic - PHP 1,500</option>
-            <option value="Pre-final">Pre-final - PHP 1,500</option>
-            <option value="4th Periodic">4th Periodic - PHP 1,500</option>
-            <option value="Finals">Finals - PHP 1,500</option>
-          </select>
+          <fieldset className="flex flex-col md:flex-row gap-3">
+            <legend className="block text-gray-700 font-medium mb-1">
+              Exam Period
+            </legend>
+            {exams.map((exam) => (
+              <label className="cursor-pointer" key={exam.content}>
+                <input
+                  type="checkbox"
+                  name="examPeriod"
+                  value={exam.content}
+                  className="hidden peer"
+                />
+                <div className="text-center p-2  rounded-md border-2 border-gray-300 transition  peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md">
+                  {exam.content} <br className="hidden md:block" />
+                  {formatter.format(exam.amount)}
+                </div>
+              </label>
+            ))}
+          </fieldset>
         </div>
 
         <div className="bg-gray-100 p-4 rounded-xl">
@@ -157,47 +148,6 @@ export function PaymentForm(props) {
             <p>{props.profile.semester}</p>
           </div>
         </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <label className="cursor-pointer">
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="gcash"
-              className="hidden peer"
-              required
-            />
-            <div className="bg-gray-100 rounded-lg text-center p-2 flex flex-col items-center justify-center transition border border-transparent peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md">
-              <img
-                src="/images/gcash.webp"
-                alt="GCash logo"
-                width={60}
-                height={60}
-              />
-              <span className="mt-2 font-medium text-gray-700">GCash</span>
-            </div>
-          </label>
-
-          <label className="cursor-pointer">
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="paymaya"
-              className="hidden peer"
-              required
-            />
-            <div className="bg-gray-100 rounded-lg text-center p-2 flex flex-col items-center justify-center transition border border-transparent peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md">
-              <img
-                src="/images/gcash.webp"
-                alt="GCash logo"
-                width={60}
-                height={60}
-              />
-              <span className="mt-2 font-medium text-gray-700">Paymaya</span>
-            </div>
-          </label>
-        </div>
-
         <div>
           <button
             className="w-full bg-red-500 text-white p-3 rounded-full font-bold hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
