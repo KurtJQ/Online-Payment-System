@@ -77,7 +77,9 @@ export async function InvoiceList() {
             </div>
             <div className="flex justify-between mt-1 pt-2 border-t border-dashed border-gray-300">
               <span className="font-semibold text-red-600">Amount:</span>
-              <span className="font-bold text-red-700">{invoice.amount} PHP</span>
+              <span className="font-bold text-red-700">
+                {invoice.amount} PHP
+              </span>
             </div>
           </div>
 
