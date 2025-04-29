@@ -26,42 +26,15 @@ export function PaymentForm(props) {
   });
 
   const exams = [
-    {
-      content: "Downpayment",
-      amount: 2000,
-    },
-    {
-      content: "1st Periodic",
-      amount: 1500,
-    },
-    {
-      content: "Prelim",
-      amount: 1500,
-    },
-    {
-      content: "2nd Periodic",
-      amount: 1500,
-    },
-    {
-      content: "Midterm",
-      amount: 1500,
-    },
-    {
-      content: "3rd Periodic",
-      amount: 1500,
-    },
-    {
-      content: "Pre-final",
-      amount: 1500,
-    },
-    {
-      content: "4th Periodic",
-      amount: 1500,
-    },
-    {
-      content: "Finals",
-      amount: 1500,
-    },
+    "Downpayment",
+    "1st Periodic",
+    "Prelim",
+    "2nd Periodic",
+    "Midterm",
+    "3rd Periodic",
+    "Pre-final",
+    "4th Periodic",
+    "Finals",
   ];
 
   async function handleSubmit(e) {
@@ -69,7 +42,7 @@ export function PaymentForm(props) {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const examPeriod = formData.getAll("examPeriod");
+    const examPeriod = formData.get("examPeriod");
 
     const form = {
       examPeriod: examPeriod,
@@ -119,16 +92,16 @@ export function PaymentForm(props) {
               Exam Period
             </legend>
             {exams.map((exam) => (
-              <label className="cursor-pointer" key={exam.content}>
+              <label className="cursor-pointer" key={exam}>
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="examPeriod"
-                  value={exam.content}
+                  value={exam}
                   className="hidden peer"
                 />
                 <div className="text-center p-2  rounded-md border-2 border-gray-300 transition  peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md">
-                  {exam.content} <br className="hidden md:block" />
-                  {formatter.format(exam.amount)}
+                  {exam} <br className="hidden md:block" />
+                  {formatter.format(exam === "Downpayment" ? 2000 : 1500)}
                 </div>
               </label>
             ))}
