@@ -1,24 +1,10 @@
 "use client";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import formatYear from "app/utils/formatYear.js";
 
 export function PaymentForm(props) {
   const [loading, setLoading] = useState(false);
-
-  function formatYear(year) {
-    switch (year) {
-      case "1":
-        return "1st Year";
-      case "2":
-        return "2nd Year";
-      case "3":
-        return "3rd Year";
-      case "4":
-        return "4th Year";
-      default:
-        return "ERROR Wrong format";
-    }
-  }
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
