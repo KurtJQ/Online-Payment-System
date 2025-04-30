@@ -76,7 +76,6 @@ export default function AccountPage() {
       const session = await getSession();
       const studentId = session?.user?.id;
 
-      console.log("Fetching profile for studentId:", studentId);
       if (!studentId) {
         throw new Error("No student ID found");
       }

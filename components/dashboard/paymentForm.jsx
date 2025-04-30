@@ -34,8 +34,6 @@ export function PaymentForm(props) {
       examPeriod: examPeriod,
     };
 
-    console.log(form);
-
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/student/payment/${props.profile._studentId}`,
