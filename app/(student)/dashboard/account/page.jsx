@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { patchProfileData } from "@/components/dashboard/patchProfileData";
-import Input from "@/components/Input";
 import { getProfileData } from "@/components/dashboard/getProfileData";
 import { getSession } from "next-auth/react";
 import bcrypt from "bcryptjs";
