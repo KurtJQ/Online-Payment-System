@@ -7,7 +7,8 @@ import { getSession } from "next-auth/react";
 import bcrypt from "bcryptjs";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast"
+import { toast } from "react-hot-toast";
+import formatYear from "app/utils/formatYear.js";
 
 export default function AccountPage() {
   const [profile, setProfile] = useState(null);
@@ -46,7 +47,19 @@ export default function AccountPage() {
     const { name, value } = e.target;
     let formattedValue = value;
 
-    const nameFields = ["fname", "mname", "lname", "father", "mother", "guardian", "guardianOccupation", "address", "birthplace", "nationality", "religion"];
+    const nameFields = [
+      "fname",
+      "mname",
+      "lname",
+      "father",
+      "mother",
+      "guardian",
+      "guardianOccupation",
+      "address",
+      "birthplace",
+      "nationality",
+      "religion",
+    ];
     if (nameFields.includes(name)) {
       formattedValue = value.replace(/\b\w/g, (char) => char.toUpperCase());
     }
@@ -99,83 +112,195 @@ export default function AccountPage() {
               Personal Information
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Input
-                label="First Name"
-                value={updatedProfile.fname || ""}
-                onChange={handleInputChange}
-                name="fname"
-                type="text"
-              />
-              <Input
-                label="Middle Name"
-                value={updatedProfile.mname || ""}
-                onChange={handleInputChange}
-                name="mname"
-                type="text"
-              />
-              <Input
-                label="Last Name"
-                value={updatedProfile.lname || ""}
-                onChange={handleInputChange}
-                name="lname"
-                type="text"
-              />
-              <Input
-                label="Address"
-                value={updatedProfile.address || ""}
-                onChange={handleInputChange}
-                name="address"
-                type="text"
-              />
-              <Input
-                label="Mobile"
-                value={updatedProfile.mobile || ""}
-                onChange={handleInputChange}
-                name="mobile"
-                type="text"
-              />
-              <Input
-                label="Birthdate"
-                value={
-                  updatedProfile.birthdate
-                    ? new Date(updatedProfile.birthdate)
-                        .toISOString()
-                        .split("T")[0]
-                    : ""
-                }
-                onChange={handleInputChange}
-                name="birthdate"
-                type="date"
-              />
-              <Input
-                label="Birthplace"
-                value={updatedProfile.birthplace || ""}
-                onChange={handleInputChange}
-                name="birthplace"
-                type="text"
-              />
-              <Input
-                label="Nationality"
-                value={updatedProfile.nationality || ""}
-                onChange={handleInputChange}
-                name="nationality"
-                type="text"
-              />
-              <Input
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="fname"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  name="fname"
+                  id="fname"
+                  onChange={handleInputChange}
+                  value={updatedProfile.fname || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="mname"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Middle Name
+                </label>
+                <input
+                  type="text"
+                  name="mname"
+                  id="mname"
+                  onChange={handleInputChange}
+                  value={updatedProfile.mname || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="lname"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="lname"
+                  id="lname"
+                  onChange={handleInputChange}
+                  value={updatedProfile.lname || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="address"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Address
+                </label>
+                <input
+                  type="text"
+                  name="address"
+                  id="address"
+                  onChange={handleInputChange}
+                  value={updatedProfile.address || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="mobile"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Mobile
+                </label>
+                <input
+                  type="text"
+                  name="mobile"
+                  id="mobile"
+                  onChange={handleInputChange}
+                  value={updatedProfile.mobile || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="birthdate"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Birthdate
+                </label>
+                <input
+                  type="date"
+                  name="birthdate"
+                  id="birthdate"
+                  onChange={handleInputChange}
+                  value={
+                    updatedProfile.birthdate
+                      ? new Date(updatedProfile.birthdate)
+                          .toISOString()
+                          .split("T")[0]
+                      : ""
+                  }
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="birthplace"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Birthplace
+                </label>
+                <input
+                  type="text"
+                  name="birthplace"
+                  id="birthplace"
+                  onChange={handleInputChange}
+                  value={updatedProfile.birthplace || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="nationality"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Nationality
+                </label>
+                <input
+                  type="text"
+                  name="nationality"
+                  id="nationality"
+                  onChange={handleInputChange}
+                  value={updatedProfile.nationality || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label className="text-sm font-semibold text-gray-700 mb-1">
+                  Sex
+                </label>
+                <div className="flex gap-4">
+                  <label className="cursor-pointer">
+                    <input
+                      type="radio"
+                      name="sex"
+                      onChange={handleInputChange}
+                      value="Male"
+                      className="hidden peer"
+                    />
+                    <div className="px-4 py-2 rounded-full text-sm font-medium border transition bg-white text-gray-700 hover:bg-gray-100 border-gray-300 hover:border-red-400 peer-checked:bg-red-600 peer-checked:hover:bg-red-700 peer-checked:text-white peer-checked:border-red-600">
+                      Male
+                    </div>
+                  </label>
+                  <label className="cursor-pointer">
+                    <input
+                      type="radio"
+                      name="sex"
+                      onChange={handleInputChange}
+                      value="Female"
+                      className="hidden peer"
+                    />
+                    <div className="px-4 py-2 rounded-full text-sm font-medium border transition bg-white text-gray-700 hover:bg-gray-100 border-gray-300 hover:border-red-400 peer-checked:bg-red-600 peer-checked:hover:bg-red-700 peer-checked:text-white peer-checked:border-red-600">
+                      Female
+                    </div>
+                  </label>
+                </div>
+              </div>
+              {/* <Input
                 label="Sex"
                 value={updatedProfile.sex || ""}
                 onChange={handleInputChange}
                 name="sex"
                 type="radio"
                 options={["Male", "Female"]}
-              />
-              <Input
-                label="Facebook"
-                value={updatedProfile.facebook || ""}
-                onChange={handleInputChange}
-                name="facebook"
-                type="text"
-              />
+              /> */}
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="facebook"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Facebook
+                </label>
+                <input
+                  type="text"
+                  name="facebook"
+                  id="facebook"
+                  onChange={handleInputChange}
+                  value={updatedProfile.facebook || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
             </div>
           </section>
 
@@ -184,48 +309,102 @@ export default function AccountPage() {
               Academic Information
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Input
-                label="Course"
-                value={updatedProfile.course || ""}
-                onChange={handleInputChange}
-                name="course"
-                type="text"
-              />
-              <Input
-                label="Year Level"
-                value={updatedProfile.yearLevel || ""}
-                onChange={handleInputChange}
-                name="yearLevel"
-                type="text"
-              />
-              <Input
-                label="Semester"
-                value={updatedProfile.semester || ""}
-                onChange={handleInputChange}
-                name="semester"
-                type="text"
-              />
-              <Input
-                label="School Year"
-                value={updatedProfile.schoolYear || ""}
-                onChange={handleInputChange}
-                name="schoolYear"
-                type="text"
-              />
-              <Input
-                label="LRN"
-                value={updatedProfile.lrn || ""}
-                onChange={handleInputChange}
-                name="lrn"
-                type="number"
-              />
-              <Input
-                label="Education"
-                value={updatedProfile.education || ""}
-                onChange={handleInputChange}
-                name="education"
-                type="text"
-              />
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="course"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Course
+                </label>
+                <input
+                  type="text"
+                  name="course"
+                  id="course"
+                  value={updatedProfile.course || ""}
+                  readOnly
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="yearLevel"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Year Level
+                </label>
+                <input
+                  type="text"
+                  name="yearLevel"
+                  id="yearLevel"
+                  value={formatYear(updatedProfile.yearLevel) || ""}
+                  readOnly
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="semester"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Semester
+                </label>
+                <input
+                  type="text"
+                  name="semester"
+                  id="semester"
+                  value={updatedProfile.semester || ""}
+                  readOnly
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="schoolYear"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  School Year
+                </label>
+                <input
+                  type="text"
+                  name="schoolYear"
+                  id="schoolYear"
+                  value={updatedProfile.schoolYear || ""}
+                  readOnly
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="lrn"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  LRN
+                </label>
+                <input
+                  type="text"
+                  name="lrn"
+                  id="lrn"
+                  onChange={handleInputChange}
+                  value={updatedProfile.lrn || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="education"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Education
+                </label>
+                <input
+                  type="text"
+                  name="education"
+                  id="education"
+                  value={updatedProfile.education || ""}
+                  readOnly
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
             </div>
           </section>
 
@@ -234,41 +413,86 @@ export default function AccountPage() {
               Contact & Guardian Information
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Input
-                label="Landline"
-                value={updatedProfile.landline || ""}
-                onChange={handleInputChange}
-                name="landline"
-                type="number"
-              />
-              <Input
-                label="Father"
-                value={updatedProfile.father || ""}
-                onChange={handleInputChange}
-                name="father"
-                type="text"
-              />
-              <Input
-                label="Mother"
-                value={updatedProfile.mother || ""}
-                onChange={handleInputChange}
-                name="mother"
-                type="text"
-              />
-              <Input
-                label="Guardian"
-                value={updatedProfile.guardian || ""}
-                onChange={handleInputChange}
-                name="guardian"
-                type="text"
-              />
-              <Input
-                label="Guardian Occupation"
-                value={updatedProfile.guardianOccupation || ""}
-                onChange={handleInputChange}
-                name="guardianOccupation"
-                type="text"
-              />
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="landline"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Landline
+                </label>
+                <input
+                  type="number"
+                  name="landline"
+                  id="landline"
+                  onChange={handleInputChange}
+                  value={updatedProfile.landline || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="father"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Father
+                </label>
+                <input
+                  type="text"
+                  name="father"
+                  id="father"
+                  onChange={handleInputChange}
+                  value={updatedProfile.father || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="mother"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Mother
+                </label>
+                <input
+                  type="text"
+                  name="mother"
+                  id="mother"
+                  onChange={handleInputChange}
+                  value={updatedProfile.mother || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="guardian"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Guardian
+                </label>
+                <input
+                  type="text"
+                  name="guardian"
+                  id="guardian"
+                  onChange={handleInputChange}
+                  value={updatedProfile.guardian || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="guardianOccupation"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Guardian Occupation
+                </label>
+                <input
+                  type="text"
+                  name="guardianOccupation"
+                  id="guardianOccupation"
+                  onChange={handleInputChange}
+                  value={updatedProfile.guardianOccupation || ""}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
             </div>
           </section>
 
@@ -277,23 +501,41 @@ export default function AccountPage() {
               Login Credentials
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Input
-                label="Email"
-                onChange={handleInputChange}
-                name="email"
-                type="email"
-              />
-              <Input
-                label="Password"
-                onChange={handleInputChange}
-                name="password"
-                type="password"
-              />
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="email"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Email
+                </label>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  onChange={handleInputChange}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-col mb-4">
+                <label
+                  htmlFor="password"
+                  className="text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  onChange={handleInputChange}
+                  className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
+                />
+              </div>
             </div>
           </section>
 
           <div className="text-center mt-8">
-          <button
+            <button
               type="submit"
               className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-full transition duration-200"
               disabled={loadingUpdate} // Disable the button while updating
