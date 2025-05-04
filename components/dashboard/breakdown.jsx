@@ -59,7 +59,7 @@ export default async function Fees({ hidePay = false }) {
   const balance = total - currentPayments;
 
   return (
-    <div className="flex flex-col gap-6 w-full backdrop-blur-md border border-white/30 hover:shadow-2xl transition-all duration-300 rounded-2xl bg-gray-600/20 h-full">
+    <div className="flex flex-col gap-6 backdrop-blur-md border border-white/30 hover:shadow-2xl transition-all duration-300 rounded-2xl bg-gray-600/20 h-full">
       <div className="w-full h-full  p-6 md:p-8 ">
         <div className="flex flex-col gap-6 text-gray-800">
           {/* Header */}
@@ -70,13 +70,13 @@ export default async function Fees({ hidePay = false }) {
 
           {/* Payment Info */}
           <div className="space-y-4">
-            <div className="flex justify-between items-center text-sm md:text-base">
+            <div className="grid grid-cols-2 justify-between items-center text-sm md:text-base">
               <span className="font-medium">Amount Currently Paid</span>
               <span className="text-right text-gray-900">
                 {formatter.format(currentPayments)}
               </span>
             </div>
-            <div className="flex justify-between items-center text-sm md:text-base">
+            <div className="grid grid-cols-2 justify-between items-center text-sm md:text-base">
               <span className="font-medium">Total Balance</span>
               <span className="text-right text-gray-900">
                 {formatter.format(balance)}
