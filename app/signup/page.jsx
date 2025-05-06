@@ -5,6 +5,68 @@ import { signup } from "components/auth/sign-up";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
+const subjects = {
+  BSCS: {
+    1: {
+      "1st Semester": [
+        { code: "cc102", description: "Fundamentals of Programming" },
+        { code: "cc101", description: "Introduction to Computing" },
+        { code: "ge2", description: "Komunikasyon sa Akademikong Filipino" },
+        { code: "ge1", description: "Communications Skill 1" },
+        { code: "ge3", description: "College Algebra" },
+        {
+          code: "NSTP 1",
+          description: "National Service Training Program 1",
+        },
+        { code: "PE 1", description: "Physical Fitness" },
+        { code: "PDP 1", description: "Professional Development Program 1" },
+      ],
+    },
+    2: {
+      "1st Semester": [
+        { code: "CC104", description: "Data Structure and Algorithms" },
+        { code: "DS102", description: "Discrete Structures 2" },
+        { code: "SDF104", description: "Object-oriented Programming" },
+        { code: "GE8", description: "Probabilities and Statistics" },
+        { code: "GE7", description: "Speech and Oral Communication" },
+        { code: "PE 3", description: "Individual and Dual Sports" },
+        { code: "PDP 3", description: "Professional Development Program 3" },
+      ],
+    },
+    3: {
+      "1st Semester": [
+        { code: "IAS101", description: "Information Assurance and Security" },
+        {
+          code: "GV101",
+          description: "Graphics and Visual Computing (elective)",
+        },
+        { code: "AR101", description: "Architecture and Organization" },
+        { code: "AL102", description: "Automata Theory and Formal Languages" },
+        {
+          code: "CC106",
+          description: "Applications Development and Emerging Technologies",
+        },
+        { code: "GE11", description: "Trigonometry" },
+        { code: "GE12", description: "Philosophy of Man and Ethics" },
+      ],
+    },
+    4: {
+      "1st Semester": [
+        { code: "SF101", description: "System Fundamentals (elective)" },
+        { code: "HCI101", description: "Human Computer Interaction" },
+        { code: "SE102", description: "Software Engineering 2" },
+        { code: "OS101", description: "Operating Systems" },
+        { code: "GE15", description: "Philippine History and Culture" },
+        {
+          code: "GE16",
+          description: "Politics & Governance (w/ Philippine Constitution)",
+        },
+        { code: "THS101", description: "CS Thesis Writing 1" },
+      ],
+    },
+  },
+};
+
 function validateFacebookUrl(value) {
   const facebookRegex = /^(https:\/\/www\.facebook\.com\/[A-Za-z0-9_.-]+)$/;
 
@@ -82,6 +144,15 @@ export default function Signup() {
   const [facebook, setFacebook] = useState("");
   const [lrn, setLrn] = useState("");
   const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState({
+    course: "",
+    yearLevel: "",
+    semester: "",
+  });
+
+  const handleSubjectChange = (data) => {
+    setSubject((prev) => ({ ...prev, [data.target.name]: data.target.value }));
+  };
 
   const handleLrnChange = (e) => {
     const inputValue = e.target.value;
@@ -169,11 +240,21 @@ export default function Signup() {
 
     data.set("mobile", mobile);
     data.set("landline", landline);
+    if (!subject.course || !subject.yearLevel || !subject.semester) {
+      throw new Error("Please select Course/Year Level/Semester");
+    }
+    data.append(
+      "subjects",
+      JSON.stringify(
+        subjects[subject.course][subject.yearLevel][subject.semester]
+      )
+    );
 
     try {
       await signup(data);
     } catch (error) {
       console.error("Signup failed", error);
+      toast.error(error);
     } finally {
       setLoading(false); // End loading
     }
@@ -388,20 +469,33 @@ export default function Signup() {
               <option value="college">College</option>
             </select>
 
-            <select name="course" className="input-style" required>
+            <select
+              name="course"
+              className="input-style"
+              onChange={handleSubjectChange}
+              required
+            >
               <option value="">Select Course</option>
               <option value="BSCS">BS Computer Science</option>
               <option value="BSHM">BS Hospitality Management</option>
               <option value="BSBA">BS Business Administration</option>
               <option value="BSTM">BS Tourism Management</option>
               <option value="BEED">Bachelor of Elementary Education</option>
-              <option value="BSED">
-                Bachelor of Secondary Education - Math/English
+              <option value="BSEDMATH">
+                Bachelor of Secondary Education - Math
+              </option>
+              <option value="BSEDENG">
+                Bachelor of Secondary Education - English
               </option>
               <option value="bapos">BA Political Science</option>
             </select>
 
-            <select name="yearLevel" className="input-style" required>
+            <select
+              name="yearLevel"
+              className="input-style"
+              onChange={handleSubjectChange}
+              required
+            >
               <option value="">Select Year Level</option>
               <option value="1">1st Year</option>
               <option value="2">2nd Year</option>
@@ -409,11 +503,33 @@ export default function Signup() {
               <option value="4">4th Year</option>
             </select>
 
-            <select name="semester" className="input-style" required>
+            <select
+              name="semester"
+              className="input-style"
+              onChange={handleSubjectChange}
+              required
+            >
               <option value="">Select Semester</option>
               <option value="1st Semester">1st Semester</option>
               <option value="2nd Semester">2nd Semester</option>
             </select>
+
+            <div className="border-2 bg-white rounded-2xl p-3">
+              <div className="font-semibold mb-3">Subjects To Be Enrolled</div>
+              {!subject.course || !subject.yearLevel || !subject.semester
+                ? "Please select Course/Year Level/Semester"
+                : subjects[subject.course][subject.yearLevel][
+                    subject.semester
+                  ].map((data) => (
+                    <div
+                      className="grid grid-cols-2 gap-y-3 mb-3"
+                      key={data.code}
+                    >
+                      <div>{String(data.code).toUpperCase()}</div>
+                      <div>{data.description}</div>
+                    </div>
+                  ))}
+            </div>
 
             <SchoolYearInput required name="schoolYear" />
 

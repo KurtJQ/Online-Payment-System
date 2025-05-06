@@ -1,18 +1,13 @@
 "use server";
 import bcrypt from "bcryptjs";
-import { redirect } from "next/navigation";
-
-
 
 export async function signup(formData) {
   const hashPassword = bcrypt.hashSync(formData.get("password"), 10);
 
   // Capitalize helper
-function capitalizeWords(str) {
-  return str
-    ?.toLowerCase()
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-}
+  function capitalizeWords(str) {
+    return str?.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+  }
 
   const data = {
     fname: capitalizeWords(formData.get("fname")),
@@ -58,6 +53,7 @@ function capitalizeWords(str) {
     yearLevel: formData.get("yearLevel"),
     semester: formData.get("semester"),
     schoolYear: formData.get("schoolYear"),
+    subjects: JSON.parse(formData.get("subjects")),
 
     files: [],
     tuitionFee: 0,
@@ -80,6 +76,6 @@ function capitalizeWords(str) {
     }
   } catch (error) {
     console.error(error.message);
+    throw new Error(error);
   }
-  redirect("/");
 }
