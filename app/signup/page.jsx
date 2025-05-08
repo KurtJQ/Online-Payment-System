@@ -67,18 +67,6 @@ const subjects = {
   },
 };
 
-function validateFacebookUrl(value) {
-  const facebookRegex = /^(https:\/\/www\.facebook\.com\/[A-Za-z0-9_.-]+)$/;
-
-  if (!facebookRegex.test(value)) {
-    toast.error(
-      "Please enter a valid Facebook URL starting with 'https://www.facebook.com/'"
-    );
-    return false;
-  }
-  return true;
-}
-
 function YearAttendedInput({ name }) {
   const [value, setValue] = useState("");
   const handleChange = (e) => {
@@ -141,9 +129,6 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [mobile, setMobile] = useState("");
   const [landline, setLandline] = useState("");
-  const [facebook, setFacebook] = useState("");
-  const [lrn, setLrn] = useState("");
-  const [email, setEmail] = useState("");
   const [subject, setSubject] = useState({
     course: "",
     yearLevel: "",
@@ -152,21 +137,6 @@ export default function Signup() {
 
   const handleSubjectChange = (data) => {
     setSubject((prev) => ({ ...prev, [data.target.name]: data.target.value }));
-  };
-
-  const handleLrnChange = (e) => {
-    const inputValue = e.target.value;
-    if (inputValue.length > 12) {
-      toast.error("LRN should only be 12 digits");
-      return;
-    }
-    setLrn(inputValue);
-  };
-
-  const handleFacebookChange = (e) => {
-    const inputValue = e.target.value;
-    setFacebook(inputValue);
-    validateFacebookUrl(inputValue);
   };
 
   //mobile number
@@ -191,20 +161,18 @@ export default function Signup() {
     }
   }
 
+  //facebook
+  function validateFacebookUrl(value) {
+    const facebookRegex =
+      /^https:\/\/www\.facebook\.com\/[A-Za-z0-9_.-]+\/?(\?.*)?$/;
+    return facebookRegex.test(value);
+  }
+
   //gmail
   function validateGmail(email) {
     const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-    if (!gmailRegex.test(email)) {
-      toast.error("Please enter a valid Gmail address ending in @gmail.com");
-      return false;
-    }
-    return true;
+    return gmailRegex.test(email);
   }
-  const handleEmailChange = (e) => {
-    const value = e.target.value;
-    setEmail(value);
-    validateGmail(value);
-  };
 
   //landline
   function formatLandline(value) {
@@ -238,10 +206,28 @@ export default function Signup() {
     setLoading(true);
     const data = new FormData(event.currentTarget);
 
+    if (!validateFacebookUrl(data.get("facebook"))) {
+      console.log(data.get("facebook"));
+      setLoading(false);
+      return toast.error(
+        "Please enter a valid Facebook URL starting with 'https://www.facebook.com/'"
+      );
+    }
+    if (data.get("lrn").length > 12) {
+      setLoading(false);
+      return toast.error("LRN is more than 12 digits");
+    }
+    if (!validateGmail(data.get("email"))) {
+      setLoading(false);
+      return toast.error(
+        "Please enter a valid Gmail address ending in @gmail.com"
+      );
+    }
+
     data.set("mobile", mobile);
     data.set("landline", landline);
     if (!subject.course || !subject.yearLevel || !subject.semester) {
-      throw new Error("Please select Course/Year Level/Semester");
+      return toast.error("Please select Course/Year Level/Semester");
     }
     data.append(
       "subjects",
@@ -328,8 +314,6 @@ export default function Signup() {
             <input
               type="url"
               name="facebook"
-              value={facebook}
-              onChange={handleFacebookChange}
               placeholder="Facebook Profile URL"
               required
               className="input-style"
@@ -438,8 +422,6 @@ export default function Signup() {
             <input
               type="number"
               name="lrn"
-              value={lrn}
-              onChange={handleLrnChange}
               placeholder="Enter LRN (12 digits)"
               className="input-style"
             />
@@ -539,8 +521,6 @@ export default function Signup() {
                 name="email"
                 placeholder="Email"
                 required
-                value={email}
-                onChange={handleEmailChange}
                 className="input-style"
               />
               <input
