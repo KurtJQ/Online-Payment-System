@@ -2,70 +2,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { signup } from "components/auth/sign-up";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
-const subjects = {
-  BSCS: {
-    1: {
-      "1st Semester": [
-        { code: "cc102", description: "Fundamentals of Programming" },
-        { code: "cc101", description: "Introduction to Computing" },
-        { code: "ge2", description: "Komunikasyon sa Akademikong Filipino" },
-        { code: "ge1", description: "Communications Skill 1" },
-        { code: "ge3", description: "College Algebra" },
-        {
-          code: "NSTP 1",
-          description: "National Service Training Program 1",
-        },
-        { code: "PE 1", description: "Physical Fitness" },
-        { code: "PDP 1", description: "Professional Development Program 1" },
-      ],
-    },
-    2: {
-      "1st Semester": [
-        { code: "CC104", description: "Data Structure and Algorithms" },
-        { code: "DS102", description: "Discrete Structures 2" },
-        { code: "SDF104", description: "Object-oriented Programming" },
-        { code: "GE8", description: "Probabilities and Statistics" },
-        { code: "GE7", description: "Speech and Oral Communication" },
-        { code: "PE 3", description: "Individual and Dual Sports" },
-        { code: "PDP 3", description: "Professional Development Program 3" },
-      ],
-    },
-    3: {
-      "1st Semester": [
-        { code: "IAS101", description: "Information Assurance and Security" },
-        {
-          code: "GV101",
-          description: "Graphics and Visual Computing (elective)",
-        },
-        { code: "AR101", description: "Architecture and Organization" },
-        { code: "AL102", description: "Automata Theory and Formal Languages" },
-        {
-          code: "CC106",
-          description: "Applications Development and Emerging Technologies",
-        },
-        { code: "GE11", description: "Trigonometry" },
-        { code: "GE12", description: "Philosophy of Man and Ethics" },
-      ],
-    },
-    4: {
-      "1st Semester": [
-        { code: "SF101", description: "System Fundamentals (elective)" },
-        { code: "HCI101", description: "Human Computer Interaction" },
-        { code: "SE102", description: "Software Engineering 2" },
-        { code: "OS101", description: "Operating Systems" },
-        { code: "GE15", description: "Philippine History and Culture" },
-        {
-          code: "GE16",
-          description: "Politics & Governance (w/ Philippine Constitution)",
-        },
-        { code: "THS101", description: "CS Thesis Writing 1" },
-      ],
-    },
-  },
-};
 
 function YearAttendedInput({ name }) {
   const [value, setValue] = useState("");
@@ -121,6 +59,54 @@ function SchoolYearInput({ name }) {
       className="input-style"
       required
     />
+  );
+}
+
+function SubjectList({ course, yearLevel, semester }) {
+  const [fetchSubjects, setFetchSubjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      if (!course || !yearLevel || !semester) return;
+      setLoading(true);
+      try {
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_SERVER_URL +
+            `/api/subject/get/${course}/${yearLevel}/${semester}`
+        );
+        const data = await response.json();
+        setFetchSubjects(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSubjects();
+  }, [course, yearLevel, semester]);
+
+  if (loading) return <div>Loading...</div>;
+  if (!fetchSubjects) return <div>No Subjects found.</div>;
+
+  return (
+    <>
+      <div className="grid grid-cols-3 gap-y-3 mb-3 font-bold border-b-2">
+        <div>Subject Code</div>
+        <div>Subject Description</div>
+        <div className="text-center">Units</div>
+      </div>
+      {fetchSubjects.subjects.map((data) => (
+        <div
+          className="grid grid-cols-3 gap-y-3 mb-3 border-b-2"
+          key={data.code}
+        >
+          <div>{String(data.code).toUpperCase()}</div>
+          <div>{data.description}</div>
+          <div className="text-center">{data.units}</div>
+        </div>
+      ))}
+    </>
   );
 }
 
@@ -230,12 +216,6 @@ export default function Signup() {
     if (!subject.course || !subject.yearLevel || !subject.semester) {
       return toast.error("Please select Course/Year Level/Semester");
     }
-    data.append(
-      "subjects",
-      JSON.stringify(
-        subjects[subject.course][subject.yearLevel][subject.semester]
-      )
-    );
 
     try {
       const response = await signup(data);
@@ -502,19 +482,15 @@ export default function Signup() {
 
             <div className="border-2 bg-white rounded-2xl p-3">
               <div className="font-semibold mb-3">Subjects To Be Enrolled</div>
-              {!subject.course || !subject.yearLevel || !subject.semester
-                ? "Please select Course/Year Level/Semester"
-                : subjects[subject.course][subject.yearLevel][
-                    subject.semester
-                  ].map((data) => (
-                    <div
-                      className="grid grid-cols-2 gap-y-3 mb-3"
-                      key={data.code}
-                    >
-                      <div>{String(data.code).toUpperCase()}</div>
-                      <div>{data.description}</div>
-                    </div>
-                  ))}
+              {!subject.course || !subject.yearLevel || !subject.semester ? (
+                "Please select Course/Year Level/Semester"
+              ) : (
+                <SubjectList
+                  course={subject.course}
+                  yearLevel={subject.yearLevel}
+                  semester={subject.semester}
+                />
+              )}
             </div>
 
             <SchoolYearInput required name="schoolYear" />

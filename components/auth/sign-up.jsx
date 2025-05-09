@@ -53,7 +53,6 @@ export async function signup(formData) {
     yearLevel: formData.get("yearLevel"),
     semester: formData.get("semester"),
     schoolYear: formData.get("schoolYear"),
-    subjects: JSON.parse(formData.get("subjects")),
 
     files: [],
     tuitionFee: 0,
