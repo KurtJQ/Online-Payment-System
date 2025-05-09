@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -11,6 +12,7 @@ export default function EnrolledSubjects({ student, classes }) {
       [classID]: !prev[classID],
     }));
   };
+  const router = useRouter();
 
   const handleSubmit = async (data) => {
     data.preventDefault();
@@ -37,6 +39,8 @@ export default function EnrolledSubjects({ student, classes }) {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      router.refresh();
     }
   };
 
