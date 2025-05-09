@@ -91,14 +91,14 @@ function SubjectList({ course, yearLevel, semester }) {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-y-3 mb-3 font-bold border-b-2">
+      <div className="grid grid-cols-3 gap-y-3 py-3 font-bold border-b-2">
         <div>Subject Code</div>
         <div>Subject Description</div>
         <div className="text-center">Units</div>
       </div>
       {fetchSubjects.subjects.map((data) => (
         <div
-          className="grid grid-cols-3 gap-y-3 mb-3 border-b-2"
+          className="grid grid-cols-3 gap-y-3 py-2 border-b-2 text-sm md:text-base"
           key={data.code}
         >
           <div>{String(data.code).toUpperCase()}</div>
