@@ -66,7 +66,7 @@ export function SideNav({ profile }) {
               }
               onClick={handleClose}
             >
-              Invoice
+              Payment History
             </Link>
             <Link
               href="/dashboard/payment"
