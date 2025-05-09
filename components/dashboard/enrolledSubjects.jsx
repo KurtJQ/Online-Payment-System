@@ -137,7 +137,7 @@ export default function EnrolledSubjects({ student, classes }) {
         </form>
       ) : (
         <>
-          <div className="grid grid-cols-2 mb-3">
+          <div className="grid grid-cols-2 mb-2 pb-2 border-b-2 border-black">
             <div>
               <div>
                 <span className="font-bold">Section:</span> {student.section}
@@ -158,8 +158,13 @@ export default function EnrolledSubjects({ student, classes }) {
             </div>
           </div>
           <div>
-            {!classes
-              ? classes
+            {classes ? (
+              <>
+                <div className="grid grid-cols-2 mb-3 font-bold">
+                  <div>Subjects</div>
+                  <div>Schedule</div>
+                </div>
+                {classes
                   .find((classes) => classes.sectionID === student.section)
                   .subjects.map((data) => (
                     <div className="grid grid-cols-2 mb-3" key={data.code}>
@@ -202,8 +207,11 @@ export default function EnrolledSubjects({ student, classes }) {
                         </div>
                       </div>
                     </div>
-                  ))
-              : "Class does not exist"}
+                  ))}
+              </>
+            ) : (
+              "Class does not exist"
+            )}
           </div>
         </>
       )}
