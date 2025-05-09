@@ -70,12 +70,14 @@ export function SideNav({ profile }) {
             </Link>
             <Link
               href="/dashboard/payment"
-              className={pathName === "/dashboard/payment" ? "text-blue-300" : ""}
+              className={
+                pathName === "/dashboard/payment" ? "text-blue-300" : ""
+              }
               onClick={handleClose}
             >
               Payment
             </Link>
-            
+
             <Link
               href="/dashboard/account"
               className={
@@ -98,6 +100,7 @@ export function SideNav({ profile }) {
               onSubmit={async (e) => {
                 e.preventDefault(); // prevent default form submit
                 setLoggingOut(true);
+                handleClose();
                 await logout();
               }}
             >
@@ -110,7 +113,6 @@ export function SideNav({ profile }) {
             </form>
           )}
         </div>
-
       </nav>
     </>
   );
