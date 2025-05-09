@@ -3,8 +3,13 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import formatYear from "app/utils/formatYear.js";
 
+function getCurrentPayments(invoices) {
+  return invoices.reduce((sum, invoice) => sum + Number(invoice.amount), 0);
+}
+
 export function PaymentForm(props) {
   const [loading, setLoading] = useState(false);
+  const totalPayments = getCurrentPayments(props.currentPayments);
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -71,7 +76,7 @@ export function PaymentForm(props) {
         className="bg-gray-300 rounded-3xl p-5 space-y-4"
       >
         <div className="bg-gray-100 p-4 rounded-xl">
-          <fieldset className="flex flex-col md:flex-row gap-3">
+          <fieldset className="grid md:grid-cols-2 gap-3">
             <legend className="block text-gray-700 font-medium mb-1">
               Exam Period
             </legend>
@@ -82,13 +87,46 @@ export function PaymentForm(props) {
                   name="examPeriod"
                   value={exam}
                   className="hidden peer"
+                  disabled={props.currentPayments.some(
+                    (payment) => payment.examPeriod === exam
+                  )}
                 />
-                <div className="text-center p-2  rounded-md border-2 border-gray-300 transition  peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md">
+                <div
+                  className={`text-center p-2 rounded-md border-2 border-gray-300 transition ${
+                    props.currentPayments.some(
+                      (payment) =>
+                        payment.examPeriod === exam ||
+                        payment.examPeriod === "Remaining"
+                    )
+                      ? "border-gray-300 text-gray-400 bg-gray-100"
+                      : "peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md"
+                  }`}
+                >
                   {exam} <br className="hidden md:block" />
                   {formatter.format(exam === "Downpayment" ? 2000 : 1500)}
                 </div>
               </label>
             ))}
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="examPeriod"
+                value="Remaining"
+                className="hidden peer"
+              />
+              <div
+                className={`text-center p-2 rounded-md border-2 border-gray-300 transition ${
+                  props.currentPayments.some(
+                    (payment) => payment.examPeriod === "Remaining"
+                  )
+                    ? "border-gray-300 text-gray-400 bg-gray-100"
+                    : "peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md"
+                }`}
+              >
+                All Balance <br className="hidden md:block" />
+                {formatter.format(14000 - totalPayments)}
+              </div>
+            </label>
           </fieldset>
         </div>
 
