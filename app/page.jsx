@@ -47,7 +47,7 @@ export default function Page() {
               alt="SCC Icon"
             />
           </div>
-  
+
           <form
             onSubmit={handleLogin}
             className="min-w-sm max-w-lg w-full mb-6"
@@ -79,13 +79,11 @@ export default function Page() {
                 />
               </div>
             </div>
-  
+
             <div className="mt-2 flex justify-between">
-              {error && (
-                <div className="text-red-500 text-right">{error}</div>
-              )}
+              {error && <div className="text-red-500 text-right">{error}</div>}
             </div>
-  
+
             {loading ? (
               <LoadingSpinner />
             ) : (
@@ -97,28 +95,22 @@ export default function Page() {
               </button>
             )}
           </form>
-  
+
           <div className="font-semibold">
             Not yet a student?{" "}
             <Link href="/signup" className="hover:underline text-blue-500">
               Enroll now!--{">"}
             </Link>
           </div>
-  
+
           <footer className="text-center text-gray-300 foint-semibold">
             St Clare College 2024-2025 | BSCS-4D
           </footer>
-  
+
           <div className="text-center text-sm pt-4 text-gray-500 mt-4">
-          Need help? Contact us at developersofscc4d@gmail.com
-          <footer className="bg-gray-100 text-black">
-          <div className="text-center">
-            <p>&copy; {new Date().getFullYear()} St. Clare College | All rights reserved.</p>
-            <p className="text-sm">Developed by BSCS 4D</p>
+            Need help? Contact us at developersofscc4d@gmail.com
+            <footer className="bg-gray-100 text-black"></footer>
           </div>
-        </footer>
-        </div>
-        
         </div>
       </div>
     </>
