@@ -158,40 +158,52 @@ export default function EnrolledSubjects({ student, classes }) {
             </div>
           </div>
           <div>
-            {classes
-              .find((classes) => classes.sectionID === student.section)
-              .subjects.map((data) => (
-                <div className="grid grid-cols-2 mb-3" key={data.code}>
-                  <div>
-                    <div className="font-bold">{data.description}</div>
-                    <div>{data.code}</div>
-                    <div className="text-sm">{data.professor}</div>
-                  </div>
-                  <div>
-                    <div className={!data.schedule.monday ? "hidden" : "block"}>
-                      Monday: {data.schedule.monday}
+            {!classes
+              ? classes
+                  .find((classes) => classes.sectionID === student.section)
+                  .subjects.map((data) => (
+                    <div className="grid grid-cols-2 mb-3" key={data.code}>
+                      <div>
+                        <div className="font-bold">{data.description}</div>
+                        <div>{data.code}</div>
+                        <div className="text-sm">{data.professor}</div>
+                      </div>
+                      <div>
+                        <div
+                          className={!data.schedule.monday ? "hidden" : "block"}
+                        >
+                          Monday: {data.schedule.monday}
+                        </div>
+                        <div
+                          className={
+                            !data.schedule.tuesday ? "hidden" : "block"
+                          }
+                        >
+                          Tuesday: {data.schedule.tuesday}
+                        </div>
+                        <div
+                          className={
+                            !data.schedule.wednesday ? "hidden" : "block"
+                          }
+                        >
+                          Wednesday: {data.schedule.wednesday}
+                        </div>
+                        <div
+                          className={
+                            !data.schedule.thursday ? "hidden" : "block"
+                          }
+                        >
+                          Thursday: {data.schedule.thursday}
+                        </div>
+                        <div
+                          className={!data.schedule.friday ? "hidden" : "block"}
+                        >
+                          Friday: {data.schedule.friday}
+                        </div>
+                      </div>
                     </div>
-                    <div
-                      className={!data.schedule.tuesday ? "hidden" : "block"}
-                    >
-                      Tuesday: {data.schedule.tuesday}
-                    </div>
-                    <div
-                      className={!data.schedule.wednesday ? "hidden" : "block"}
-                    >
-                      Wednesday: {data.schedule.wednesday}
-                    </div>
-                    <div
-                      className={!data.schedule.thursday ? "hidden" : "block"}
-                    >
-                      Thursday: {data.schedule.thursday}
-                    </div>
-                    <div className={!data.schedule.friday ? "hidden" : "block"}>
-                      Friday: {data.schedule.friday}
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  ))
+              : "Class does not exist"}
           </div>
         </>
       )}
