@@ -72,10 +72,11 @@ export async function signup(formData) {
       body: JSON.stringify(data),
     });
     if (!response.ok) {
-      console.error("Error adding new account");
+      return console.error("Error adding new account");
     }
+    const resData = await response.json();
+    return resData;
   } catch (error) {
     console.error(error.message);
-    throw new Error(error);
   }
 }

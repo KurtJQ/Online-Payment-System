@@ -129,6 +129,7 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const [mobile, setMobile] = useState("");
   const [landline, setLandline] = useState("");
+  const [verifyEmailNotif, setVerifyEmailNotif] = useState("");
   const [subject, setSubject] = useState({
     course: "",
     yearLevel: "",
@@ -237,7 +238,10 @@ export default function Signup() {
     );
 
     try {
-      await signup(data);
+      const response = await signup(data);
+      if (response) {
+        setVerifyEmailNotif(response.message);
+      }
     } catch (error) {
       console.error("Signup failed", error);
       toast.error(error);
@@ -561,6 +565,13 @@ export default function Signup() {
               )}
               {loading ? "Signing Up..." : "SIGN UP"}
             </button>
+            {!verifyEmailNotif ? (
+              ""
+            ) : (
+              <div className="text-center font-bold font-text-lg">
+                {verifyEmailNotif}
+              </div>
+            )}
           </form>
 
           <p className="mt-4">
