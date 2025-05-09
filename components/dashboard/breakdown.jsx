@@ -37,7 +37,6 @@ async function getInvoices(user) {
 }
 
 function getCurrentPayments(invoices) {
-  invoices.forEach((i) => console.log(typeof i.amount, i.amount));
   return invoices.reduce((sum, invoice) => sum + Number(invoice.amount), 0);
 }
 
