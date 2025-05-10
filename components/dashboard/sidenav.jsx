@@ -66,7 +66,7 @@ export function SideNav({ profile }) {
               }
               onClick={handleClose}
             >
-              Payment History
+              My Payment History
             </Link>
             <Link
               href="/dashboard/payment"
@@ -75,7 +75,7 @@ export function SideNav({ profile }) {
               }
               onClick={handleClose}
             >
-              Payment
+              My Payment
             </Link>
 
             <Link
@@ -85,7 +85,7 @@ export function SideNav({ profile }) {
               }
               onClick={handleClose}
             >
-              Account
+              My Account
             </Link>
           </div>
         )}
