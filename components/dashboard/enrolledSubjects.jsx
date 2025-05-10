@@ -162,7 +162,11 @@ export default function EnrolledSubjects({ student, classes }) {
             </div>
           </div>
           <div>
-            {classes ? (
+            {!classes ? (
+              "Class does not exist"
+            ) : classes.find(
+                (classes) => classes.sectionID === student.section
+              ) ? (
               <>
                 <div className="grid grid-cols-2 mb-3 font-bold">
                   <div>Subjects</div>
@@ -214,7 +218,7 @@ export default function EnrolledSubjects({ student, classes }) {
                   ))}
               </>
             ) : (
-              "Class does not exist"
+              "Class not found."
             )}
           </div>
         </>
