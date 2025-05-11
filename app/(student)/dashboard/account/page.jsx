@@ -273,16 +273,20 @@ export default function AccountPage() {
                       Female
                     </div>
                   </label>
+                  <label className="cursor-pointer">
+                    <input
+                      type="radio"
+                      name="sex"
+                      onChange={handleInputChange}
+                      value="Other"
+                      className="hidden peer"
+                    />
+                    <div className="px-4 py-2 rounded-full text-sm font-medium border transition bg-white text-gray-700 hover:bg-gray-100 border-gray-300 hover:border-red-400 peer-checked:bg-red-600 peer-checked:hover:bg-red-700 peer-checked:text-white peer-checked:border-red-600">
+                      Other
+                    </div>
+                  </label>
                 </div>
               </div>
-              {/* <Input
-                label="Sex"
-                value={updatedProfile.sex || ""}
-                onChange={handleInputChange}
-                name="sex"
-                type="radio"
-                options={["Male", "Female"]}
-              /> */}
               <div className="flex flex-col mb-4">
                 <label
                   htmlFor="facebook"
