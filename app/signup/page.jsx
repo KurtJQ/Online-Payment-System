@@ -50,15 +50,18 @@ function SchoolYearInput({ name }) {
   };
 
   return (
-    <input
-      type="text"
-      name={name}
-      placeholder="School Year (e.g., 2000-2001)"
-      value={value}
-      onChange={handleChange}
-      className="input-style"
-      required
-    />
+    <label className="font-semibold block">
+      School Year <span className="text-red-500">*</span>
+      <input
+        type="text"
+        name={name}
+        placeholder="School Year (e.g., 2000-2001)"
+        value={value}
+        onChange={handleChange}
+        className="input-style font-normal"
+        required
+      />
+    </label>
   );
 }
 
@@ -240,108 +243,127 @@ export default function Signup() {
           <form onSubmit={handleSignUp} className="space-y-4">
             {/* Example Input Row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <input
-                type="text"
-                name="fname"
-                placeholder="First Name"
-                required
-                className="input-style capitalize"
-              />
-              <input
-                type="text"
-                name="mname"
-                placeholder="Middle Name"
-                className="input-style capitalize"
-              />
-              <input
-                type="text"
-                name="lname"
-                placeholder="Last Name"
-                required
-                className="input-style capitalize"
-              />
+              <label className="font-semibold">
+                First Name <span className="text-red-500">*</span>
+                <input
+                  type="text"
+                  name="fname"
+                  required
+                  className="input-style capitalize"
+                />
+              </label>
+              <label className="font-semibold">
+                Middle Name <span className="text-red-500">*</span>
+                <input
+                  type="text"
+                  name="mname"
+                  className="input-style capitalize"
+                />
+              </label>
+              <label className="font-semibold">
+                Last Name <span className="text-red-500">*</span>
+                <input
+                  type="text"
+                  name="lname"
+                  required
+                  className="input-style capitalize"
+                />
+              </label>
             </div>
-
             {/* Address and Contact */}
-            <input
-              type="text"
-              name="address"
-              placeholder="Address"
-              required
-              className="input-style capitalize"
-            />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label className="font-semibold block">
+              Address <span className="text-red-500">*</span>
               <input
-                type="tel"
-                name="mobile"
-                placeholder="Mobile Phone Number (11 digits)"
+                type="text"
+                name="address"
                 required
-                className="input-style"
-                value={mobile}
-                onChange={(e) => {
-                  const formattedPhone = formatPhoneNumber(e.target.value);
-                  setMobile(formattedPhone);
-                }}
+                className="input-style capitalize"
               />
-              <input
-                type="tel"
-                name="landline"
-                placeholder="Landline Number (11 digits)"
-                className="input-style"
-                value={landline}
-                onChange={(e) => {
-                  const formattedLandline = formatLandline(e.target.value);
-                  setLandline(formattedLandline);
-                }}
-              />
+            </label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <label className="font-semibold">
+                Mobile Phone <span className="text-red-500">*</span>
+                <input
+                  type="tel"
+                  name="mobile"
+                  placeholder="Mobile Phone Number (11 digits)"
+                  required
+                  className="input-style font-normal"
+                  value={mobile}
+                  onChange={(e) => {
+                    const formattedPhone = formatPhoneNumber(e.target.value);
+                    setMobile(formattedPhone);
+                  }}
+                />
+              </label>
+              <label className="font-semibold">
+                Landline
+                <input
+                  type="tel"
+                  name="landline"
+                  placeholder="Landline Number (11 digits)"
+                  className="input-style font-normal"
+                  value={landline}
+                  onChange={(e) => {
+                    const formattedLandline = formatLandline(e.target.value);
+                    setLandline(formattedLandline);
+                  }}
+                />
+              </label>
             </div>
-            <input
-              type="url"
-              name="facebook"
-              placeholder="Facebook Profile URL"
-              required
-              className="input-style"
-            />
+            <label className="font-semibold block">
+              Facebook URL <span className="text-red-500">*</span>
+              <input
+                type="url"
+                name="facebook"
+                placeholder="https://facebook.com/(Your Facebook Profile)"
+                required
+                className="input-style font-normal"
+              />
+            </label>
 
             {/* Birthday and Birthplace */}
             <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
-              <label className="text-md flex items-center space-x-2 gap-4 font-semibold text-black">
-                Birth Date:
+              <label className="font-semibold">
+                Birth Date <span className="text-red-500">*</span>
+                <input
+                  type="date"
+                  name="birthdate"
+                  required
+                  className="input-style font-normal"
+                />
               </label>
-              <input
-                type="date"
-                name="birthdate"
-                placeholder="Birth Date"
-                required
-                className="input-style"
-              />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+            <label className="font-semibold block">
+              Birth Place <span className="text-red-500">*</span>
               <input
                 type="text"
                 name="birthplace"
-                placeholder="Birth Place"
                 required
                 className="input-style capitalize"
               />
-            </div>
+            </label>
 
             {/* Nationality and Religion */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                type="text"
-                name="nationality"
-                placeholder="Nationality"
-                required
-                className="input-style capitalize"
-              />
-              <input
-                type="text"
-                name="religion"
-                placeholder="Religion"
-                required
-                className="input-style capitalize"
-              />
+              <label className="font-semibold">
+                Nationality <span className="text-red-500">*</span>
+                <input
+                  type="text"
+                  name="nationality"
+                  required
+                  className="input-style capitalize"
+                />
+              </label>
+              <label className="font-semibold">
+                Religion <span className="text-red-500">*</span>
+                <input
+                  type="text"
+                  name="religion"
+                  required
+                  className="input-style capitalize"
+                />
+              </label>
             </div>
 
             <div className="flex flex-col sm:flex-row sm:justify-around gap-2 sm:gap-4 text-sm font-medium text-gray-700">
@@ -350,6 +372,7 @@ export default function Signup() {
                   key={gender}
                   className="flex items-center justify-center space-x-2 border border-gray-300 px-4 py-2 rounded-full cursor-pointer hover:border-blue-500"
                 >
+                  <span className="text-red-500">*</span>
                   <input
                     type="radio"
                     name="sex"
@@ -363,52 +386,59 @@ export default function Signup() {
             </div>
 
             {/* Additional Fields */}
-            <input
-              type="text"
-              name="father"
-              placeholder="Father's Name"
-              required
-              className="input-style capitalize"
-            />
-            <input
-              type="text"
-              name="mother"
-              placeholder="Mother's Name"
-              required
-              className="input-style capitalize"
-            />
-            <input
-              type="text"
-              name="guardian"
-              placeholder="Guardian's Name"
-              required
-              className="input-style capitalize"
-            />
-            <input
-              type="text"
-              name="guardianOccupation"
-              placeholder="Guardian's Occupation"
-              required
-              className="input-style capitalize"
-            />
-            <div className="grid grid-cols-1 md:grid-cols-1 gap-2">
-              <label className="text-md flex items-center space-x-2 gap-4 font-semibold text-black">
-                Registration Date:
-              </label>
+            <label className="font-semibold block">
+              Father's Name
+              <input
+                type="text"
+                name="father"
+                className="input-style capitalize"
+              />
+            </label>
+            <label className="font-semibold block">
+              Mother's Name
+              <input
+                type="text"
+                name="mother"
+                className="input-style capitalize"
+              />
+            </label>
+            <label className="font-semibold block">
+              Guardian's Name <span className="text-red-500">*</span>
+              <input
+                type="text"
+                name="guardian"
+                required
+                className="input-style capitalize"
+              />
+            </label>
+            <label className="font-semibold block">
+              Guardian's Occupation <span className="text-red-500">*</span>
+              <input
+                type="text"
+                name="guardianOccupation"
+                required
+                className="input-style capitalize"
+              />
+            </label>
+            <label className="font-semibold block">
+              Registration Date <span className="text-red-500">*</span>
               <input
                 type="date"
                 name="registrationDate"
-                placeholder="Registration Date"
                 required
-                className="input-style"
+                className="input-style font-normal"
               />
-            </div>
-            <input
-              type="number"
-              name="lrn"
-              placeholder="Enter LRN (12 digits)"
-              className="input-style"
-            />
+            </label>
+            <label className="font-semibold block">
+              LRN <span className="text-red-500">*</span>
+              <input
+                type="number"
+                name="lrn"
+                placeholder="Enter LRN (12 digits)"
+                className="input-style font-normal"
+              />
+            </label>
+
             {[
               { label: "Nursery", name: "nursery" },
               { label: "Elementary", name: "elementary" },
@@ -496,20 +526,26 @@ export default function Signup() {
             <SchoolYearInput required name="schoolYear" />
 
             <div className="flex flex-col gap-4 mt-4">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-                className="input-style"
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-                className="input-style"
-              />
+              <label className="font-semibold">
+                Email <span className="text-red-500">*</span>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                  className="input-style font-normal"
+                />
+              </label>
+              <label className="font-semibold">
+                Password <span className="text-red-500">*</span>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                  className="input-style font-normal"
+                />
+              </label>
             </div>
 
             <button
