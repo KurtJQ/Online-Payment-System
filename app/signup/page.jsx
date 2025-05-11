@@ -430,7 +430,7 @@ export default function Signup() {
               />
             </label>
             <label className="font-semibold block">
-              LRN <span className="text-red-500">*</span>
+              LRN
               <input
                 type="number"
                 name="lrn"
