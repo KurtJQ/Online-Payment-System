@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-export default function EnrolledSubjects({ student, classes }) {
+export function ClassSchedule({ student, classes }) {
   const [showSched, setShowSched] = useState({});
   const toggleSchedule = (classID) => {
     setShowSched((prev) => ({

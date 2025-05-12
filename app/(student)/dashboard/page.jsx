@@ -1,7 +1,7 @@
 import Transactions from "app/(student)/dashboard/invoice/transactionwidget";
 import Fees from "components/dashboard/breakdown";
 import Events from "components/dashboard/EventList";
-import EnrolledSubjects from "components/dashboard/enrolledSubjects";
+import { ClassSchedule } from "components/dashboard/ClassSchedule";
 import { auth } from "@/app/auth";
 
 async function getProfile(id) {
@@ -59,7 +59,7 @@ export default async function Page() {
           <Transactions />
         </div>
       </div>
-      <EnrolledSubjects student={student} classes={classes} />
+      <ClassSchedule student={student} classes={classes} />
       <Fees />
     </div>
   );
