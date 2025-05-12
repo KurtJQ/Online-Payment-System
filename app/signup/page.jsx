@@ -415,13 +415,13 @@ export default function Signup() {
               <option value="BSBA">BS Business Administration</option>
               <option value="BSTM">BS Tourism Management</option>
               <option value="BEED">Bachelor of Elementary Education</option>
-              <option value="BSEDMATH">
+              <option value="BSED-MATH">
                 Bachelor of Secondary Education - Math
               </option>
-              <option value="BSEDENG">
+              <option value="BSED-ENG">
                 Bachelor of Secondary Education - English
               </option>
-              <option value="bapos">BA Political Science</option>
+              <option value="BA-POLSCI">BA Political Science</option>
             </select>
 
             <select name="yearLevel" className="input-style" required>
