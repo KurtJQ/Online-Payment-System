@@ -531,6 +531,15 @@ export default function AccountPage() {
                   onChange={handleInputChange}
                   className="p-2 rounded-xl border border-gray-300 bg-gray-100 text-gray-800 focus:outline-none"
                 />
+                <button
+                  type="button"
+                  onClick={() =>
+                    router.push("/dashboard/account/resetpassword")
+                  }
+                  className="hover:text-blue-600 text-left"
+                >
+                  Reset Password
+                </button>
               </div>
             </div>
           </section>
