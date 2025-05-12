@@ -80,7 +80,14 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="mt-2 flex justify-between">
+            <div className="grid grid-cols-2 justify-between">
+              <button
+                className="text-left"
+                type="button"
+                onClick={() => router.push("/forgotpassword")}
+              >
+                Forgot Password
+              </button>
               {error && <div className="text-red-500 text-right">{error}</div>}
             </div>
 

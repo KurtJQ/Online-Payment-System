@@ -8,7 +8,9 @@ export default auth(async function middleware(req) {
     !req.auth &&
     pathname !== "/" &&
     pathname !== "/signup" &&
-    pathname !== "/verify";
+    pathname !== "/verify" &&
+    pathname !== "/forgotpassword" &&
+    pathname !== "/forgotpassword/new";
 
   if (isAuthRequired) {
     const newUrl = new URL("/", req.nextUrl.origin);
