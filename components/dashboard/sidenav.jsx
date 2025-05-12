@@ -60,6 +60,15 @@ export function SideNav({ profile }) {
               Overview
             </Link>
             <Link
+              href={"/dashboard/enrollment"}
+              className={
+                pathName === "/dashboard/enrollment" ? "text-blue-300" : ""
+              }
+              onClick={handleClose}
+            >
+              My Enrollment
+            </Link>
+            <Link
               href="/dashboard/invoice"
               className={
                 pathName === "/dashboard/invoice" ? "text-blue-300" : ""

@@ -2,7 +2,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { signup } from "components/auth/sign-up";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 function YearAttendedInput({ name }) {
@@ -65,69 +65,12 @@ function SchoolYearInput({ name }) {
   );
 }
 
-function SubjectList({ course, yearLevel, semester }) {
-  const [fetchSubjects, setFetchSubjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchSubjects = async () => {
-      if (!course || !yearLevel || !semester) return;
-      setLoading(true);
-      try {
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_SERVER_URL +
-            `/api/subject/get/${course}/${yearLevel}/${semester}`
-        );
-        const data = await response.json();
-        setFetchSubjects(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchSubjects();
-  }, [course, yearLevel, semester]);
-
-  if (loading) return <div>Loading...</div>;
-  if (!fetchSubjects) return <div>No Subjects found.</div>;
-
-  return (
-    <>
-      <div className="grid grid-cols-3 gap-y-3 py-3 font-bold border-b-2">
-        <div>Subject Code</div>
-        <div>Subject Description</div>
-        <div className="text-center">Units</div>
-      </div>
-      {fetchSubjects.subjects.map((data) => (
-        <div
-          className="grid grid-cols-3 gap-y-3 py-2 border-b-2 text-sm md:text-base"
-          key={data.code}
-        >
-          <div>{String(data.code).toUpperCase()}</div>
-          <div>{data.description}</div>
-          <div className="text-center">{data.units}</div>
-        </div>
-      ))}
-    </>
-  );
-}
-
 export default function Signup() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [mobile, setMobile] = useState("");
   const [landline, setLandline] = useState("");
   const [verifyEmailNotif, setVerifyEmailNotif] = useState("");
-  const [subject, setSubject] = useState({
-    course: "",
-    yearLevel: "",
-    semester: "",
-  });
-
-  const handleSubjectChange = (data) => {
-    setSubject((prev) => ({ ...prev, [data.target.name]: data.target.value }));
-  };
 
   //mobile number
   function formatPhoneNumber(value) {
@@ -465,12 +408,7 @@ export default function Signup() {
               <option value="college">College</option>
             </select>
 
-            <select
-              name="course"
-              className="input-style"
-              onChange={handleSubjectChange}
-              required
-            >
+            <select name="course" className="input-style" required>
               <option value="">Select Course</option>
               <option value="BSCS">BS Computer Science</option>
               <option value="BSHM">BS Hospitality Management</option>
@@ -486,12 +424,7 @@ export default function Signup() {
               <option value="bapos">BA Political Science</option>
             </select>
 
-            <select
-              name="yearLevel"
-              className="input-style"
-              onChange={handleSubjectChange}
-              required
-            >
+            <select name="yearLevel" className="input-style" required>
               <option value="">Select Year Level</option>
               <option value="1">1st Year</option>
               <option value="2">2nd Year</option>
@@ -499,29 +432,11 @@ export default function Signup() {
               <option value="4">4th Year</option>
             </select>
 
-            <select
-              name="semester"
-              className="input-style"
-              onChange={handleSubjectChange}
-              required
-            >
+            <select name="semester" className="input-style" required>
               <option value="">Select Semester</option>
               <option value="1st Semester">1st Semester</option>
               <option value="2nd Semester">2nd Semester</option>
             </select>
-
-            <div className="border-2 bg-white rounded-2xl p-3">
-              <div className="font-semibold mb-3">Subjects To Be Enrolled</div>
-              {!subject.course || !subject.yearLevel || !subject.semester ? (
-                "Please select Course/Year Level/Semester"
-              ) : (
-                <SubjectList
-                  course={subject.course}
-                  yearLevel={subject.yearLevel}
-                  semester={subject.semester}
-                />
-              )}
-            </div>
 
             <SchoolYearInput required name="schoolYear" />
 
