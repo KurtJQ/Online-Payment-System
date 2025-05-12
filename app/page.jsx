@@ -3,26 +3,31 @@
 import Image from "next/image";
 import { login } from "@/components/auth/sign-in";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function Page() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
 
   async function handleLogin(event) {
     event.preventDefault();
     setError("");
     setLoading(true);
     const formData = new FormData(event.currentTarget);
-    const response = await login(formData);
-    setLoading(false);
-
-    if (!response.success) {
-      setError(response.error);
-      return;
+    try {
+      const response = await login(formData);
+      if (!response.success) {
+        setLoading(false);
+        return setError(response.error);
+      }
+    } catch (error) {
+      setLoading(false);
+    } finally {
+      router.push("/dashboard");
     }
-    router.push("/dashboard");
   }
 
   return (
