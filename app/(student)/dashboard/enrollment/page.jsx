@@ -1,5 +1,5 @@
 import { auth } from "@/app/auth";
-import EnrolledSubjects from "@/components/dashboard/enrolledSubjects";
+import { ClassSchedule } from "@/components/dashboard/ClassSchedule";
 import { Subjects } from "@/components/dashboard/Subjects";
 
 const getProfile = async (id) => {
@@ -46,7 +46,7 @@ export default async function Page() {
   return (
     <section className="flex flex-col md:flex-row gap-3">
       <Subjects student={student} />
-      <EnrolledSubjects student={student} classes={classes} />
+      <ClassSchedule student={student} classes={classes} />
     </section>
   );
 }
