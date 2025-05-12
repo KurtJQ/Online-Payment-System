@@ -135,8 +135,12 @@ export default function Signup() {
     setLoading(true);
     const data = new FormData(event.currentTarget);
 
+    if (data.get("confirmPassword") !== data.get("password")) {
+      setLoading(false);
+      return toast.error("Passwords do not match");
+    }
+
     if (!validateFacebookUrl(data.get("facebook"))) {
-      console.log(data.get("facebook"));
       setLoading(false);
       return toast.error(
         "Please enter a valid Facebook URL starting with 'https://www.facebook.com/'"
@@ -452,6 +456,16 @@ export default function Signup() {
                 <input
                   type="password"
                   name="password"
+                  placeholder="Password"
+                  required
+                  className="input-style font-normal"
+                />
+              </label>
+              <label className="font-semibold">
+                Confirm Password <span className="text-red-500">*</span>
+                <input
+                  type="password"
+                  name="confirmPassword"
                   placeholder="Password"
                   required
                   className="input-style font-normal"
