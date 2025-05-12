@@ -47,6 +47,7 @@ export function SideNav({ profile }) {
             <span className="text-lg font-bold leading-tight break-words w-full">
               {profile?.fname} {profile?.mname} {profile?.lname}
             </span>
+            <div>ID: {profile._studentId}</div>
           </Link>
         </div>
 
@@ -58,6 +59,15 @@ export function SideNav({ profile }) {
               onClick={handleClose}
             >
               Overview
+            </Link>
+            <Link
+              href={"/dashboard/enrollment"}
+              className={
+                pathName === "/dashboard/enrollment" ? "text-blue-300" : ""
+              }
+              onClick={handleClose}
+            >
+              My Enrollment
             </Link>
             <Link
               href="/dashboard/invoice"

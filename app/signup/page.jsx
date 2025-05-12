@@ -2,7 +2,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { signup } from "components/auth/sign-up";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 function YearAttendedInput({ name }) {
@@ -65,89 +65,30 @@ function SchoolYearInput({ name }) {
   );
 }
 
-function SubjectList({ course, yearLevel, semester }) {
-  const [fetchSubjects, setFetchSubjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchSubjects = async () => {
-      if (!course || !yearLevel || !semester) return;
-      setLoading(true);
-      try {
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_SERVER_URL +
-            `/api/subject/get/${course}/${yearLevel}/${semester}`
-        );
-        const data = await response.json();
-        setFetchSubjects(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchSubjects();
-  }, [course, yearLevel, semester]);
-
-  if (loading) return <div>Loading...</div>;
-  if (!fetchSubjects) return <div>No Subjects found.</div>;
-
-  return (
-    <>
-      <div className="grid grid-cols-3 gap-y-3 py-3 font-bold border-b-2">
-        <div>Subject Code</div>
-        <div>Subject Description</div>
-        <div className="text-center">Units</div>
-      </div>
-      {fetchSubjects.subjects.map((data) => (
-        <div
-          className="grid grid-cols-3 gap-y-3 py-2 border-b-2 text-sm md:text-base"
-          key={data.code}
-        >
-          <div>{String(data.code).toUpperCase()}</div>
-          <div>{data.description}</div>
-          <div className="text-center">{data.units}</div>
-        </div>
-      ))}
-    </>
-  );
-}
-
 export default function Signup() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [mobile, setMobile] = useState("");
   const [landline, setLandline] = useState("");
   const [verifyEmailNotif, setVerifyEmailNotif] = useState("");
-  const [subject, setSubject] = useState({
-    course: "",
-    yearLevel: "",
-    semester: "",
-  });
-
-  const handleSubjectChange = (data) => {
-    setSubject((prev) => ({ ...prev, [data.target.name]: data.target.value }));
-  };
 
   //mobile number
   function formatPhoneNumber(value) {
     const cleaned = value.replace(/\D/g, "");
-    const formatted = cleaned.slice(0, 11);
+    const limited = cleaned.slice(0, 11);
 
     if (cleaned.length > 11) {
       toast.error("Phone number cannot exceed 11 digits!");
-      return formatted.slice(0, 11);
     }
 
-    if (formatted.length <= 4) {
-      return formatted;
-    } else if (formatted.length <= 7) {
-      return `${formatted.slice(0, 4)}-${formatted.slice(4)}`;
+    if (limited.length <= 4) {
+      return limited;
+    } else if (limited.length <= 7) {
+      return `${limited.slice(0, 4)}-${limited.slice(4)}`;
     } else {
-      return `${formatted.slice(0, 4)}-${formatted.slice(
-        4,
+      return `${limited.slice(0, 4)}-${limited.slice(4, 7)}-${limited.slice(
         7
-      )}-${formatted.slice(7, 11)}`;
+      )}`;
     }
   }
 
@@ -167,27 +108,25 @@ export default function Signup() {
   //landline
   function formatLandline(value) {
     const cleaned = value.replace(/\D/g, "");
-    const formatted = cleaned.slice(0, 11);
+    const limited = cleaned.slice(0, 11);
 
     if (cleaned.length > 11) {
       toast.error("Landline number cannot exceed 11 digits!");
-      return formatted.slice(0, 11);
     }
 
-    if (formatted.length <= 3) {
-      return formatted;
-    } else if (formatted.length <= 5) {
-      return `${formatted.slice(0, 2)}-${formatted.slice(2)}`;
-    } else if (formatted.length <= 8) {
-      return `${formatted.slice(0, 2)}-${formatted.slice(
-        2,
+    if (limited.length <= 3) {
+      return limited;
+    } else if (limited.length <= 5) {
+      return `${limited.slice(0, 2)}-${limited.slice(2)}`;
+    } else if (limited.length <= 8) {
+      return `${limited.slice(0, 2)}-${limited.slice(2, 5)}-${limited.slice(
         5
-      )}-${formatted.slice(5)}`;
+      )}`;
     } else {
-      return `${formatted.slice(0, 2)}-${formatted.slice(
-        2,
-        5
-      )}-${formatted.slice(5, 8)}-${formatted.slice(8)}`;
+      return `${limited.slice(0, 2)}-${limited.slice(2, 5)}-${limited.slice(
+        5,
+        8
+      )}-${limited.slice(8)}`;
     }
   }
 
@@ -196,8 +135,12 @@ export default function Signup() {
     setLoading(true);
     const data = new FormData(event.currentTarget);
 
+    if (data.get("confirmPassword") !== data.get("password")) {
+      setLoading(false);
+      return toast.error("Passwords do not match");
+    }
+
     if (!validateFacebookUrl(data.get("facebook"))) {
-      console.log(data.get("facebook"));
       setLoading(false);
       return toast.error(
         "Please enter a valid Facebook URL starting with 'https://www.facebook.com/'"
@@ -249,7 +192,7 @@ export default function Signup() {
                   type="text"
                   name="fname"
                   required
-                  className="input-style capitalize"
+                  className="input-style font-normal capitalize"
                 />
               </label>
               <label className="font-semibold">
@@ -257,7 +200,7 @@ export default function Signup() {
                 <input
                   type="text"
                   name="mname"
-                  className="input-style capitalize"
+                  className="input-style font-normal capitalize"
                 />
               </label>
               <label className="font-semibold">
@@ -266,7 +209,7 @@ export default function Signup() {
                   type="text"
                   name="lname"
                   required
-                  className="input-style capitalize"
+                  className="input-style font-normal capitalize"
                 />
               </label>
             </div>
@@ -277,7 +220,7 @@ export default function Signup() {
                 type="text"
                 name="address"
                 required
-                className="input-style capitalize"
+                className="input-style font-normal capitalize"
               />
             </label>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -340,7 +283,7 @@ export default function Signup() {
                 type="text"
                 name="birthplace"
                 required
-                className="input-style capitalize"
+                className="input-style font-normal capitalize"
               />
             </label>
 
@@ -352,7 +295,7 @@ export default function Signup() {
                   type="text"
                   name="nationality"
                   required
-                  className="input-style capitalize"
+                  className="input-style font-normal capitalize"
                 />
               </label>
               <label className="font-semibold">
@@ -361,7 +304,7 @@ export default function Signup() {
                   type="text"
                   name="religion"
                   required
-                  className="input-style capitalize"
+                  className="input-style font-normal capitalize"
                 />
               </label>
             </div>
@@ -391,7 +334,7 @@ export default function Signup() {
               <input
                 type="text"
                 name="father"
-                className="input-style capitalize"
+                className="input-style font-normal capitalize"
               />
             </label>
             <label className="font-semibold block">
@@ -399,7 +342,7 @@ export default function Signup() {
               <input
                 type="text"
                 name="mother"
-                className="input-style capitalize"
+                className="input-style font-normal capitalize"
               />
             </label>
             <label className="font-semibold block">
@@ -408,7 +351,7 @@ export default function Signup() {
                 type="text"
                 name="guardian"
                 required
-                className="input-style capitalize"
+                className="input-style font-normal capitalize"
               />
             </label>
             <label className="font-semibold block">
@@ -417,7 +360,7 @@ export default function Signup() {
                 type="text"
                 name="guardianOccupation"
                 required
-                className="input-style capitalize"
+                className="input-style font-normal capitalize"
               />
             </label>
             <label className="font-semibold block">
@@ -465,33 +408,23 @@ export default function Signup() {
               <option value="college">College</option>
             </select>
 
-            <select
-              name="course"
-              className="input-style"
-              onChange={handleSubjectChange}
-              required
-            >
+            <select name="course" className="input-style" required>
               <option value="">Select Course</option>
               <option value="BSCS">BS Computer Science</option>
               <option value="BSHM">BS Hospitality Management</option>
               <option value="BSBA">BS Business Administration</option>
               <option value="BSTM">BS Tourism Management</option>
               <option value="BEED">Bachelor of Elementary Education</option>
-              <option value="BSEDMATH">
+              <option value="BSED-MATH">
                 Bachelor of Secondary Education - Math
               </option>
-              <option value="BSEDENG">
+              <option value="BSED-ENG">
                 Bachelor of Secondary Education - English
               </option>
-              <option value="bapos">BA Political Science</option>
+              <option value="BA-POLSCI">BA Political Science</option>
             </select>
 
-            <select
-              name="yearLevel"
-              className="input-style"
-              onChange={handleSubjectChange}
-              required
-            >
+            <select name="yearLevel" className="input-style" required>
               <option value="">Select Year Level</option>
               <option value="1">1st Year</option>
               <option value="2">2nd Year</option>
@@ -499,29 +432,11 @@ export default function Signup() {
               <option value="4">4th Year</option>
             </select>
 
-            <select
-              name="semester"
-              className="input-style"
-              onChange={handleSubjectChange}
-              required
-            >
+            <select name="semester" className="input-style" required>
               <option value="">Select Semester</option>
               <option value="1st Semester">1st Semester</option>
               <option value="2nd Semester">2nd Semester</option>
             </select>
-
-            <div className="border-2 bg-white rounded-2xl p-3">
-              <div className="font-semibold mb-3">Subjects To Be Enrolled</div>
-              {!subject.course || !subject.yearLevel || !subject.semester ? (
-                "Please select Course/Year Level/Semester"
-              ) : (
-                <SubjectList
-                  course={subject.course}
-                  yearLevel={subject.yearLevel}
-                  semester={subject.semester}
-                />
-              )}
-            </div>
 
             <SchoolYearInput required name="schoolYear" />
 
@@ -541,6 +456,16 @@ export default function Signup() {
                 <input
                   type="password"
                   name="password"
+                  placeholder="Password"
+                  required
+                  className="input-style font-normal"
+                />
+              </label>
+              <label className="font-semibold">
+                Confirm Password <span className="text-red-500">*</span>
+                <input
+                  type="password"
+                  name="confirmPassword"
                   placeholder="Password"
                   required
                   className="input-style font-normal"

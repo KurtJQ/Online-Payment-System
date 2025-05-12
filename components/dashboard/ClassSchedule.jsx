@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-export default function EnrolledSubjects({ student, classes }) {
+export function ClassSchedule({ student, classes }) {
+  const [day, setDay] = useState();
   const [showSched, setShowSched] = useState({});
   const toggleSchedule = (classID) => {
     setShowSched((prev) => ({
@@ -161,27 +162,43 @@ export default function EnrolledSubjects({ student, classes }) {
               </div>
             </div>
           </div>
-          <div>
+          <label className="">
+            Sort by
+            <select
+              name="day"
+              className="my-3"
+              onChange={(e) => setDay(e.target.value)}
+            >
+              <option value="">All Days</option>
+              <option value="monday">Monday</option>
+              <option value="tuesday">Tuesday</option>
+              <option value="wednesday">Wednesday</option>
+              <option value="thursday">Thursday</option>
+              <option value="friday">Friday</option>
+            </select>
+          </label>
+
+          <div className="flex flex-col md:flex-row flex-wrap gap-3">
             {!classes ? (
               "Class does not exist"
             ) : classes.find(
                 (classes) => classes.sectionID === student.section
               ) ? (
               <>
-                <div className="grid grid-cols-2 mb-3 font-bold">
-                  <div>Subjects</div>
-                  <div>Schedule</div>
-                </div>
                 {classes
                   .find((classes) => classes.sectionID === student.section)
-                  .subjects.map((data) => (
-                    <div className="grid grid-cols-2 mb-3" key={data.code}>
+                  .subjects.filter((data) => (day ? data.schedule[day] : true))
+                  .map((data) => (
+                    <div
+                      className="bg-gray-200 rounded-lg p-3 space-y-3 mb-3"
+                      key={data.code}
+                    >
                       <div>
                         <div className="font-bold">{data.description}</div>
-                        <div>{data.code}</div>
+                        <div className="uppercase">{data.code}</div>
                         <div className="text-sm">{data.professor}</div>
                       </div>
-                      <div>
+                      <div className="">
                         <div
                           className={!data.schedule.monday ? "hidden" : "block"}
                         >

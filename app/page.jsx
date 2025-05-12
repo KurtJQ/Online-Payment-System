@@ -4,11 +4,9 @@ import Image from "next/image";
 import { login } from "@/components/auth/sign-in";
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function Page() {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -80,7 +78,13 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="mt-2 flex justify-between">
+            <div className="grid grid-cols-2 justify-between">
+              <Link
+                className="text-left transition hover:text-blue-600"
+                href="/forgotpassword"
+              >
+                Forgot Password
+              </Link>
               {error && <div className="text-red-500 text-right">{error}</div>}
             </div>
 

@@ -77,16 +77,15 @@ export default function AccountPage() {
       const studentId = session?.user?.id;
 
       if (!studentId) {
-        throw new Error("No student ID found");
+        return toast.error("No Student ID found");
       }
 
       let updatedData = { ...updatedProfile };
-      if (updatedData.password !== profile.password) {
-        const newPassword = await bcrypt.hash(updatedData.password, 10);
-        updatedData.password = newPassword;
-      }
 
-      await patchProfileData(updatedData);
+      const response = await patchProfileData(updatedData);
+      if (response.message === "Invalid Credentials") {
+        return toast.error(response.message);
+      }
       toast.success("Profile updated successfully!");
       router.push("/dashboard/account/");
     } catch (error) {
@@ -500,7 +499,7 @@ export default function AccountPage() {
 
           <section className="mb-6">
             <h2 className="text-xl font-semibold text-red-700 mb-3">
-              Login Credentials
+              Enter Credentrials
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col mb-4">
