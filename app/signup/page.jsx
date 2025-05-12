@@ -75,22 +75,20 @@ export default function Signup() {
   //mobile number
   function formatPhoneNumber(value) {
     const cleaned = value.replace(/\D/g, "");
-    const formatted = cleaned.slice(0, 11);
+    const limited = cleaned.slice(0, 11);
 
     if (cleaned.length > 11) {
       toast.error("Phone number cannot exceed 11 digits!");
-      return formatted.slice(0, 11);
     }
 
-    if (formatted.length <= 4) {
-      return formatted;
-    } else if (formatted.length <= 7) {
-      return `${formatted.slice(0, 4)}-${formatted.slice(4)}`;
+    if (limited.length <= 4) {
+      return limited;
+    } else if (limited.length <= 7) {
+      return `${limited.slice(0, 4)}-${limited.slice(4)}`;
     } else {
-      return `${formatted.slice(0, 4)}-${formatted.slice(
-        4,
+      return `${limited.slice(0, 4)}-${limited.slice(4, 7)}-${limited.slice(
         7
-      )}-${formatted.slice(7, 11)}`;
+      )}`;
     }
   }
 
