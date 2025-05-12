@@ -192,7 +192,7 @@ export default function Signup() {
                   type="text"
                   name="fname"
                   required
-                  className="input-style capitalize"
+                  className="input-style font-normal capitalize"
                 />
               </label>
               <label className="font-semibold">
@@ -200,7 +200,7 @@ export default function Signup() {
                 <input
                   type="text"
                   name="mname"
-                  className="input-style capitalize"
+                  className="input-style font-normal capitalize"
                 />
               </label>
               <label className="font-semibold">
@@ -209,7 +209,7 @@ export default function Signup() {
                   type="text"
                   name="lname"
                   required
-                  className="input-style capitalize"
+                  className="input-style font-normal capitalize"
                 />
               </label>
             </div>
@@ -220,7 +220,7 @@ export default function Signup() {
                 type="text"
                 name="address"
                 required
-                className="input-style capitalize"
+                className="input-style font-normal capitalize"
               />
             </label>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -283,7 +283,7 @@ export default function Signup() {
                 type="text"
                 name="birthplace"
                 required
-                className="input-style capitalize"
+                className="input-style font-normal capitalize"
               />
             </label>
 
@@ -295,7 +295,7 @@ export default function Signup() {
                   type="text"
                   name="nationality"
                   required
-                  className="input-style capitalize"
+                  className="input-style font-normal capitalize"
                 />
               </label>
               <label className="font-semibold">
@@ -304,7 +304,7 @@ export default function Signup() {
                   type="text"
                   name="religion"
                   required
-                  className="input-style capitalize"
+                  className="input-style font-normal capitalize"
                 />
               </label>
             </div>
@@ -334,7 +334,7 @@ export default function Signup() {
               <input
                 type="text"
                 name="father"
-                className="input-style capitalize"
+                className="input-style font-normal capitalize"
               />
             </label>
             <label className="font-semibold block">
@@ -342,7 +342,7 @@ export default function Signup() {
               <input
                 type="text"
                 name="mother"
-                className="input-style capitalize"
+                className="input-style font-normal capitalize"
               />
             </label>
             <label className="font-semibold block">
@@ -351,7 +351,7 @@ export default function Signup() {
                 type="text"
                 name="guardian"
                 required
-                className="input-style capitalize"
+                className="input-style font-normal capitalize"
               />
             </label>
             <label className="font-semibold block">
@@ -360,7 +360,7 @@ export default function Signup() {
                 type="text"
                 name="guardianOccupation"
                 required
-                className="input-style capitalize"
+                className="input-style font-normal capitalize"
               />
             </label>
             <label className="font-semibold block">
