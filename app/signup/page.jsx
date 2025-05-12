@@ -108,27 +108,25 @@ export default function Signup() {
   //landline
   function formatLandline(value) {
     const cleaned = value.replace(/\D/g, "");
-    const formatted = cleaned.slice(0, 11);
+    const limited = cleaned.slice(0, 11);
 
     if (cleaned.length > 11) {
       toast.error("Landline number cannot exceed 11 digits!");
-      return formatted.slice(0, 11);
     }
 
-    if (formatted.length <= 3) {
-      return formatted;
-    } else if (formatted.length <= 5) {
-      return `${formatted.slice(0, 2)}-${formatted.slice(2)}`;
-    } else if (formatted.length <= 8) {
-      return `${formatted.slice(0, 2)}-${formatted.slice(
-        2,
+    if (limited.length <= 3) {
+      return limited;
+    } else if (limited.length <= 5) {
+      return `${limited.slice(0, 2)}-${limited.slice(2)}`;
+    } else if (limited.length <= 8) {
+      return `${limited.slice(0, 2)}-${limited.slice(2, 5)}-${limited.slice(
         5
-      )}-${formatted.slice(5)}`;
+      )}`;
     } else {
-      return `${formatted.slice(0, 2)}-${formatted.slice(
-        2,
-        5
-      )}-${formatted.slice(5, 8)}-${formatted.slice(8)}`;
+      return `${limited.slice(0, 2)}-${limited.slice(2, 5)}-${limited.slice(
+        5,
+        8
+      )}-${limited.slice(8)}`;
     }
   }
 
