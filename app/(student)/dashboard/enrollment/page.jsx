@@ -1,6 +1,7 @@
 import { auth } from "@/app/auth";
 import { ClassSchedule } from "@/components/dashboard/ClassSchedule";
 import { Subjects } from "@/components/dashboard/Subjects";
+import { DocumentSubmission } from "@/components/dashboard/DocumentSubmission";
 
 const getProfile = async (id) => {
   try {
@@ -46,6 +47,7 @@ export default async function Page() {
   return (
     <section className="flex flex-col md:flex-row gap-3">
       <Subjects student={student} />
+      <DocumentSubmission student={student} />
       <ClassSchedule student={student} classes={classes} />
     </section>
   );
