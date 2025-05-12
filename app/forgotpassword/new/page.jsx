@@ -3,6 +3,8 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import Link from "next/link";
+
 export default function Page() {
   const [notif, setNotif] = useState();
   const [loading, setLoading] = useState(false);
@@ -47,7 +49,10 @@ export default function Page() {
   };
   return (
     <main className="flex items-center justify-center min-h-screen bg-[url('/images/background.webp')] bg-cover bg-center">
-      <form onSubmit={handleSubmit} className="bg-gray-300 rounded-lg p-6">
+      <form onSubmit={handleSubmit} className="bg-gray-300 rounded-lg m-6 p-6">
+        <Link href="/forgotpassword" className="hover:text-blue-600">
+          {"<"}-- Back
+        </Link>
         <img src="/images/SCC icon.webp" className="mx-auto" alt="SCC icon" />
         {!notif ? (
           ""
