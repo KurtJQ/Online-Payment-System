@@ -47,6 +47,7 @@ export function SideNav({ profile }) {
             <span className="text-lg font-bold leading-tight break-words w-full">
               {profile?.fname} {profile?.mname} {profile?.lname}
             </span>
+            <div>ID: {profile._studentId}</div>
           </Link>
         </div>
 
