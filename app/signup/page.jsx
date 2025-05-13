@@ -159,10 +159,7 @@ export default function Signup() {
 
     data.set("mobile", mobile);
     data.set("landline", landline);
-    if (!subject.course || !subject.yearLevel || !subject.semester) {
-      return toast.error("Please select Course/Year Level/Semester");
-    }
-
+    
     try {
       const response = await signup(data);
       if (response) {
