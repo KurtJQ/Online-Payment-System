@@ -27,6 +27,7 @@ export default function Page() {
     } catch (error) {
       setLoading(false)
   }
+  }
 
   return (
     <>
