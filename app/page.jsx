@@ -23,11 +23,9 @@ export default function Page() {
         setLoading(false);
         return setError(response.error);
       }
+      router.push("/dashboard")
     } catch (error) {
-      setLoading(false);
-    } finally {
-      router.push("/dashboard");
-    }
+      setLoading(false)
   }
 
   return (
