@@ -159,7 +159,7 @@ export default function Signup() {
 
     data.set("mobile", mobile);
     data.set("landline", landline);
-    
+
     try {
       const response = await signup(data);
       if (response) {
@@ -193,7 +193,7 @@ export default function Signup() {
                 />
               </label>
               <label className="font-semibold">
-                Middle Name <span className="text-red-500">*</span>
+                Middle Name
                 <input
                   type="text"
                   name="mname"
