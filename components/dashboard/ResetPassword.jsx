@@ -53,44 +53,46 @@ export function ResetPassword({ user }) {
     }
   };
   return (
-    <form onSubmit={handleSubmit} className="bg-gray-300 rounded-lg m-6 p-6">
+    <div className="bg-gray-300 rounded-lg m-6 p-6">
       <Link href="/dashboard/account" className="hover:text-blue-600">
         {"<"}-- Back
       </Link>
-      <label>
-        Current Password
-        <input
-          type="password"
-          name="currentPassword"
-          required
-          className="input-style mb-3"
-        />
-      </label>
-      <label>
-        New Password
-        <input
-          type="password"
-          name="newPassword"
-          required
-          className="input-style mb-3"
-        />
-      </label>
-      <label>
-        Confirm New Password
-        <input
-          type="password"
-          name="confirmNewPassword"
-          required
-          className="input-style mb-3"
-        />
-      </label>
-      {!notif ? "" : <div>{notif}</div>}
-      <button
-        type="submit"
-        className="bg-red-500 p-2 font-semibold text-white rounded-lg transition hover:bg-red-600 "
-      >
-        {!loading ? "Confirm" : <LoadingSpinner />}
-      </button>
-    </form>
+      <form onSubmit={handleSubmit} className="">
+        <label>
+          Current Password
+          <input
+            type="password"
+            name="currentPassword"
+            required
+            className="input-style mb-3"
+          />
+        </label>
+        <label>
+          New Password
+          <input
+            type="password"
+            name="newPassword"
+            required
+            className="input-style mb-3"
+          />
+        </label>
+        <label>
+          Confirm New Password
+          <input
+            type="password"
+            name="confirmNewPassword"
+            required
+            className="input-style mb-3"
+          />
+        </label>
+        {!notif ? "" : <div>{notif}</div>}
+        <button
+          type="submit"
+          className="bg-red-500 p-2 font-semibold text-white rounded-lg transition hover:bg-red-600 "
+        >
+          {!loading ? "Confirm" : <LoadingSpinner />}
+        </button>
+      </form>
+    </div>
   );
 }
