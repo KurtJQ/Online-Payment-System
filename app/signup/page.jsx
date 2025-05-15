@@ -327,7 +327,7 @@ export default function Signup() {
 
             {/* Additional Fields */}
             <label className="font-semibold block">
-              Father`&apos;`s Name
+              Father&apos;s Name
               <input
                 type="text"
                 name="father"
@@ -335,7 +335,7 @@ export default function Signup() {
               />
             </label>
             <label className="font-semibold block">
-              Mother`&apos;`s Name
+              Mother&apos;s Name
               <input
                 type="text"
                 name="mother"
@@ -343,7 +343,7 @@ export default function Signup() {
               />
             </label>
             <label className="font-semibold block">
-              Guardian`&apos;`s Name <span className="text-red-500">*</span>
+              Guardian&apos;s Name <span className="text-red-500">*</span>
               <input
                 type="text"
                 name="guardian"
@@ -352,8 +352,7 @@ export default function Signup() {
               />
             </label>
             <label className="font-semibold block">
-              Guardian`&apos;`s Occupation{" "}
-              <span className="text-red-500">*</span>
+              Guardian&apos;s Occupation <span className="text-red-500">*</span>
               <input
                 type="text"
                 name="guardianOccupation"
