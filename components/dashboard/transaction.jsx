@@ -16,7 +16,7 @@ export default async function transactionWidget() {
   let invoice = [];
   try {
     const res = await fetch(
-      process.env.SERVER_URL + `/api/student/invoice/${studentId}`
+      process.env.SERVER_URL + `/api/payment/payment/${studentId}`
     );
     if (!res.ok) {
       throw new Error(res.statusText);

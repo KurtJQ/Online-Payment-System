@@ -21,7 +21,7 @@ async function getCurrentPayments(id, yearLevel, schoolYear, semester) {
   try {
     const response = await fetch(
       process.env.SERVER_URL +
-        `/api/student/invoices/${id}/${yearLevel}/${schoolYear}/${semester}`
+        `/api/payment/invoices/${id}/${yearLevel}/${schoolYear}/${semester}`
     );
     return await response.json();
   } catch (error) {

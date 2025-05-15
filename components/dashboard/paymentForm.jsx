@@ -41,7 +41,7 @@ export function PaymentForm(props) {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/student/payment/${props.profile._studentId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/payment/payment/${props.profile._studentId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

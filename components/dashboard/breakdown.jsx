@@ -27,7 +27,7 @@ async function getInvoices(user) {
   try {
     const res = await fetch(
       process.env.SERVER_URL +
-        `/api/student/invoices/${user._studentId}/${user.yearLevel}/${user.schoolYear}/${user.semester}`
+        `/api/payment/invoices/${user._studentId}/${user.yearLevel}/${user.schoolYear}/${user.semester}`
     );
     if (!res.ok) throw new Error(res.statusText);
     return await res.json();
