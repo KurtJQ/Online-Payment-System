@@ -1,11 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import transactionWidget from "@/components/dashboard/transaction";
 
-export default function TransactionWidget() {
-  const [invoice, setInvoice] = useState(null);
+export default function TransactionWidget({ payments }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -13,15 +11,6 @@ export default function TransactionWidget() {
     style: "currency",
     currency: "PHP",
   });
-
-  useEffect(() => {
-    const fetchInvoiceData = async () => {
-      const data = await transactionWidget();
-      setInvoice(data.invoice);
-    };
-
-    fetchInvoiceData();
-  }, []);
 
   const handleViewAll = () => {
     setLoading(true);
@@ -38,16 +27,18 @@ export default function TransactionWidget() {
 
         {/* Transactions List */}
         <div className="overflow-y-auto max-h-60 pr-1 custom-scrollbar flex flex-col gap-2">
-          {invoice === null ? (
+          {payments === null ? (
             <LoadingSpinner />
-          ) : invoice.length > 0 ? (
-            invoice.map((inv) => (
+          ) : payments.length > 0 ? (
+            payments.map((inv) => (
               <div
                 key={inv.referenceNumber}
                 className="flex justify-between hover:shadow-lg items-center bg-gray-200 hover:bg-gray/30 backdrop-blur-sm px-4 py-2 rounded-lg text-sm text-gray-700 shadow-sm"
               >
                 <span>{new Date(inv.createdAt).toLocaleDateString()}</span>
-                <span className="font-medium">{formatter.format(inv.amount)}</span>
+                <span className="font-medium">
+                  {formatter.format(inv.amount)}
+                </span>
               </div>
             ))
           ) : (

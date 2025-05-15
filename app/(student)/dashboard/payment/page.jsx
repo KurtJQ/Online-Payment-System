@@ -1,7 +1,7 @@
 import Fees from "components/dashboard/breakdown";
 import { auth } from "@/app/auth";
 import { PaymentForm } from "components/dashboard/paymentForm";
-import TransactionWidget from "../invoice/transactionwidget";
+import Transactions from "components/dashboard/transactionwidget";
 
 async function getProfile(id) {
   try {
@@ -12,6 +12,21 @@ async function getProfile(id) {
       throw new Error(res.statusText);
     }
     return await res.json();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function getPayments(id) {
+  try {
+    const response = await fetch(
+      process.env.SERVER_URL + `/api/payment/invoice/${id}`
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      return console.error("Payments not found");
+    }
+    return data;
   } catch (error) {
     console.error(error);
   }
@@ -37,6 +52,7 @@ export default async function Page() {
   const user = session.user;
 
   const profile = await getProfile(user.id);
+  const payments = await getPayments(profile._studentId);
   const currentPayments = await getCurrentPayments(
     profile._studentId,
     profile.yearLevel,
@@ -55,7 +71,7 @@ export default async function Page() {
       <PaymentForm profile={profile} currentPayments={currentPayments} />
 
       <div className="bg-gray-300 hover:shadow-2xl rounded-3xl p-4 md:p-6">
-        <TransactionWidget />
+        <Transactions payments={payments} />
       </div>
     </div>
   );

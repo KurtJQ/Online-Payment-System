@@ -1,4 +1,4 @@
-import Transactions from "app/(student)/dashboard/invoice/transactionwidget";
+import Transactions from "components/dashboard/transactionwidget";
 import Fees from "components/dashboard/breakdown";
 import Events from "components/dashboard/EventList";
 import { ClassSchedule } from "components/dashboard/ClassSchedule";
@@ -35,6 +35,21 @@ async function getClasses(course, yearLevel, semester, schoolYear) {
   }
 }
 
+async function getPayments(id) {
+  try {
+    const response = await fetch(
+      process.env.SERVER_URL + `/api/payment/invoice/${id}`
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      return console.error("Payments not found");
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export default async function Page() {
   const session = await auth();
   if (!session.user) {
@@ -43,6 +58,7 @@ export default async function Page() {
   const user = session.user;
 
   const student = await getProfile(user.id);
+  const payments = await getPayments(student._studentId);
   const classes = await getClasses(
     student.course,
     student.yearLevel,
@@ -56,7 +72,7 @@ export default async function Page() {
           <Events />
         </div>
         <div className="bg-gray-300 hover:shadow-2xl rounded-3xl p-4 md:p-6">
-          <Transactions />
+          <Transactions payments={payments} />
         </div>
       </div>
       <ClassSchedule student={student} classes={classes} />
