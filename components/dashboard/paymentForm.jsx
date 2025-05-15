@@ -7,9 +7,9 @@ function getCurrentPayments(invoices) {
   return invoices.reduce((sum, invoice) => sum + Number(invoice.amount), 0);
 }
 
-export function PaymentForm(props) {
+export function PaymentForm({ currentPayments, profile }) {
   const [loading, setLoading] = useState(false);
-  const totalPayments = getCurrentPayments(props.currentPayments);
+  const totalPayments = getCurrentPayments(currentPayments);
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -41,7 +41,7 @@ export function PaymentForm(props) {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/payment/payment/${props.profile._studentId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/payment/payment/${profile._studentId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -87,13 +87,13 @@ export function PaymentForm(props) {
                   name="examPeriod"
                   value={exam}
                   className="hidden peer"
-                  disabled={props.currentPayments.some(
+                  disabled={currentPayments.some(
                     (payment) => payment.examPeriod === exam
                   )}
                 />
                 <div
                   className={`text-center p-2 rounded-md border-2 border-gray-300 transition ${
-                    props.currentPayments.some(
+                    currentPayments.some(
                       (payment) =>
                         payment.examPeriod === exam ||
                         payment.examPeriod === "Remaining"
@@ -116,7 +116,7 @@ export function PaymentForm(props) {
               />
               <div
                 className={`text-center p-2 rounded-md border-2 border-gray-300 transition ${
-                  props.currentPayments.some(
+                  currentPayments.some(
                     (payment) => payment.examPeriod === "Remaining"
                   )
                     ? "border-gray-300 text-gray-400 bg-gray-100"
@@ -136,11 +136,11 @@ export function PaymentForm(props) {
           </p>
           <div className="text-sm text-gray-800 space-y-1">
             <p>
-              {props.profile.fname} {props.profile.mname} {props.profile.lname}
+              {profile.fname} {profile.mname} {profile.lname}
             </p>
-            <p>{props.profile.course}</p>
-            <p>{formatYear(props.profile.yearLevel)}</p>
-            <p>{props.profile.semester}</p>
+            <p>{profile.course}</p>
+            <p>{formatYear(profile.yearLevel)}</p>
+            <p>{profile.semester}</p>
           </div>
         </div>
         <div>
