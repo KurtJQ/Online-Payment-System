@@ -3,40 +3,64 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import formatYear from "app/utils/formatYear.js";
 
+const formatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "PHP",
+});
+
+function getPeriodBalance(invoices, examPeriod) {
+  return invoices
+    .filter((data) => data.examPeriod === examPeriod)
+    .reduce((sum, invoice) => sum + Number(invoice.amount), 0);
+}
+
 function getCurrentPayments(invoices) {
   return invoices.reduce((sum, invoice) => sum + Number(invoice.amount), 0);
 }
 
-export function PaymentForm({ currentPayments, profile }) {
+export function PaymentForm({ currentPayments, profile, settings }) {
   const [loading, setLoading] = useState(false);
+  const [amount, setAmount] = useState(0);
+  const [examPeriod, setExamPeriod] = useState();
   const totalPayments = getCurrentPayments(currentPayments);
 
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "PHP",
-  });
+  if (!currentPayments || !profile || !settings) {
+    return <div>Loading...</div>;
+  }
 
-  const exams = [
-    "Downpayment",
-    "1st Periodic",
-    "Prelim",
-    "2nd Periodic",
-    "Midterm",
-    "3rd Periodic",
-    "Pre-final",
-    "4th Periodic",
-    "Finals",
-  ];
+  const firstUnpaid = settings.find((exam) => {
+    const remaining =
+      parseInt(exam.amount) -
+      getPeriodBalance(currentPayments, exam.examPeriod);
+    return remaining > 0;
+  })?.examPeriod;
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
-    const formData = new FormData(e.currentTarget);
-    const examPeriod = formData.get("examPeriod");
+    let maxAmount;
+
+    if (examPeriod === "Remaining") {
+      const totalDue = settings.reduce(
+        (sum, exam) => sum + Number(exam.amount),
+        0
+      );
+      maxAmount = totalDue - totalPayments;
+    } else {
+      const period = settings.find((data) => data.examPeriod === examPeriod);
+      const paid = getPeriodBalance(currentPayments, examPeriod);
+      maxAmount = parseInt(period?.amount ?? 0) - paid;
+    }
+
+    if (amount > maxAmount) {
+      setLoading(false);
+      return toast.error(`Amount exceeds the balance for ${examPeriod}`);
+    }
 
     const form = {
       examPeriod: examPeriod,
+      amount: amount,
     };
 
     try {
@@ -80,54 +104,90 @@ export function PaymentForm({ currentPayments, profile }) {
             <legend className="block text-gray-700 font-medium mb-1">
               Exam Period
             </legend>
-            {exams.map((exam) => (
-              <label className="cursor-pointer" key={exam}>
-                <input
-                  type="radio"
-                  name="examPeriod"
-                  value={exam}
-                  className="hidden peer"
-                  disabled={currentPayments.some(
-                    (payment) => payment.examPeriod === exam
-                  )}
-                />
-                <div
-                  className={`text-center p-2 rounded-md border-2 border-gray-300 transition ${
-                    currentPayments.some(
-                      (payment) =>
-                        payment.examPeriod === exam ||
-                        payment.examPeriod === "Remaining"
-                    )
-                      ? "border-gray-300 text-gray-400 bg-gray-100"
-                      : "peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md"
-                  }`}
-                >
-                  {exam} <br className="hidden md:block" />
-                  {formatter.format(exam === "Downpayment" ? 2000 : 1500)}
-                </div>
-              </label>
-            ))}
+            {settings.map((exam) => {
+              const remaining =
+                parseInt(
+                  settings.find((data) => data.examPeriod === exam.examPeriod)
+                    .amount
+                ) - getPeriodBalance(currentPayments, exam.examPeriod);
+              const isEnable = exam.examPeriod === firstUnpaid;
+
+              return (
+                <label className="cursor-pointer" key={exam.examPeriod}>
+                  <input
+                    type="radio"
+                    name="examPeriod"
+                    value={exam.examPeriod}
+                    onChange={() => {
+                      setExamPeriod(exam.examPeriod);
+                      setAmount(remaining);
+                    }}
+                    className="hidden peer"
+                    disabled={!isEnable}
+                  />
+                  <div
+                    className={`text-center p-2 rounded-md border-2 border-gray-300 transition peer-disabled:border-gray-300 peer-disabled:text-gray-400 peer-disabled:bg-gray-100 peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md`}
+                  >
+                    {exam.examPeriod} <br className="hidden md:block" />
+                    {formatter.format(remaining)}
+                  </div>
+                </label>
+              );
+            })}
             <label className="cursor-pointer">
               <input
                 type="radio"
                 name="examPeriod"
                 value="Remaining"
                 className="hidden peer"
+                onChange={() => {
+                  setExamPeriod("Remaining");
+                  const totalDue =
+                    settings.reduce(
+                      (sum, exam) => sum + Number(exam.amount),
+                      0
+                    ) - totalPayments;
+                  setAmount(totalDue);
+                }}
               />
               <div
-                className={`text-center p-2 rounded-md border-2 border-gray-300 transition ${
-                  currentPayments.some(
-                    (payment) => payment.examPeriod === "Remaining"
-                  )
-                    ? "border-gray-300 text-gray-400 bg-gray-100"
-                    : "peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md"
-                }`}
+                className={`text-center p-2 rounded-md border-2 border-gray-300 transition peer-disabled:border-gray-300 peer-disabled:text-gray-400 peer-disabled:bg-gray-100 peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md}`}
               >
                 All Balance <br className="hidden md:block" />
-                {formatter.format(14000 - totalPayments)}
+                {formatter.format(
+                  settings.reduce((sum, exam) => sum + Number(exam.amount), 0) -
+                    totalPayments
+                )}
               </div>
             </label>
           </fieldset>
+        </div>
+        <div>
+          <label>
+            Amount
+            <input
+              type="number"
+              name="amount"
+              min={1}
+              max={
+                examPeriod === "Remaining"
+                  ? settings.reduce(
+                      (sum, exam) => sum + parseInt(exam.amount),
+                      0
+                    ) - totalPayments
+                  : parseInt(
+                      settings.find((data) => data.examPeriod === examPeriod)
+                        ?.amount ||
+                        1 - getPeriodBalance(currentPayments, examPeriod)
+                    )
+              }
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+              required
+              placeholder="Enter amount"
+              className="w-full border border-gray-400 rounded-xl p-3"
+            />
+          </label>
         </div>
 
         <div className="bg-gray-100 p-4 rounded-xl">
