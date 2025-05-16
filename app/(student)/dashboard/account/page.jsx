@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { patchProfileData } from "@/components/dashboard/patchProfileData";
 import { getProfileData } from "@/components/dashboard/getProfileData";
 import { getSession } from "next-auth/react";
-import bcrypt from "bcryptjs";
+import { generatePDFfile } from "@/components/dashboard/generateEnrollmentPDF";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -102,6 +102,12 @@ export default function AccountPage() {
         <h1 className="text-3xl font-bold mb-6 text-center text-red-700">
           <b className="text-4xl">🪪</b>Student Profile
         </h1>
+        <button
+          onClick={() => generatePDFfile(profile)}
+          className="bg-red-500 text-white p-3 rounded-3xl mb-3 transition hover:bg-red-600"
+        >
+          My Enrollment Form
+        </button>
 
         <form onSubmit={handleSubmit}>
           <section className="mb-6">
