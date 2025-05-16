@@ -1,26 +1,9 @@
-import { auth } from "app/auth";
+"use client";
+
 import formatYear from "app/utils/formatYear.js";
+import { generateReceiptPDF } from "@/components/dashboard/GenerateReceipt.js";
 
-export async function InvoiceList() {
-  let invoices;
-  const session = await auth();
-  if (!session.user) {
-    return null;
-  }
-  const studentId = session.user.id;
-
-  try {
-    const res = await fetch(
-      process.env.SERVER_URL + `/api/payment/invoice/${studentId}`
-    );
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
-    invoices = await res.json();
-  } catch (error) {
-    console.error("An error occured while fetching data: ", error);
-  }
-
+export function InvoiceList({ invoices }) {
   // Check if invoices are empty or null
   if (!invoices || invoices.length === 0) {
     return (
@@ -67,10 +50,18 @@ export async function InvoiceList() {
                 {invoice.amount} PHP
               </span>
             </div>
+            <button onClick={() => generateReceiptPDF(invoice)}>
+              <img
+                src="/images/download-solid-48.png"
+                width={30}
+                height={30}
+                alt="Download Icon"
+              />
+            </button>
           </div>
 
           {/* Desktop layout */}
-          <div className="hidden md:grid md:grid-cols-6 text-center text-base font-medium text-gray-800 pl-2">
+          <div className="hidden md:grid md:grid-cols-7 text-center text-base font-medium text-gray-800 pl-2">
             <div className="text-gray-500 text-sm">
               {new Date(invoice.createdAt).toLocaleDateString()}
             </div>
@@ -79,6 +70,9 @@ export async function InvoiceList() {
             <div>{invoice.semester}</div>
             <div>{invoice.examPeriod}</div>
             <div className="text-red-700 font-bold">{invoice.amount} PHP</div>
+            <button onClick={() => generateReceiptPDF(invoice)}>
+              <img src="/images/download-solid-48.png" alt="Download Icon" />
+            </button>
           </div>
         </div>
       ))}

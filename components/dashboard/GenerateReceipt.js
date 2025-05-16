@@ -19,16 +19,20 @@ export function generateReceiptPDF(payment) {
     return d.toLocaleDateString("en-US");
   };
 
+  const fullName =
+    payment.fname + " " + payment.mname || "" + " " + payment.lname;
+
   const loadLogoAndGeneratePDF = async () => {
-    const logoBase64 = await convertImageToBase64("/logo.png");
+    const logoBase64 = await convertImageToBase64("/images/SCC icon.webp");
 
     // Header
     doc.addImage(logoBase64, "PNG", 10, 5, 30, 30);
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(18);
+    doc.setFontSize(20);
     doc.text("ST. CLARE COLLEGE OF CALOOCAN", 105, 15, null, null, "center");
     doc.setFontSize(16);
     doc.text("OFFICIAL PAYMENT RECEIPT", 105, 25, null, null, "center");
+    doc.line(10, 32, 200, 32);
 
     let y = 40;
 
@@ -36,24 +40,25 @@ export function generateReceiptPDF(payment) {
       doc.setFont("helvetica", "bold");
       doc.text(`${label}:`, 15, y);
       doc.setFont("helvetica", "normal");
-      doc.text(value || "N/A", 55, y);
+      doc.text(String(value) || "N/A", 70, y);
       y += 8;
     };
 
-    addField("Receipt Number", payment.receipt || "N/A");
+    // Payment Details
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Payment Details", 15, y);
+    y += 8;
     addField("Date", formatDate(payment.createdAt || new Date()));
-    addField("Payment ID", payment.paymentId || "N/A");
     addField("Reference Number", payment.referenceNumber || "N/A");
     addField("Description", payment.description || "N/A");
     addField("Amount Paid", `₱${payment.amount?.toFixed(2) || "0.00"}`);
 
-    y += 5;
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(14);
+    y += 10;
     doc.text("Student Information", 15, y);
     y += 8;
 
-    addField("Full Name", payment.fullName);
+    addField("Full Name", fullName);
     addField("Student ID", payment.studentId);
     addField("Course", payment.course);
     addField("Education Level", payment.education);
@@ -69,8 +74,10 @@ export function generateReceiptPDF(payment) {
       15,
       y
     );
+    y += 8;
+    doc.text("Signature: _______________________________", 15, y);
 
-    doc.save(`Receipt_${payment.fullName.replace(/\s+/g, "_")}.pdf`);
+    doc.save(`Receipt_${fullName.replace(/\s+/g, "_")}.pdf`);
   };
 
   loadLogoAndGeneratePDF();
