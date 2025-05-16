@@ -28,12 +28,19 @@ export function PaymentForm({ currentPayments, profile, settings }) {
     return <div>Loading...</div>;
   }
 
-  const firstUnpaid = settings.find((exam) => {
-    const remaining =
-      parseInt(exam.amount) -
-      getPeriodBalance(currentPayments, exam.examPeriod);
-    return remaining > 0;
-  })?.examPeriod;
+  const totalDue = settings.reduce((sum, exam) => sum + Number(exam.amount), 0);
+  const totalPaid = getCurrentPayments(currentPayments);
+
+  const allPaid = totalPaid >= totalDue;
+
+  const firstUnpaid = allPaid
+    ? undefined
+    : settings.find((exam) => {
+        const remaining =
+          parseInt(exam.amount) -
+          getPeriodBalance(currentPayments, exam.examPeriod);
+        return remaining > 0;
+      })?.examPeriod;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -129,7 +136,16 @@ export function PaymentForm({ currentPayments, profile, settings }) {
                     className={`text-center p-2 rounded-md border-2 border-gray-300 transition peer-disabled:border-gray-300 peer-disabled:text-gray-400 peer-disabled:bg-gray-100 peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md`}
                   >
                     {exam.examPeriod} <br className="hidden md:block" />
-                    {formatter.format(remaining)}
+                    {currentPayments.find(
+                      (data) => data.examPeriod === "Remaining"
+                    )
+                      ? formatter.format(
+                          settings.reduce(
+                            (sum, exam) => sum + Number(exam.amount),
+                            0
+                          ) - totalPayments
+                        )
+                      : formatter.format(remaining)}
                   </div>
                 </label>
               );
@@ -140,6 +156,11 @@ export function PaymentForm({ currentPayments, profile, settings }) {
                 name="examPeriod"
                 value="Remaining"
                 className="hidden peer"
+                disabled={
+                  settings.reduce((sum, exam) => sum + Number(exam.amount), 0) -
+                    totalPayments <=
+                  0
+                }
                 onChange={() => {
                   setExamPeriod("Remaining");
                   const totalDue =
@@ -182,6 +203,7 @@ export function PaymentForm({ currentPayments, profile, settings }) {
                     )
               }
               value={amount}
+              readOnly={examPeriod === "Remaining"}
               onChange={(e) => setAmount(Number(e.target.value))}
               required
               placeholder="Enter amount"
