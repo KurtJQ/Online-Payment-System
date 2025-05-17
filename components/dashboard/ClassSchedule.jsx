@@ -65,7 +65,7 @@ export function ClassSchedule({ student, classes }) {
                 <div className="border-2 p-3 bg-white rounded-md border-white transition peer-checked:border-2 peer-checked:border-green-500 peer-checked:ring-2 peer-checked:ring-green-400 peer-checked:shadow-md">
                   <div>Class: {data.sectionID}</div>
                   <div className="mb-3">
-                    Number of Students: {data.students.length}/50
+                    Number of Students: {data.students.length}/{data.maxLimit}
                   </div>
                   <button
                     type="button"
