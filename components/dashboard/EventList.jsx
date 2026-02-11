@@ -16,29 +16,18 @@ export default function Events() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch(process.env.NEXT_PUBLIC_SERVER_URL + `/api/student/events`);
+        const res = await fetch(
+          process.env.NEXT_PUBLIC_SERVER_URL + `/api/student/events`,
+        );
         if (!res.ok) throw new Error("Failed to load events");
         const data = await res.json();
-        setEvents(data);
-        toast.success("Events loaded successfully!");
-
         const now = new Date();
-        const pastEvents = data.filter(event => new Date(event.date) < now);
-        if (pastEvents.length > 0) {
-          toast((t) => (
-            <span>
-              ⚠️ {pastEvents.length} event{pastEvents.length > 1 ? "s" : ""} already passed.
-            </span>
-          ), {
-            icon: '⏰',
-            style: {
-              borderRadius: '8px',
-              background: '#fff3cd',
-              color: '#856404',
-              border: '1px solid #ffeeba',
-            },
-          });
-        }
+        const upcomingEvents = data
+          .filter((event) => new Date(event.date) > now)
+          .filter(
+            (event) => new Date(event.date) < now.setMonth(now.getMonth() + 3),
+          );
+        setEvents(upcomingEvents);
       } catch (err) {
         console.error("Failed to fetch events:", err);
         toast.error("Unable to fetch events. Please try again later.");
@@ -52,7 +41,9 @@ export default function Events() {
 
   return (
     <div className=" w-full">
-      <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">📅 Events</h2>
+      <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">
+        📅 Events
+      </h2>
 
       {loading ? (
         <div className="flex justify-center mt-4">
@@ -72,13 +63,20 @@ export default function Events() {
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-800">{event.title}</h3>
+                      <h3 className="text-sm font-semibold text-gray-800">
+                        {event.title}
+                      </h3>
                       <p className="text-xs text-gray-500">
-                        {hasMounted ? new Date(event.date).toLocaleDateString() : ""} • {event.location}
+                        {hasMounted
+                          ? new Date(event.date).toLocaleDateString()
+                          : ""}{" "}
+                        • {event.location}
                       </p>
                     </div>
                     <button
-                      onClick={() => setExpandedEventId(isExpanded ? null : event._id)}
+                      onClick={() =>
+                        setExpandedEventId(isExpanded ? null : event._id)
+                      }
                       className="text-xs text-red-500 font-semibold hover:underline"
                     >
                       {isExpanded ? "Hide" : "View"}
